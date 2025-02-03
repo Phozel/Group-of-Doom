@@ -1,0 +1,8 @@
+ConsoleApp1/obj/Debug/net8.0-windows/Shard.AssemblyInfo.cs
+*.props
+*.vsidx
+*.cache
+*.editorconfig
+*.json
+*.dll
+*.exe 
