@@ -15,7 +15,7 @@ namespace Shard.Shard.GoD_s_Work.Tiles_Libary
         //internal List<Tag> tags;
         internal Tag tag;
 
-        internal Tile(Tag tag) { this.tag = tag; }
+        protected Tile(Tag tag) { this.tag = tag; }
 
         public Tag getTag() {  return tag; }
         public float getWidth() { return width; }
