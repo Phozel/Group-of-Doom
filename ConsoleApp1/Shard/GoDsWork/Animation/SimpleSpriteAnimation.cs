@@ -10,13 +10,17 @@ namespace Shard.Shard.GoD_s_Work.SimpleSpriteAnimation
      */
     public class SimpleSpriteAnim
     {
-        private Array _spriteArray = new Array;
+        private Array _spriteArrays = new Array;
         private GameObject _gameObject;
-        private int spriteToUse = 0;
+        private int _spriteSetToUse = 0;
+        private int _spriteToUse = 0;
 
-        public SimpleSpriteAnim(Array spriteArray, GameObject gameObject)
+        /*
+         * spriteArray should be an Array with Arrays in it containing the sprites
+         */
+        public SimpleSpriteAnim(Array spriteArrays, GameObject gameObject)
         {
-            _spriteArray = spriteArray;
+            _spriteArrays = spriteArrays;
             _gameObject = gameObject;
         }
 
@@ -28,11 +32,16 @@ namespace Shard.Shard.GoD_s_Work.SimpleSpriteAnimation
         {
             spriteToUse += 1;
 
-            if (spriteToUse >= _spriteArray.Length)
+            if (spriteToUse >= _spriteArrays[_spriteSetToUse].Length)
             {
                 spriteToUse = 0;
             }
-            _gameObject.Transform.SpritePath = Bootstrap.getAssetManager().getAssetPath(_spriteArray[spriteToUse]);
+            _gameObject.Transform.SpritePath = Bootstrap.getAssetManager().getAssetPath(_spriteArrays[_spriteSetToUse][spriteToUse]);
+        }
+
+        public swapSpriteSet(int spriteSetToUse) {
+            _spriteSetToUse = spriteSetToUse;
+            _spriteToUse = 0;
         }
 
     }
