@@ -1,5 +1,4 @@
 
-
 using System;
 
 namespace Shard.Shard.GoD_s_Work.SimpleSpriteAnimation
@@ -11,31 +10,31 @@ namespace Shard.Shard.GoD_s_Work.SimpleSpriteAnimation
      */
     public class SimpleSpriteAnim
     {
-        private Array sprites = new Array;
-        private GameObject game_Object;
+        private Array _spriteArray = new Array;
+        private GameObject _gameObject;
         private int spriteToUse = 0;
 
         public SimpleSpriteAnim(Array spriteArray, GameObject gameObject)
         {
-            sprites = spriteArray;
-            game_Object = gameObject;
+            _spriteArray = spriteArray;
+            _gameObject = gameObject;
         }
 
         /*
-         * Method that iterates through the list of sprites given to it and 
+         * Method that iterates through the list of sprites given to it each time it is called
+         * and changes the gameObject's sprite.
          */
         public changeSprite()
         {
             spriteToUse += 1;
 
-            if (spriteToUse >= sprites.Length)
+            if (spriteToUse >= _spriteArray.Length)
             {
                 spriteToUse = 0;
             }
-            game_Object.Transform.SpritePath = Bootstrap.getAssetManager().getAssetPath(sprites[spriteToUse]);
+            _gameObject.Transform.SpritePath = Bootstrap.getAssetManager().getAssetPath(_spriteArray[spriteToUse]);
         }
 
-        
     }
 
 }
