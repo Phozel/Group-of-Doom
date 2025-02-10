@@ -96,7 +96,7 @@ namespace SpaceInvaders
             b.setupBullet(this.Transform.Centre.X, this.Transform.Centre.Y);
             b.Dir = 1;
             b.DestroyTag = "Player";
-            Bootstrap.getSound().playSound("fire.wav");
+            Bootstrap.getSound().playSound("fire.wav", 32, GameSpaceInvaders.auDev);
         }
     }
 }

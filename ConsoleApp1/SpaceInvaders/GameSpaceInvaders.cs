@@ -1,4 +1,5 @@
-﻿using SpaceInvaders;
+﻿using SDL2;
+using SpaceInvaders;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -16,6 +17,8 @@ namespace Shard
         private int invaderCount;
         private bool dead;
         private bool gameOver = false;
+        public static uint auDev;
+        SDL.SDL_AudioSpec have, want;
         private List<Invader> livingInvaders;
         private Random rand;
         private GameObject ship;
@@ -44,7 +47,10 @@ namespace Shard
                 Color col = Color.FromArgb(rand.Next(0, 256), rand.Next(0, 256), rand.Next(0, 256));
                 Bootstrap.getDisplay().showText("GAME OVER!", 300, 300, 128, col);
                 if (!gameOver) {
-                    Bootstrap.getSound().playSound("pajas.wav");
+                    //SDL.SDL_CloseAudioDevice(auDev);
+                    //auDev = SDL.SDL_OpenAudioDevice(IntPtr.Zero, 0, ref have, out want, 0);
+                    //SDL.SDL_ClearQueuedAudio(auDev);
+                    Bootstrap.getSound().playSound2("pajas.wav");
                     Console.WriteLine("Game over");
                     gameOver = true;
                 }
@@ -166,6 +172,8 @@ namespace Shard
         public override void initialize()
         {
             Bootstrap.getInput().addListener(this);
+
+            auDev = SDL.SDL_OpenAudioDevice(IntPtr.Zero, 0, ref have, out want, 0);
 
             rows = 6;
             columns = 11;
