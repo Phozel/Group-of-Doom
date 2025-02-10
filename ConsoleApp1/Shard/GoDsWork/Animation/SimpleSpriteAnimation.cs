@@ -1,5 +1,6 @@
 
 using System;
+using System.Collections.Generic;
 
 namespace Shard.Shard.GoD_s_Work.SimpleSpriteAnimation
 {
@@ -10,7 +11,7 @@ namespace Shard.Shard.GoD_s_Work.SimpleSpriteAnimation
      */
     public class SimpleSpriteAnimation
     {
-        private Array _spriteArrays = new Array;
+        private List<List<string>> _spriteArrays;
         private GameObject _gameObject;
         private int _spriteSetToUse = 0;
         private int _spriteToUse = 0;
@@ -18,8 +19,7 @@ namespace Shard.Shard.GoD_s_Work.SimpleSpriteAnimation
         /*
          * spriteArrays should be an Array with Arrays in it containing the sprite-paths like was done in the example games
          */
-        public void SimpleSpriteAnimation(Array spriteArrays, GameObject gameObject)
-        {
+        public SimpleSpriteAnimation(List<List<string>> spriteArrays, GameObject gameObject) {
             _spriteArrays = spriteArrays;
             _gameObject = gameObject;
         }
