@@ -1,5 +1,6 @@
 
 using System;
+using System.Collections.Generic;
 
 namespace Shard.Shard.GoD_s_Work.SimpleSpriteAnimation
 {
@@ -10,7 +11,7 @@ namespace Shard.Shard.GoD_s_Work.SimpleSpriteAnimation
      */
     public class SimpleSpriteAnimation
     {
-        private Array _spriteArrays = new Array;
+        private List<List<string>> _spriteArrays;
         private GameObject _gameObject;
         private int _spriteSetToUse = 0;
         private int _spriteToUse = 0;
@@ -18,8 +19,7 @@ namespace Shard.Shard.GoD_s_Work.SimpleSpriteAnimation
         /*
          * spriteArrays should be an Array with Arrays in it containing the sprite-paths like was done in the example games
          */
-        public SimpleSpriteAnimation(Array spriteArrays, GameObject gameObject)
-        {
+        public SimpleSpriteAnimation(List<List<string>> spriteArrays, GameObject gameObject) {
             _spriteArrays = spriteArrays;
             _gameObject = gameObject;
         }
@@ -28,7 +28,7 @@ namespace Shard.Shard.GoD_s_Work.SimpleSpriteAnimation
          * Method that iterates through the list of sprites given to it each time it is called
          * and changes the gameObject's sprite.
          */
-        public changeSprite()
+        public void changeSprite()
         {
             _spriteToUse += 1;
 
@@ -39,7 +39,7 @@ namespace Shard.Shard.GoD_s_Work.SimpleSpriteAnimation
             _gameObject.Transform.SpritePath = Bootstrap.getAssetManager().getAssetPath(_spriteArrays[_spriteSetToUse][_spriteToUse]);
         }
 
-        public swapSpriteSet(int spriteSetToUse) {
+        public void swapSpriteSet(int spriteSetToUse) {
             _spriteSetToUse = spriteSetToUse;
             _spriteToUse = 0;
         }

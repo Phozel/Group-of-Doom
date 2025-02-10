@@ -70,7 +70,7 @@ namespace Shard
                     ymod = 50;
                     Xdir *= -1;
                     moveDir *= -1;
-
+                        
                 }
 
                 moveCounter += moveDir;
