@@ -1,2 +1,10 @@
 ConsoleApp1/obj
 ConsoleApp1/bin
+**/*.props
+**/*.vsidx
+**/*.cache
+**/*.editorconfig
+**/*.json
+**/*.dll
+**/*.exe 
+**/*.vs
