@@ -30,13 +30,13 @@ namespace Shard.Shard.GoD_s_Work.SimpleSpriteAnimation
          */
         public changeSprite()
         {
-            spriteToUse += 1;
+            _spriteToUse += 1;
 
-            if (spriteToUse >= _spriteArrays[_spriteSetToUse].Length)
+            if (_spriteToUse >= _spriteArrays[_spriteSetToUse].Length)
             {
-                spriteToUse = 0;
+                _spriteToUse = 0;
             }
-            _gameObject.Transform.SpritePath = Bootstrap.getAssetManager().getAssetPath(_spriteArrays[_spriteSetToUse][spriteToUse]);
+            _gameObject.Transform.SpritePath = Bootstrap.getAssetManager().getAssetPath(_spriteArrays[_spriteSetToUse][_spriteToUse]);
         }
 
         public swapSpriteSet(int spriteSetToUse) {
