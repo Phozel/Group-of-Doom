@@ -8,7 +8,7 @@ namespace Shard.Shard.GoD_s_Work.SimpleSpriteAnimation
      * Class that handles sprite animations where each animation
      * frame is a different image.
      */
-    public class SimpleSpriteAnim
+    public class SimpleSpriteAnimation
     {
         private Array _spriteArrays = new Array;
         private GameObject _gameObject;
@@ -16,9 +16,9 @@ namespace Shard.Shard.GoD_s_Work.SimpleSpriteAnimation
         private int _spriteToUse = 0;
 
         /*
-         * spriteArray should be an Array with Arrays in it containing the sprites
+         * spriteArrays should be an Array with Arrays in it containing the sprite-paths like was done in the example games
          */
-        public SimpleSpriteAnim(Array spriteArrays, GameObject gameObject)
+        public SimpleSpriteAnimation(Array spriteArrays, GameObject gameObject)
         {
             _spriteArrays = spriteArrays;
             _gameObject = gameObject;
