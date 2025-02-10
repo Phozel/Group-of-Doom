@@ -15,6 +15,7 @@ namespace Shard
         private int columns, rows;
         private int invaderCount;
         private bool dead;
+        private bool gameOver = false;
         private List<Invader> livingInvaders;
         private Random rand;
         private GameObject ship;
@@ -42,6 +43,11 @@ namespace Shard
             {
                 Color col = Color.FromArgb(rand.Next(0, 256), rand.Next(0, 256), rand.Next(0, 256));
                 Bootstrap.getDisplay().showText("GAME OVER!", 300, 300, 128, col);
+                if (!gameOver) {
+                    Bootstrap.getSound().playSound("pajas.wav");
+                    Console.WriteLine("Game over");
+                    gameOver = true;
+                }
                 return;
             }
             animCounter += (float)Bootstrap.getDeltaTime();
