@@ -47,10 +47,7 @@ namespace Shard
                 Color col = Color.FromArgb(rand.Next(0, 256), rand.Next(0, 256), rand.Next(0, 256));
                 Bootstrap.getDisplay().showText("GAME OVER!", 300, 300, 128, col);
                 if (!gameOver) {
-                    //SDL.SDL_CloseAudioDevice(auDev);
-                    //auDev = SDL.SDL_OpenAudioDevice(IntPtr.Zero, 0, ref have, out want, 0);
-                    //SDL.SDL_ClearQueuedAudio(auDev);
-                    Bootstrap.getSound().playSound2("pajas.wav");
+                    Bootstrap.getSound().playSound("pajas.wav", SDL.SDL_MIX_MAXVOLUME, auDev);
                     Console.WriteLine("Game over");
                     gameOver = true;
                 }

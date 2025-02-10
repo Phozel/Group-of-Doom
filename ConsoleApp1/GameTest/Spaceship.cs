@@ -54,8 +54,6 @@ namespace GameTest
             b.setupBullet(this, this.Transform.Centre.X, this.Transform.Centre.Y);
 
             b.Transform.rotate(this.Transform.Rotz);
-
-            Bootstrap.getSound().playSound ("fire.wav");
         }
 
         public void handleInput(InputEvent inp, string eventType)
