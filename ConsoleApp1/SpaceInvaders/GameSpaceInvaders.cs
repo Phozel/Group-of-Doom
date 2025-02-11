@@ -37,7 +37,7 @@ namespace Shard
         }
         public override void update()
         {
-            Bootstrap.getDisplay().showText("FPS: " + Bootstrap.getFPS(), 10, 10, 12, 255, 255, 255);
+            Bootstrap.getDisplay().showText("FPS: " + Bootstrap.getFPS(), 10, 10, 12, 255, 255, 255, null);
 
             int ymod = 0;
             int deaths = 0;
@@ -45,7 +45,7 @@ namespace Shard
             if (isRunning() == false)
             {
                 Color col = Color.FromArgb(rand.Next(0, 256), rand.Next(0, 256), rand.Next(0, 256));
-                Bootstrap.getDisplay().showText("GAME OVER!", 300, 300, 128, col);
+                Bootstrap.getDisplay().showText("GAME OVER!", 300, 300, 128, col, null);
                 if (!gameOver) {
                     Bootstrap.getSound().playSound("pajas.wav", SDL.SDL_MIX_MAXVOLUME, auDev);
                     Console.WriteLine("Game over");

@@ -13,8 +13,8 @@ namespace Shard
         public override void update()
         {
 
-            Bootstrap.getDisplay().showText("FPS: " + Bootstrap.getFPS(), 10, 10, 12, 255, 255, 255);
-            Bootstrap.getDisplay().showText("Delta: " + Bootstrap.getDeltaTime(), 10, 20, 12, 255, 255, 255);
+            Bootstrap.getDisplay().showText("FPS: " + Bootstrap.getFPS(), 10, 10, 12, 255, 255, 255, null);
+            Bootstrap.getDisplay().showText("Delta: " + Bootstrap.getDeltaTime(), 10, 20, 12, 255, 255, 255, null);
 
             foreach (Brick b in myBricks)
             {

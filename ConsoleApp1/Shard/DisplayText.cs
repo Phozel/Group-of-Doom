@@ -1,4 +1,4 @@
-﻿/*
+/*
 *
 *   The baseline functionality for getting text to work via SDL.   You could write your own text 
 *       implementation (and we did that earlier in the course), but bear in mind DisplaySDL is built
@@ -173,24 +173,34 @@ namespace Shard
 
 
 
-        public override void showText(string text, double x, double y, int size, int r, int g, int b)
+        public override void showText(string text, double x, double y, int size, int r, int g, int b, string fontname)
         {
             int nx, ny, w = 0, h = 0;
+            IntPtr font = IntPtr.Zero;
 
-            string ffolder = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Fonts);
+            if (fontname != null)
+            {
+                fontname = Bootstrap.getAssetManager().getAssetPath(fontname);
+                font = loadFont(fontname, size);
+            }
 
-            IntPtr font = loadFont(ffolder + "\\calibri.ttf", size);
+            if (fontname == null | font == IntPtr.Zero)
+            {
+                // Failed to load font, loading default font
+                string ffolder = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Fonts);
+                font = loadFont(ffolder + "\\calibri.ttf", size); // calibri set to default font
+                if (font == IntPtr.Zero)
+                {
+                    Debug.getInstance().log("TTF_OpenFont: " + SDL.SDL_GetError());
+                    throw new Exception("Calibri failed to load");
+                }
+            }
+
             SDL.SDL_Color col = new SDL.SDL_Color();
-
             col.r = (byte)r;
             col.g = (byte)g;
             col.b = (byte)b;
             col.a = (byte)255;
-
-            if (font == IntPtr.Zero)
-            {
-                Debug.getInstance().log("TTF_OpenFont: " + SDL.SDL_GetError());
-            }
 
             TextDetails td = new TextDetails(text, x, y, col, 12);
 
@@ -215,7 +225,7 @@ namespace Shard
 
 
         }
-        public override void showText(char[,] text, double x, double y, int size, int r, int g, int b)
+        public override void showText(char[,] text, double x, double y, int size, int r, int g, int b, string fontname)
         {
             string str = "";
             int row = 0;
@@ -229,7 +239,7 @@ namespace Shard
                 }
 
 
-                showText(str, x, y + (row * size), size, r, g, b);
+                showText(str, x, y + (row * size), size, r, g, b, fontname);
                 row += 1;
 
             }

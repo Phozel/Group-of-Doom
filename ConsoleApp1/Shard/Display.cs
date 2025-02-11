@@ -47,9 +47,9 @@ namespace Shard
             }
         }
 
-        public void showText(string text, double x, double y, int size, Color col)
+        public void showText(string text, double x, double y, int size, Color col, string fontname)
         {
-            showText(text, x, y, size, col.R, col.G, col.B);
+            showText(text, x, y, size, col.R, col.G, col.B, fontname);
         }
 
 
@@ -85,7 +85,7 @@ namespace Shard
         public abstract void clearDisplay();
         public abstract void display();
 
-        public abstract void showText(string text, double x, double y, int size, int r, int g, int b);
-        public abstract void showText(char[,] text, double x, double y, int size, int r, int g, int b);
+        public abstract void showText(string text, double x, double y, int size, int r, int g, int b, string fontname);
+        public abstract void showText(char[,] text, double x, double y, int size, int r, int g, int b, string fontname);
     }
 }
