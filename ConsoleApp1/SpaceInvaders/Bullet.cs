@@ -59,6 +59,8 @@ namespace SpaceInvaders
         {
             GameSpaceInvaders g;
 
+            if (ToBeDestroyed) return;
+
             if (x.Parent.checkTag(destroyTag) == true || x.Parent.checkTag("BunkerBit"))
             {
                 ToBeDestroyed = true;
