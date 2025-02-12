@@ -13,3 +13,4 @@ A - What now genius? Pleeaaase disclose your master plan!
 R - The Dark Buffoon has been slain!
 
 A - You fell into a hole dingus!
+R - It is very dark down here ...
