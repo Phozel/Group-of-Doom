@@ -21,7 +21,7 @@ namespace Shard.Shard.GoD_s_Work.Tiles_Libary
         public float getWidth() { return width; }
         public virtual void interaction() { }
         internal virtual void connectTile(Tile exit) { // I am assuming that override negates virtual method
-            Console.WriteLine("Custom Error in Tile/Tile: This Tile is non-connectable"); 
+            Console.Error.WriteLine("Custom Error in Tile/Tile: This Tile is non-connectable"); 
         }
     }
     public enum Tag
