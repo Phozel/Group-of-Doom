@@ -11,3 +11,5 @@ A - What are you doing! We might have needed the data in it...
 A - What now genius? Pleeaaase disclose your master plan!
 
 R - The Dark Buffoon has been slain!
+
+A - You fell into a hole dingus!
