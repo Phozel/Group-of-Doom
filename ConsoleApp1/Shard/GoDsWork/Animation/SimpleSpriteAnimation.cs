@@ -16,7 +16,6 @@ namespace Shard
         private int _spriteToUse = 0;
 
 
-
         /*
          * Method that iterates through the list of sprites given to it each time it is called
          * and changes the gameObject's sprite.
