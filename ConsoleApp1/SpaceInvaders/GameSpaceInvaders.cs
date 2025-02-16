@@ -1,4 +1,5 @@
 ﻿using SDL2;
+using Shard.GameOfDoom;
 using SpaceInvaders;
 using System;
 using System.Collections.Generic;
@@ -179,6 +180,15 @@ namespace Shard
             createObjects();
 
             Debug.Log("Bing!");
+
+
+
+            
+            MazeMaker maze = new MazeMaker(10, 10, 0, 2);
+            DebugView view = new DebugView(maze);
+            view.draw();
+
+
 
 
         }

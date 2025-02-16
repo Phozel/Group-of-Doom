@@ -6,16 +6,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
+using Shard.GameOfDoom;
 
 namespace Shard.Shard.GoD_s_Work.Tiles_Libary
 {   
-    public abstract class Tile
+    public class Tile : Node
     {
         internal static float width = 10;
         //internal List<Tag> tags;
         internal Tag tag;
 
-        protected Tile(Tag tag) { this.tag = tag; }
+        internal Tile(Tag tag, int x, int y) : base(x, y) { this.tag = tag; }
 
         public Tag getTag() {  return tag; }
         public float getWidth() { return width; }
