@@ -13,6 +13,7 @@ A - What now genius? Pleeaaase disclose your master plan!
 R - The Dark Buffoon has been slain!
 
 A - You fell into a hole dingus!
+R - It is very dark down here ...
 
 A - Is there something in this chest?
 D - Don't hate me because I'm beautiful, nincompoop!

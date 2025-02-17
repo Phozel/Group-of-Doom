@@ -44,7 +44,7 @@ namespace SpaceInvaders
             b.setupBullet(this.Transform.Centre.X, this.Transform.Centre.Y);
             b.Dir = -1;
             b.DestroyTag = "Invader";
-            Bootstrap.getSound().playSound("fire.wav", 32, GameSpaceInvaders.auDev);
+            Bootstrap.getSound().playSound("fire.wav", 32);
 
             fireCounter = 0;
 
