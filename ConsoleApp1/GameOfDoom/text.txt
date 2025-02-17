@@ -19,3 +19,5 @@ D - Don't hate me because I'm beautiful, nincompoop!
 
 I - Guys! I finally found you! I got lost in the maze.
 I - Wish me luck! I will be going back into the Maze.
+
+A - Why is there an onion here?
