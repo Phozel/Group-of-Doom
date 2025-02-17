@@ -8,16 +8,22 @@ namespace Shard
 {
     class GameGOD : Game, InputListener
     {
-        
+        private HUD gameHUD;
 
 
         public override bool isRunning()
         {
             return true;
+            
         }
         public override void update()
         {
+            gameHUD.update();
+        }
 
+        public void draw()
+        {
+            gameHUD.draw();
         }
 
         public void createObjects()
@@ -28,8 +34,8 @@ namespace Shard
         public override void initialize()
         {
             Bootstrap.getInput().addListener(this);
+            gameHUD = new HUD();
 
-            
         }
 
         public void handleInput(InputEvent inp, string eventType)
