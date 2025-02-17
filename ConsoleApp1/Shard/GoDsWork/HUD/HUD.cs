@@ -33,13 +33,13 @@ public class HUD : GameObject
             throw new InvalidOperationException("Bootstrap.getDisplay() did not return a DisplayText instance.");
         }
 
-        string fontname = "Arial";
+        string fontname = null;
 
-//        char[,] healthText = TextUtils.ConvertStringToCharArray($"Health: {playerHealth}");
-  //      char[,] scoreText = TextUtils.ConvertStringToCharArray($"Score: {score}");
+        char[,] healthText = TextUtils.ConvertStringToCharArray($"Health: {playerHealth}");
+        char[,] scoreText = TextUtils.ConvertStringToCharArray($"Score: {score}");
 
-    //    display.showText(healthText, 10, 10, 16, 255, 255, 255, fontname);
-      //  display.showText(scoreText, 10, 30, 16, 255, 255, 255, fontname); //displays text in top-left corner in white
+        display.showText(healthText, 10, 10, 16, 255, 255, 255, fontname);
+        display.showText(scoreText, 10, 30, 16, 255, 255, 255, fontname); //displays text in top-left corner in white
     }
 
 
