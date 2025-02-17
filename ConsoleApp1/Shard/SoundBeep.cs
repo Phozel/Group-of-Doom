@@ -8,6 +8,7 @@
 
 using SDL2;
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace Shard
@@ -16,9 +17,16 @@ namespace Shard
     {
         private static byte[] mixingBuffer = new byte[44100 * 4]; // 1 sec buffer (44100 samples * 4 bytes per sample)
 
-        public override void playSound(string file, int volume, uint dev)
+        uint auDev;
+        SDL.SDL_AudioSpec have, want;
+        public SoundSDL()
         {
-            SDL.SDL_AudioSpec have;
+            auDev = SDL.SDL_OpenAudioDevice(IntPtr.Zero, 0, ref have, out want, 0);
+        }
+
+        public override void playSound(string file, int volume)
+        {
+            //SDL.SDL_AudioSpec have;
             uint length;
             IntPtr buffer;
 
@@ -34,22 +42,22 @@ namespace Shard
 
             int safeLength = (int)Math.Min(length, mixingBuffer.Length);
 
-            SDL.SDL_ClearQueuedAudio(GameSpaceInvaders.auDev);
+            SDL.SDL_ClearQueuedAudio(auDev);
             IntPtr mixedBuffer = Marshal.AllocHGlobal(safeLength);
             Array.Clear(mixingBuffer, 0, safeLength);
             Marshal.Copy(mixingBuffer, 0, mixedBuffer, safeLength); // Copy existing buffer
             SDL.SDL_MixAudioFormat(mixedBuffer, buffer, have.format, (uint)safeLength, volume); // Mixing sounds and adjusting volume
             Marshal.Copy(mixedBuffer, mixingBuffer, 0, safeLength);
 
-            if (SDL.SDL_GetQueuedAudioSize(dev) > 44100 * 4)    // Limit queue size
+            if (SDL.SDL_GetQueuedAudioSize(auDev) > 44100 * 4)    // Limit queue size
             {
                 Console.WriteLine("Audio queue too large! Clearing...");
-                SDL.SDL_ClearQueuedAudio(dev);
+                SDL.SDL_ClearQueuedAudio(auDev);
             }
 
-            SDL.SDL_QueueAudio(dev, mixedBuffer, (uint)safeLength);
-            Console.WriteLine($"Queued Audio Size: {SDL.SDL_GetQueuedAudioSize(dev)}");
-            SDL.SDL_PauseAudioDevice(dev, 0);
+            SDL.SDL_QueueAudio(auDev, mixedBuffer, (uint)safeLength);
+            Console.WriteLine($"Queued Audio Size: {SDL.SDL_GetQueuedAudioSize(auDev)}");
+            SDL.SDL_PauseAudioDevice(auDev, 0);
 
             SDL.SDL_FreeWAV(buffer);
             Marshal.FreeHGlobal((int)length);
