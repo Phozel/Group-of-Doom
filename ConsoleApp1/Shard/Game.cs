@@ -23,6 +23,14 @@ namespace Shard
             return assets;
         }
 
+        public Sound auDev;
+        public Sound getSound() {
+            if (auDev == null) {
+                auDev = Bootstrap.getSound();
+            }
+            return auDev;
+        }
+
         public abstract void initialize();
         public abstract void update();
 
