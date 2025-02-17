@@ -15,53 +15,52 @@ namespace Shard.GameOfDoom
 
     public class WorldMap
     {
-        internal List<List<Room>> worldMap;
+        private List<List<Room>> worldMap;
         //internal List<List<Debug>> debugMap;
         private readonly Random rand = new Random();
-        private readonly int columns;
-        private readonly int rows;
+        private readonly int width;
+        private readonly int height;
         private readonly int lengthToEnd;
         private readonly int leastRooms;
-        public WorldMap(int lengthToEnd, int LeastRooms, Tuple<int, int> mapSize)
+
+        public WorldMap(int lengthToEnd, int LeastRooms, (int, int) mapSize)
         {
             if (LeastRooms > mapSize.Item1 * mapSize.Item2)
             {
                 Console.Error.WriteLine("Custom Error in Map: LeastRooms is larger than mapSize area.");
                 return;
             }
-            rows = mapSize.Item1;
-            columns = mapSize.Item2;
+            width = mapSize.Item1;
+            height = mapSize.Item2;
             this.lengthToEnd = lengthToEnd;
             this.leastRooms = LeastRooms;
-            
+            worldMap = new List<List<Room>>();
 
             //growDebugMap();
             MakeWorldMap();
             Room startRoom = getStartRoom();
             GrowFrom(startRoom);
-            AddKey();
+            SetKeyRoom();
+            Console.WriteLine("map2:" + worldMap);
         }
+
+        internal List<List<Room>> getMap() {  return worldMap; }
         /**
          * 0 = no change
          */
         public void SetStaticVariables() { }
 
-        //gen rooms
-            //if only one door => save
-            //if more than one door => Type = normal
-            //if start, dont change type but leave spawn area space clear
-
 
         private void MakeWorldMap()
         {
-            for (int x = 0; x < rows; x++)
+            for (int x = 0; x < height; x++)
             {
 
                 worldMap.Add(new List<Room>());
                 //maze.add(new ArrayList<>()); //make new row, fills one more space in width/column
-                for (int y = 0; y < columns; y++)
+                for (int y = 0; y < width; y++)
                 {
-                    worldMap[x].Add(new Room(x, y));
+                    worldMap[x].Add(new Room(y, x));
                     //maze.get(x).add(new Node(x, y)); //make one "connecting pillar" in that row
 
                 }
@@ -69,7 +68,7 @@ namespace Shard.GameOfDoom
         }
         private Room getStartRoom() 
         { 
-            Room startRoom = worldMap[rand.Next(rows)][rand.Next(columns)];
+            Room startRoom = worldMap[rand.Next(height)][rand.Next(width)];
             startRoom.setRoomType(Room.RoomType.Start);
             startRoom.makeFinite(lengthToEnd);
             return startRoom; 
@@ -137,34 +136,34 @@ namespace Shard.GameOfDoom
             if (n == null) return false; // no Node means it can't be filled on therefore returns false
             return n.isEmpty();
         }
-        private Room westOf(Node n)
+        private Room westOf(Room n)
         {
             if (n.getX() == 0)
                 return null;
-            return worldMap[n.getX() - 1][n.getY()];
+            return worldMap[n.getY()][n.getX() - 1];
         }
-        private Room eastOf(Node n)
+        private Room eastOf(Room n)
         {
-            if (n.getX() == columns-1)
+            if (n.getX() == width-1)
                 return null;
-            return worldMap[n.getX() + 1][n.getY()];
+            return worldMap[n.getY()][n.getX() + 1];
         }
-        private Room northOf(Node n)
+        private Room northOf(Room n)
         {
             if (n.getY() == 0)
                 return null;
-            return worldMap[n.getX()][n.getY() - 1];
+            return worldMap[n.getY() - 1][n.getX()];
         }
-        private Room southOf(Node n)
+        private Room southOf(Room n)
         {
-            if (n.getY() == rows-1)
+            if (n.getY() == height-1)
                 return null;
-            return worldMap[n.getX()][n.getY() + 1];
+            return worldMap[n.getY() + 1][n.getX()];
         }
 
 
 
-        private void AddKey()
+        private void SetKeyRoom()
         {
             List<Room> deadEnds = new List<Room>();
             foreach (List<Room> row in worldMap)
@@ -186,7 +185,10 @@ namespace Shard.GameOfDoom
                 index = rand.Next(deadEnds.Count());
                 deadEnds[index].setRoomType(Room.RoomType.Key);
             }
+            
         }
+
+
     }
 
 
@@ -194,10 +196,6 @@ namespace Shard.GameOfDoom
     internal static class MazeParts
     {
         
-    }
-
-    internal class RoomGeneration
-    {
     }
 
     internal class Room : Node
@@ -210,9 +208,10 @@ namespace Shard.GameOfDoom
         private bool doorLeft { get; set; }
         private bool doorRight { get; set; }
         private List<List<Tile>> roomLayout;
+        private bool isGenerated = false;
         private RoomType roomType = RoomType.Null;
         internal enum RoomType { Start, End, Key, Normal, Null }
-        internal Room(int x, int y) : base(x, y) 
+        internal Room(int x, int y) : base(x, y)
         {
             doorUp = false;
             doorDown = false;
@@ -234,11 +233,17 @@ namespace Shard.GameOfDoom
         internal bool isEmpty() { return !(doorUp || doorDown || doorLeft || doorRight); }
         internal bool isDeadEnd() { return (doorUp ^ doorDown ^ doorLeft ^ doorRight); }
 
-        public void generateRoom()
+        public List<List<Tile>> getRoomLayout()
+        {
+            if (isGenerated) return roomLayout;
+            generateRoom();
+            return roomLayout;
+        }
+        private void generateRoom()
         {
             MakeRoom();
             List<Tile> growthNodes = buildOuterWallsAndDoors();
-            foreach (Tile tile in growthNodes) { tile.makeFinite(rand.Next(roomHeight/2)); }
+            foreach (Tile tile in growthNodes) { tile.makeFinite(rand.Next(roomHeight / 2)); }
             generateObstacles(growthNodes);
             //generateRoom();
         }
@@ -250,12 +255,12 @@ namespace Shard.GameOfDoom
                 //maze.add(new ArrayList<>()); //make new row, fills one more space in width/column
                 for (int y = 0; y < roomWidth; y++)
                 {
-                    roomLayout[x].Add(new Tile(Tag.ground, x, y));
+                    roomLayout[x].Add(new Tile(Tag.ground, y, x));
                     //maze.get(x).add(new Node(x, y)); //make one "connecting pillar" in that row
                 }
             }
         }
-        
+
         private List<Tile> buildOuterWallsAndDoors()
         {
             List<Tile> borderNodes = new List<Tile>();
@@ -268,9 +273,9 @@ namespace Shard.GameOfDoom
             List<Tile> rightWall = new List<Tile>();
             //corners
             roomLayout[0][0].tag = Tag.wall;
-            roomLayout[0][roomWidth-1].tag = Tag.wall;
-            roomLayout[roomHeight-1][0].tag = Tag.wall;
-            roomLayout[roomHeight-1][roomWidth-1].tag = Tag.wall;
+            roomLayout[0][roomWidth - 1].tag = Tag.wall;
+            roomLayout[roomHeight - 1][0].tag = Tag.wall;
+            roomLayout[roomHeight - 1][roomWidth - 1].tag = Tag.wall;
 
             for (int i = 1; i < roomWidth - 1; i++)
             { // everything in between
@@ -281,7 +286,7 @@ namespace Shard.GameOfDoom
             { // everything in between
                 leftWall.Add(roomLayout[i][0]); // left
                 rightWall.Add(roomLayout[i][roomWidth - 1]); //right
-                
+
             }
             if (doorUp) { addDoor(topWall); } //door up
             if (doorDown) { addDoor(bottomWall); } //door down
@@ -362,31 +367,28 @@ namespace Shard.GameOfDoom
         {
             if (n.getX() == 0)
                 return null;
-            return roomLayout[n.getX() - 1][n.getY()];
+            return roomLayout[n.getY()][n.getX() - 1];
         }
         private Tile eastOf(Tile n)
         {
-            if (n.getX() == roomWidth-1)
+            if (n.getX() == roomWidth - 1)
                 return null;
-            return roomLayout[n.getX() + 1][n.getY()];
+            return roomLayout[n.getY()][n.getX() + 1];
         }
         private Tile northOf(Tile n)
         {
             if (n.getY() == 0)
                 return null;
-            return roomLayout[n.getX()][n.getY() - 1];
+            return roomLayout[n.getY() - 1][n.getX()];
         }
         private Tile southOf(Tile n)
         {
-            if (n.getY() == roomHeight-1)
+            if (n.getY() == roomHeight - 1)
                 return null;
-            return roomLayout[n.getX()][n.getY() + 1];
+            return roomLayout[n.getY() + 1][n.getX()];
         }
 
 
-
-
-
-
     }
+    
 }

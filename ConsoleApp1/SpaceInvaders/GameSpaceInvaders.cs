@@ -182,11 +182,14 @@ namespace Shard
             Debug.Log("Bing!");
 
 
-
+            WorldMap wm = new WorldMap(4, 0, (8, 6));
+            List<List<Room>> map = wm.getMap(); 
+            map[0][0].getRoomLayout();
             
-            MazeMaker maze = new MazeMaker(10, 10, 0, 2);
-            DebugView view = new DebugView(maze);
-            view.draw();
+
+         //   MazeMaker maze = new MazeMaker(10, 10, 0, 2);
+           // DebugView view = new DebugView(maze);
+            //view.draw();
 
 
 

@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace Shard.Shard.GoDsWork.ControllableGameObject
 {
+
     /*
-     * What does this class need to do?
-     * - Everything a GameObject already does
-     * - Receive input and send it to Input System 
+     * Abstract Class to creat a controllable game object
      */
     internal abstract class ControllableGameObject : GameObject, InputListener
     {
@@ -23,15 +22,12 @@ namespace Shard.Shard.GoDsWork.ControllableGameObject
             _gameObject = new GameObject();
         }
 
-        public void handleInput(InputEvent inp, string eventType)
-        {
-            if (Bootstrap.getRunningGame().isRunning() == false)
-            {
-                return;
-            }
+        public abstract void initialize();
 
-            throw new NotImplementedException();
-        }
+        public abstract void handleInput(InputEvent inp, string eventType);
+
+        public abstract override void update();
+
     }
 
     
