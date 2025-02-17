@@ -32,18 +32,18 @@ namespace Shard.GameOfDoom
     {
         internal static Tile groundTile() { return new BasicTile(Tag.ground); }
         internal static Tile wallTile() { return new BasicTile(Tag.wall); }
-        private BasicTile(Tag tag) : base(tag) { }
+        private BasicTile(Tag tag) : base(tag, -1, -1) { }
     }
     internal class TrapTile : Tile
     {
-        internal TrapTile() : base(Tag.trap) { }
+        internal TrapTile() : base(Tag.trap, -1, -1) { }
         override public void interaction() { }
     }
     internal class DoorTile : Tile
     {
         private Tile exit;
-        internal DoorTile() : base(Tag.unconnectedDoor) { }
-        internal DoorTile(Tile exit) : base(Tag.door) { this.exit = exit; }
+        internal DoorTile() : base(Tag.unconnectedDoor, -1, -1) { }
+        internal DoorTile(Tile exit) : base(Tag.door, -1, -1) { this.exit = exit; }
 
         /*internal void connectDoor(Tile unconnectedDoor, Tile exit)
         {

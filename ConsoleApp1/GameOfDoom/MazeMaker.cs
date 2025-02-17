@@ -9,50 +9,20 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Shard.GameOfDoom
 {
-    public class Map
-    {
-        //internal List<List<Room>> roomMap;
-        internal List<List<Debug>> debugMap;
-        public Map(int lengthToEnd, int LeastRooms, Tuple<int, int> mapSize) {
-            if (LeastRooms > mapSize.Item1 * mapSize.Item2)
-            {
-                Console.Error.WriteLine("Custom Error in Map: LeastRooms is larger than mapSize area.");
-                return;
-            }
-
-            //growDebugMap();
-
-
-
-        }
-        /**
-         * 0 = no change
-         */
-        public void SetStaticVariables()
-        {
-
-        }
-
-        //growthNode
-        //procentage loss - with everry growth // equation from room size
-        //procentage split 
-        //
-
-    }
     public class MazeMaker {
         //make a 2d maze (first) that is made by using a lightning pattern from the edges of map
         //all edges between dots are made by the node containing a position which is its "root"
 
 
         /**
-            * [
-            *  [Node(0,0),  [Node(1,0),  [Node(2,0),
-            *   Node(0,1),   Node(1,1),   Node(2,1),
-            *   Node(0,2)],  Node(1,2)],  Node(2,2)]
-            * ]
-            * Node (x,y)
-            */
-        internal readonly List<List<Node>> maze;
+        * [
+        *  [Node(0,0),  [Node(1,0),  [Node(2,0),
+        *   Node(0,1),   Node(1,1),   Node(2,1),
+        *   Node(0,2)],  Node(1,2)],  Node(2,2)]
+        * ]
+        * Node (x,y)
+        */
+        internal readonly List<List<DebugNode>> maze;
         private readonly int mazeIndexLengthX;
         private readonly int mazeIndexLengthY;
         private readonly Random rand = new Random();
@@ -62,7 +32,7 @@ namespace Shard.GameOfDoom
             this.mazeIndexLengthX = lengthX - 1;
             this.mazeIndexLengthY = lengthY - 1;
 
-            maze = new List<List<Node>>();
+            maze = new List<List<DebugNode>>();
             
             makeMazeFrame();
             makeMaze(nrGrowthStartNodes, nrFiniteGrowthStartNodes);
@@ -74,18 +44,18 @@ namespace Shard.GameOfDoom
             for (int x = 0; x <= mazeIndexLengthX; x++)
             {
                 
-                maze.Add( new List<Node>());
+                maze.Add( new List<DebugNode>());
                 //maze.add(new ArrayList<>()); //make new row, fills one more space in width/column
                 for (int y = 0; y <= mazeIndexLengthY; y++)
                 {
-                    maze[x].Add(new Node(x, y));
+                    maze[x].Add(new DebugNode(x, y));
                     //maze.get(x).add(new Node(x, y)); //make one "connecting pillar" in that row
                         
                 }
             }
         }
 
-        internal List<List<Node>> getMaze()
+        internal List<List<DebugNode>> getMaze()
         {
             return maze;
         }
@@ -94,61 +64,68 @@ namespace Shard.GameOfDoom
 
         private void makeMaze(int nrStartNodes, int nrFiniteStartNodes)
         {
-        makeBorder(2);// connects the starter-Nodes to themselves, and builds border
-        List<Node> growthNodes = chooseRandomNodes(getAcceptableStartNodes(), nrStartNodes + nrFiniteStartNodes); //choose given nr of start-tree-nodes, add each to list
+        makeBorder(2);// connects the starter-DebugNodes to themselves, and builds border
+        List<DebugNode> growthNodes = chooseRandomNodes(getAcceptableStartNodes(), nrStartNodes + nrFiniteStartNodes); //choose given nr of start-tree-nodes, add each to list
         makeAmountFinite(growthNodes, nrFiniteStartNodes);
             growMaze(growthNodes);
-            fillRest();
+           // fillRest();
         }
 
         private void fillRest()
         {
-            List<Node> NewStartNodes = getAcceptableStartNodes();
+            List<DebugNode> NewStartNodes = getAcceptableStartNodes();
         NewStartNodes.OrderBy(_ => rand.Next()).ToList();
         //Collections.shuffle(NewStartNodes);
             growMaze(NewStartNodes);
         }
 
-        private void growMaze(List<Node> growthNodes)
+        private void growMaze(List<DebugNode> growthNodes)
         {
             while (growthNodes.Any())
             {
+                Console.WriteLine("number of grow nodes" + growthNodes.Count());
                 for (int i = 0; i < growthNodes.Count();)
                 {
-                    Node currentNode = growthNodes[i];
-                    List<Node> growTo = whereNodeCanGrow(currentNode);
+                    //Console.WriteLine("dead? " + growthNodes[i].isDead());
+                    //Console.WriteLine("finite? " + growthNodes[i].isFinite());
+                    DebugNode currentNode = growthNodes[i];
+                    List<DebugNode> growTo = whereNodeCanGrow(currentNode);
 
                     if (!growTo.Any() || (currentNode.isDead()))
                     {
                         growthNodes.RemoveAt(i);
                         continue;
                     }
-                    if (currentNode.isFinite())
-                        currentNode.lowerIteration();
+                    //if (currentNode.isFinite()) { currentNode.lowerIteration(); }
                     
                     if (growTo.Count() > 1) if (rand.Next(100) > 70) // chance of split
                             growthNodes.Add(currentNode); // new growthNode created
 
                     // grow from node
-                    Node newNode = growTo.ElementAt(rand.Next(growTo.Count()));
-                    newNode.setEdgeFrom(currentNode);
+                    DebugNode newNode = growTo.ElementAt(rand.Next(growTo.Count()));
+                    if (currentNode.isFinite()) 
+                    {
+                        currentNode.lowerIteration();
+                        newNode.makeFinite(currentNode.getIteration());
+                    }
+                    newNode.setEdgeFrom(currentNode); 
                     growthNodes[i] = newNode;
                     i++;
                 }
             }
         }
 
-        private void makeAmountFinite(List<Node> nodes, int nrFinite)
+        private void makeAmountFinite(List<DebugNode> nodes, int nrFinite)
         {
-            foreach (Node n in chooseRandomNodes(nodes, nrFinite)) { n.makeFinite(1); }
+            foreach (DebugNode n in chooseRandomNodes(nodes, nrFinite)) { n.makeFinite(8); } //finite length until dead
         }
 
-        private List<Node> getAcceptableStartNodes()
+        private List<DebugNode> getAcceptableStartNodes()
         {
-            List<Node> acceptableGrowthNodes = new List<Node>();
-            foreach (List<Node> row in maze)
+            List<DebugNode> acceptableGrowthNodes = new List<DebugNode>();
+            foreach (List<DebugNode> row in maze)
             {
-                foreach (Node node in row)
+                foreach (DebugNode node in row)
                 {
                     if (!node.isEmpty()) if (whereNodeCanGrow(node).Any())
                             acceptableGrowthNodes.Add(node);
@@ -157,7 +134,7 @@ namespace Shard.GameOfDoom
             return acceptableGrowthNodes;
         }
 
-        private List<Node> chooseRandomNodes(List<Node> nodeList, int nr)
+        private List<DebugNode> chooseRandomNodes(List<DebugNode> nodeList, int nr)
         {
             if (nr >= nodeList.Count()) // take whole list if choose more elements than in list
                 return nodeList;
@@ -172,7 +149,7 @@ namespace Shard.GameOfDoom
                 }
             }
 
-            List<Node> randomNodeList = new List<Node>();
+            List<DebugNode> randomNodeList = new List<DebugNode>();
             foreach (int index in indexList)
             {
                 randomNodeList.Add(nodeList.ElementAt(index));
@@ -187,21 +164,21 @@ namespace Shard.GameOfDoom
             */
         private void makeBorder(int nrStartNodes)
         {
-            List<Node> borderNodes = getBorderNodes(); // get all nodes along the edges
+            List<DebugNode> borderNodes = getBorderNodes(); // get all nodes along the edges
            
-            List<Node> startNodes = chooseRandomNodes(borderNodes, nrStartNodes); //Choose two nodes
+            List<DebugNode> startNodes = chooseRandomNodes(borderNodes, nrStartNodes); //Choose two nodes
  
             makeBuildBorder(borderNodes, startNodes);
         }
 
-        private void makeBuildBorder(List<Node> borderNodes, List<Node> startNodes)
+        private void makeBuildBorder(List<DebugNode> borderNodes, List<DebugNode> startNodes)
         {
             bool isClosed = !startNodes.Any();
             if (isClosed) { startNodes[0] = borderNodes[0]; }
 
-            foreach (Node n in startNodes) { n.setEdgeFrom(n); }
-            Node currentNode = startNodes[0];
-            Node newNode;
+            foreach (DebugNode n in startNodes) { n.setEdgeFrom(n); }
+            DebugNode currentNode = startNodes[0];
+            DebugNode newNode;
             
             while (containsEmptyNode(borderNodes))
             { //build clockwise, along the edge until they encounter a not-null node, then don't build
@@ -231,7 +208,7 @@ namespace Shard.GameOfDoom
                     Console.Error.WriteLine("An Error has occurred in makeBorder. \nThe else function was called.");
                     break;
                 }
-                Node test = newNode;
+                DebugNode test = newNode;
                 if (newNode.isEmpty()) { newNode.setEdgeFrom(currentNode); }
                 
                 currentNode = newNode;
@@ -240,9 +217,9 @@ namespace Shard.GameOfDoom
                 startNodes[0].setEdgeFrom(currentNode);
         }
 
-        private List<Node> getBorderNodes()
+        private List<DebugNode> getBorderNodes()
         {
-            List<Node> borderNodes = new List<Node>();
+            List<DebugNode> borderNodes = new List<DebugNode>();
 
             borderNodes.AddRange(maze[0]); // left side
             borderNodes.AddRange(maze[mazeIndexLengthX]); // right side
@@ -258,60 +235,61 @@ namespace Shard.GameOfDoom
             }
             return borderNodes;
         }
-        private bool containsEmptyNode(List<Node> nodes)
+        private bool containsEmptyNode(List<DebugNode> nodes)
         {
             
-            foreach (Node n in nodes) { if (n.isEmpty()) return true; }
+            foreach (DebugNode n in nodes) { if (n.isEmpty()) return true; }
             
             return false;
         }
 
-        private List<Node> whereNodeCanGrow(Node n)
-            {
-                List<Node> adjacentNodes = new List<Node>();
-                if (isNodeEmpty(westOf(n)))
-                    adjacentNodes.Add(westOf(n));
-                if (isNodeEmpty(eastOf(n)))
-                    adjacentNodes.Add(eastOf(n));
-                if (isNodeEmpty(northOf(n)))
-                    adjacentNodes.Add(northOf(n));
-                if (isNodeEmpty(southOf(n)))
-                    adjacentNodes.Add(southOf(n));
-                return adjacentNodes;
-            }
+        private List<DebugNode> whereNodeCanGrow(DebugNode n)
+        {
+            List<DebugNode> adjacentNodes = new List<DebugNode>();
+            if (isNodeEmpty(westOf(n)))
+                adjacentNodes.Add(westOf(n));
+            if (isNodeEmpty(eastOf(n)))
+                adjacentNodes.Add(eastOf(n));
+            if (isNodeEmpty(northOf(n)))
+                adjacentNodes.Add(northOf(n));
+            if (isNodeEmpty(southOf(n)))
+                adjacentNodes.Add(southOf(n));
+            return adjacentNodes;
+        }
+        private DebugNode westOf(DebugNode n)
+        {
+            if (n.getX() == 0)
+                return null;
+            return maze[n.getX() - 1][n.getY()];
+        }
+        private DebugNode eastOf(DebugNode n)
+        {
+            if (n.getX() == mazeIndexLengthX)
+                return null;
+            return maze[n.getX() + 1][n.getY()];
+        }
+        private DebugNode northOf(DebugNode n)
+        {
+            if (n.getY() == 0)
+                return null;
+            return maze[n.getX()][n.getY() - 1];
+        }
+        private DebugNode southOf(DebugNode n)
+        {
+            if (n.getY() == mazeIndexLengthY)
+                return null;
+            return maze[n.getX()][n.getY() + 1];
+        }
 
-            private Node westOf(Node n)
-            {
-                if (n.getX() == 0)
-                    return null;
-                return maze[n.getX() - 1][n.getY()];
-            }
-            private Node eastOf(Node n)
-            {
-                if (n.getX() == mazeIndexLengthX)
-                    return null;
-                return maze[n.getX() + 1][n.getY()];
-            }
-            private Node northOf(Node n)
-            {
-                if (n.getY() == 0)
-                    return null;
-                return maze[n.getX()][n.getY() - 1];
-            }
-            private Node southOf(Node n)
-            {
-                if (n.getY() == mazeIndexLengthY)
-                    return null;
-                return maze[n.getX()][n.getY() + 1];
-            }
 
-            /**
-             * Checks if the Node in question is empty.
-             * Null counts as a non-empty node.
-             * @param n The node, can also be null.
-             * @return True if there is a node, and it is empty.
-             */
-        private bool isNodeEmpty(Node? n)
+
+        /**
+            * Checks if the Node in question is empty.
+            * Null counts as a non-empty node.
+            * @param n The node, can also be null.
+            * @return True if there is a node, and it is empty.
+            */
+        private bool isNodeEmpty(DebugNode n)
         {
             if (n == null) return false; // no Node means it can't be filled on therefore returns false
             
@@ -320,17 +298,43 @@ namespace Shard.GameOfDoom
 
 
     }
-    internal class Node 
+
+    public class DebugNode : Node
     {
-        //internal bool doorUp = false;
-        //internal bool doorDown = false;
-        //internal bool doorLeft = false;
-        //internal bool doorRight = false;
+        private int edgeFromX;
+        private int edgeFromY;
+
+        internal DebugNode(int x, int y) : base(x, y)
+        {
+            this.edgeFromX = -1;
+            this.edgeFromY = -1;
+        }
+        internal int getEdgeX() { return edgeFromX; }
+        internal int getEdgeY() { return edgeFromY; }
+
+        internal bool isEmpty() { return (edgeFromX == -1 && edgeFromY == -1); }
+        //-1 is out of range position = null or false
+
+        internal void setEdgeFrom(DebugNode n)
+        {
+            this.edgeFromX = n.getX();
+            this.edgeFromY = n.getY();
+        }
+        internal bool edgeExist(DebugNode n)
+        {
+            bool edgeToMe = edgeFromX == n.getX() && edgeFromY == n.getY();
+            bool edgeFromMe = this.getX() == n.getEdgeX() && this.getY() == n.getEdgeY();
+            return (edgeToMe || edgeFromMe);
+        }
+
+    }
+
+
+    public class Node 
+    {
 
         private readonly int positionX;
         private readonly int positionY;
-        private int edgeFromX;
-        private int edgeFromY;
         private bool finite = false;
         private int iterations = 0;
 
@@ -338,31 +342,13 @@ namespace Shard.GameOfDoom
         {
             this.positionX = x;
             this.positionY = y;
-            this.edgeFromX = -1;
-            this.edgeFromY = -1;
         }
 
         internal int getX() { return positionX; }
         internal int getY() { return positionY; }
-        internal int getEdgeX() { return edgeFromX; }
-        internal int getEdgeY() { return edgeFromY; }
-
-        internal bool isEmpty() { return (edgeFromX == -1 && edgeFromY == -1); } 
-            //-1 is out of range position = null or false
+        internal int getIteration() { return iterations; }
         internal bool isFinite() { return this.finite; }
         internal bool isDead() { return (finite && iterations < 1); }
-
-        internal void setEdgeFrom(Node n)
-        {
-            this.edgeFromX = n.getX();
-            this.edgeFromY = n.getY();
-        }
-        internal bool edgeExist(Node n)
-        {
-            bool edgeToMe = edgeFromX == n.getX() && edgeFromY == n.getY();
-            bool edgeFromMe = positionX == n.getEdgeX() && positionY == n.getEdgeY();
-            return (edgeToMe || edgeFromMe);
-        }
 
         internal void lowerIteration() { this.iterations--; }
         internal void makeFinite(int iterations)
@@ -377,7 +363,7 @@ namespace Shard.GameOfDoom
     public class DebugView
     {
         private readonly MazeMaker mazeMaker;
-        private readonly List<List<Node>> maze;
+        private readonly List<List<DebugNode>> maze;
         private List<string> visualMaze;
 
         public DebugView(MazeMaker mazeMaker)
@@ -399,10 +385,10 @@ namespace Shard.GameOfDoom
         public void printEdges()
         {
             Console.WriteLine("[");
-            foreach (List<Node> row in maze)
+            foreach (List<DebugNode> row in maze)
             {
                 Console.WriteLine("[");
-                foreach (Node n in row)
+                foreach (DebugNode n in row)
                 {
                     printNode(n);
                 }
@@ -410,7 +396,7 @@ namespace Shard.GameOfDoom
             }
             Console.WriteLine("]\n");
         }
-        private void printNode(Node n)
+        private void printNode(DebugNode n)
         {
             Console.WriteLine("(" + n.getEdgeX() + ", " + n.getEdgeY() + ")");
         }
@@ -426,7 +412,7 @@ namespace Shard.GameOfDoom
                 else drawRow(maze[i], null);
             }
         }
-        private void drawRow(List<Node> from, List<Node> to)
+        private void drawRow(List<DebugNode> from, List<DebugNode> to)
         {
             StringBuilder row = new StringBuilder();
             StringBuilder belowRow = new StringBuilder();

@@ -35,11 +35,11 @@ public class HUD : GameObject
 
         string fontname = "Arial";
 
-        char[,] healthText = TextUtils.ConvertStringToCharArray($"Health: {playerHealth}");
-        char[,] scoreText = TextUtils.ConvertStringToCharArray($"Score: {score}");
+//        char[,] healthText = TextUtils.ConvertStringToCharArray($"Health: {playerHealth}");
+  //      char[,] scoreText = TextUtils.ConvertStringToCharArray($"Score: {score}");
 
-        display.showText(healthText, 10, 10, 16, 255, 255, 255, fontname);
-        display.showText(scoreText, 10, 30, 16, 255, 255, 255, fontname); //displays text in top-left corner in white
+    //    display.showText(healthText, 10, 10, 16, 255, 255, 255, fontname);
+      //  display.showText(scoreText, 10, 30, 16, 255, 255, 255, fontname); //displays text in top-left corner in white
     }
 
 
