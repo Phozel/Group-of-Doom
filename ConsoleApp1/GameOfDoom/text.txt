@@ -29,3 +29,5 @@ I - "... -I will fill the forest with trees...."
 D - fill the trees with pie-ass instead
 D - where the HUD where the HUD where the HUD at
 R - Why not fill the pie-ass with trees? Hmmm?
+
+A - I've got visuals on the target!
