@@ -187,7 +187,7 @@ namespace Shard
             WorldMap wm = new WorldMap(4, 0, (8, 6));
             List<List<Room>> map = wm.getMap(); 
             Room startRoom = wm.GetStartRoom();
-            map[startRoom.getX()][startRoom.getY()].getRoomLayout();
+            //map[startRoom.getX()][startRoom.getY()].getRoomLayout();
             
 
          //   MazeMaker maze = new MazeMaker(10, 10, 0, 2);

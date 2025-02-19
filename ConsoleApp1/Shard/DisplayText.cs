@@ -155,7 +155,7 @@ namespace Shard
                 SDL.SDL_WINDOWPOS_CENTERED,
                 getWidth(),
                 getHeight(),
-                0);
+                SDL.SDL_WindowFlags.SDL_WINDOW_RESIZABLE);
 
 
             _rend = SDL.SDL_CreateRenderer(_window,

@@ -8,10 +8,12 @@
 *   @author Erik Tran Simonsson (see Changelog for 1.3.0)
 */
 
+using Shard.Shard.GoDsWork.HUD;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
+using System.Numerics;
 
 namespace Shard
 {
@@ -26,6 +28,7 @@ namespace Shard
         private static InputSystem input;
         private static PhysicsManager phys;
         private static AssetManagerBase asset;
+        private static HudManager hudManager;
 
         private static int targetFrameRate;
         private static int millisPerFrame;
@@ -183,6 +186,12 @@ namespace Shard
             {
                 Environment.Exit(0);
             }
+
+            hudManager = new HudManager();
+
+            HealthBar healthBar = new HealthBar(100);
+            healthBar.Position = new Vector2(10, 10);
+            hudManager.AddElement(healthBar);
         }
 
         public static long getCurrentMillis()
@@ -313,6 +322,10 @@ namespace Shard
                     }
 
                 }
+                hudManager.Update((float)deltaTime);
+                hudManager.Draw();
+                
+
 
                 // Render the screen.
                 Bootstrap.getDisplay().display();
