@@ -56,6 +56,8 @@ namespace Shard
         private List<Line> _linesToDraw;
         private List<Circle> _circlesToDraw;
         private Dictionary<string, IntPtr> spriteBuffer;
+        
+
         public override void initialize()
         {
             spriteBuffer = new Dictionary<string, IntPtr>();
@@ -210,8 +212,6 @@ namespace Shard
             SDL.SDL_Rect sRect;
             SDL.SDL_Rect tRect;
 
-
-
             foreach (Transform trans in _toDraw)
             {
 
@@ -222,8 +222,8 @@ namespace Shard
 
                 var sprite = loadTexture(trans);
 
-                sRect.x = 0;
-                sRect.y = 0;
+                sRect.x = (int)trans.StartX;
+                sRect.y = (int)trans.StartY;
                 sRect.w = (int)(trans.Wid * trans.Scalex);
                 sRect.h = (int)(trans.Ht * trans.Scaley);
 

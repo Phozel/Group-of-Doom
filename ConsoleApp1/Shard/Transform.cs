@@ -22,6 +22,7 @@ namespace Shard
     {
         private GameObject owner;
         private float x, y;
+        private float startX = 0, startY = 0;
         private float lx, ly;
         private float rotz;
         private int wid, ht;
@@ -58,6 +59,11 @@ namespace Shard
             rotate(0);
         }
 
+        public void transformXYPosInImage(float fx, float fy)
+        {
+            this.lx = fx;
+            this.ly = fy;
+        }
 
         public void recalculateCentre()
         {
@@ -150,5 +156,8 @@ namespace Shard
         public float Scaley { get => scaley; set => scaley = value; }
         public float Lx { get => lx; set => lx = value; }
         public float Ly { get => ly; set => ly = value; }
+
+        public float StartX { get => startX; set => startX = value; }
+        public float StartY { get => startY; set => startY = value; }
     }
 }
