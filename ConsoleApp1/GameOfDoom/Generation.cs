@@ -21,6 +21,7 @@ namespace Shard.GameOfDoom
         private readonly int width;
         private readonly int height;
         private readonly int lengthToEnd;
+        private Room startRoom;
         private readonly int leastRooms;
 
         public WorldMap(int lengthToEnd, int LeastRooms, (int, int) mapSize)
@@ -41,10 +42,10 @@ namespace Shard.GameOfDoom
             Room startRoom = getStartRoom();
             GrowFrom(startRoom);
             SetKeyRoom();
-            Console.WriteLine("map2:" + worldMap);
         }
 
         internal List<List<Room>> getMap() {  return worldMap; }
+        internal Room GetStartRoom() { return startRoom; }
         /**
          * 0 = no change
          */
@@ -68,7 +69,7 @@ namespace Shard.GameOfDoom
         }
         private Room getStartRoom() 
         { 
-            Room startRoom = worldMap[rand.Next(height)][rand.Next(width)];
+            this.startRoom = worldMap[rand.Next(height)][rand.Next(width)];
             startRoom.setRoomType(Room.RoomType.Start);
             startRoom.makeFinite(lengthToEnd);
             return startRoom; 
@@ -85,7 +86,7 @@ namespace Shard.GameOfDoom
         {
             while (growthNodes.Any())
             {
-                Console.WriteLine("number of grow nodes" + growthNodes.Count());
+                //Console.WriteLine("number of grow nodes" + growthNodes.Count());
                 for (int i = 0; i < growthNodes.Count();)
                 {
                     //Console.WriteLine("dead? " + growthNodes[i].isDead());
@@ -242,7 +243,8 @@ namespace Shard.GameOfDoom
         private void generateRoom()
         {
             MakeRoom();
-            List<Tile> growthNodes = buildOuterWallsAndDoors();
+            List<Tile> wallNodes = buildOuterWallsAndDoors();
+            List<Tile> growthNodes  = chooseRandomNodes(wallNodes, rand.Next(roomWidth/2));
             foreach (Tile tile in growthNodes) { tile.makeFinite(rand.Next(roomHeight / 2)); }
             generateObstacles(growthNodes);
             //generateRoom();
@@ -309,11 +311,36 @@ namespace Shard.GameOfDoom
             wall.RemoveAt(index);
         }
 
+
+        private List<Tile> chooseRandomNodes(List<Tile> nodeList, int nr)
+        {
+            if (nr >= nodeList.Count()) // take whole list if choose more elements than in list
+                return nodeList;
+
+            List<int> indexList = new List<int>();
+            while (indexList.Count() < nr)
+            {
+                for (int i = 0; i < nr; i++)
+                {
+                    int index = rand.Next(nodeList.Count());
+                    if (!indexList.Contains(index)) indexList.Add(index);
+                }
+            }
+
+            List<Tile> randomNodeList = new List<Tile>();
+            foreach (int index in indexList)
+            {
+                randomNodeList.Add(nodeList.ElementAt(index));
+            }
+            return randomNodeList;
+
+        }
+
         private void generateObstacles(List<Tile> growthNodes)
         {
             while (growthNodes.Any())
             {
-                Console.WriteLine("number of grow nodes" + growthNodes.Count());
+                //Console.WriteLine("number of grow nodes" + growthNodes.Count());
                 for (int i = 0; i < growthNodes.Count();)
                 {
                     //Console.WriteLine("dead? " + growthNodes[i].isDead());
