@@ -45,7 +45,9 @@ namespace Shard
             {
                 Color col = Color.FromArgb(rand.Next(0, 256), rand.Next(0, 256), rand.Next(0, 256));
                 Bootstrap.getDisplay().showText("GAME OVER!", 300, 300, 128, col, null);
-                if (!gameOver) {
+                if (!gameOver)
+                {
+                    Bootstrap.getSound().stopMusic();
                     Bootstrap.getSound().playSound("pajas.wav", SDL.SDL_MIX_MAXVOLUME);
                     Console.WriteLine("Game over");
                     gameOver = true;
@@ -181,10 +183,11 @@ namespace Shard
             WorldMap wm = new WorldMap(4, 0, (8, 6));
             List<List<Room>> map = wm.getMap(); 
             map[0][0].getRoomLayout();
-            
+            Bootstrap.getSound().playMusic("music.wav", SDL.SDL_MIX_MAXVOLUME);
 
-         //   MazeMaker maze = new MazeMaker(10, 10, 0, 2);
-           // DebugView view = new DebugView(maze);
+
+            //   MazeMaker maze = new MazeMaker(10, 10, 0, 2);
+            // DebugView view = new DebugView(maze);
             //view.draw();
 
 
