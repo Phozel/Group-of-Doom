@@ -82,6 +82,7 @@ namespace Shard
             }
 
             // Play music with infinite looping (-1 means loop forever)
+            SDL_mixer.Mix_VolumeMusic(volume);
             SDL_mixer.Mix_PlayMusic(music, -1);
         }
 
