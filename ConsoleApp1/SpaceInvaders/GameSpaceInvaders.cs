@@ -183,7 +183,7 @@ namespace Shard
             WorldMap wm = new WorldMap(4, 0, (8, 6));
             List<List<Room>> map = wm.getMap(); 
             map[0][0].getRoomLayout();
-            Bootstrap.getSound().playMusic("music.wav", SDL.SDL_MIX_MAXVOLUME);
+            Bootstrap.getSound().playMusic("examplemusic.wav", SDL.SDL_MIX_MAXVOLUME);
 
 
             //   MazeMaker maze = new MazeMaker(10, 10, 0, 2);
