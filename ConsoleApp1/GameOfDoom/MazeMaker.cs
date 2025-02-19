@@ -330,7 +330,7 @@ namespace Shard.GameOfDoom
     }
 
 
-    public class Node 
+    public class Node : GameObject
     {
 
         private readonly int positionX;
@@ -342,6 +342,10 @@ namespace Shard.GameOfDoom
         {
             this.positionX = x;
             this.positionY = y;
+
+
+           // Console.WriteLine("Constructor Node: Random Image Path becuase this is a GameObject");
+          //  this.Transform.SpritePath = Bootstrap.getAssetManager().getAssetPath("TopWall.png");
         }
 
         internal int getX() { return positionX; }

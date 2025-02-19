@@ -5,17 +5,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Shard.Shard.GoD_s_Work.Tiles_Libary;
+using static Shard.Shard.GoD_s_Work.Tiles_Libary.Tile;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Shard.GameOfDoom
 {
     internal class Generation
     {
         
+
+
     }
+    
+
+
+    
 
     public class WorldMap
     {
-        private List<List<Room>> worldMap;
+        internal List<List<Room>> worldMap;
         //internal List<List<Debug>> debugMap;
         private readonly Random rand = new Random();
         private readonly int width;
@@ -219,6 +227,8 @@ namespace Shard.GameOfDoom
             doorLeft = false;
             doorRight = false;
             roomLayout = new List<List<Tile>>();
+
+            
         }
         internal void setRoomType(RoomType roomType) { this.roomType = roomType; }
         internal RoomType getRoomType() { return roomType; }
@@ -244,7 +254,7 @@ namespace Shard.GameOfDoom
         {
             MakeRoom();
             List<Tile> wallNodes = buildOuterWallsAndDoors();
-            List<Tile> growthNodes  = chooseRandomNodes(wallNodes, rand.Next(roomWidth/2));
+            List<Tile> growthNodes  = chooseRandomNodes(wallNodes, rand.Next(roomWidth / 2));
             foreach (Tile tile in growthNodes) { tile.makeFinite(rand.Next(roomHeight / 2)); }
             generateObstacles(growthNodes);
             //generateRoom();
@@ -275,25 +285,33 @@ namespace Shard.GameOfDoom
             List<Tile> rightWall = new List<Tile>();
             //corners
             roomLayout[0][0].tag = Tag.wall;
+            roomLayout[0][0].setTag(Tile.ImagePosition.TopLeftCorner);
             roomLayout[0][roomWidth - 1].tag = Tag.wall;
+            roomLayout[0][roomWidth - 1].setTag(Tile.ImagePosition.TopRightCorner);
             roomLayout[roomHeight - 1][0].tag = Tag.wall;
+            roomLayout[roomHeight - 1][0].setTag(Tile.ImagePosition.BottomLeftCorner);
             roomLayout[roomHeight - 1][roomWidth - 1].tag = Tag.wall;
+            roomLayout[roomHeight - 1][roomWidth - 1].setTag(Tile.ImagePosition.BottomRightCorner);
 
             for (int i = 1; i < roomWidth - 1; i++)
             { // everything in between
                 topWall.Add(roomLayout[0][i]); // up
+                roomLayout[0][i].setTag(Tile.ImagePosition.TopWall);
                 bottomWall.Add(roomLayout[roomHeight - 1][i]); // down
+                roomLayout[roomHeight - 1][i].setTag(Tile.ImagePosition.BottomWall);
             }
             for (int i = 1; i < roomHeight - 1; i++)
             { // everything in between
                 leftWall.Add(roomLayout[i][0]); // left
+                roomLayout[i][0].setTag(Tile.ImagePosition.LeftWall);
                 rightWall.Add(roomLayout[i][roomWidth - 1]); //right
+                roomLayout[i][roomWidth - 1].setTag(Tile.ImagePosition.RightWall);
 
             }
-            if (doorUp) { addDoor(topWall); } //door up
-            if (doorDown) { addDoor(bottomWall); } //door down
-            if (doorLeft) { addDoor(leftWall); } //door left
-            if (doorRight) { addDoor(rightWall); } //door right
+            if (doorUp) { addDoor(topWall, Tile.ImagePosition.DoorUp); } //door up
+            if (doorDown) { addDoor(bottomWall, Tile.ImagePosition.DoorDown); } //door down
+            if (doorLeft) { addDoor(leftWall, Tile.ImagePosition.DoorLeft); } //door left
+            if (doorRight) { addDoor(rightWall, Tile.ImagePosition.DoorRight); } //door right
 
             borderNodes.AddRange(topWall);
             borderNodes.AddRange(bottomWall);
@@ -304,10 +322,11 @@ namespace Shard.GameOfDoom
 
             return borderNodes;
         }
-        private void addDoor(List<Tile> wall)
+        private void addDoor(List<Tile> wall, Tile.ImagePosition imagePath)
         {
             int index = rand.Next(wall.Count());
             wall[index].tag = Tag.door;
+            wall[index].setTag(imagePath);
             wall.RemoveAt(index);
         }
 
@@ -366,6 +385,7 @@ namespace Shard.GameOfDoom
                         newNode.makeFinite(currentNode.getIteration());
                     }
                     newNode.tag = Tag.wall; //.setEdgeFrom(currentNode);
+                    newNode.setTag(Tile.ImagePosition.FreeWall);
                     growthNodes[i] = newNode;
                     i++;
                 }
