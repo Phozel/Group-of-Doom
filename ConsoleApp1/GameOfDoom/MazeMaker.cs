@@ -299,38 +299,9 @@ namespace Shard.GameOfDoom
 
     }
 
-    public class DebugNode : Node
-    {
-        private int edgeFromX;
-        private int edgeFromY;
+    
 
-        internal DebugNode(int x, int y) : base(x, y)
-        {
-            this.edgeFromX = -1;
-            this.edgeFromY = -1;
-        }
-        internal int getEdgeX() { return edgeFromX; }
-        internal int getEdgeY() { return edgeFromY; }
-
-        internal bool isEmpty() { return (edgeFromX == -1 && edgeFromY == -1); }
-        //-1 is out of range position = null or false
-
-        internal void setEdgeFrom(DebugNode n)
-        {
-            this.edgeFromX = n.getX();
-            this.edgeFromY = n.getY();
-        }
-        internal bool edgeExist(DebugNode n)
-        {
-            bool edgeToMe = edgeFromX == n.getX() && edgeFromY == n.getY();
-            bool edgeFromMe = this.getX() == n.getEdgeX() && this.getY() == n.getEdgeY();
-            return (edgeToMe || edgeFromMe);
-        }
-
-    }
-
-
-    public class Node : GameObject
+    public abstract class Node : GameObject
     {
 
         private readonly int positionX;
@@ -361,8 +332,39 @@ namespace Shard.GameOfDoom
             this.iterations = iterations;
         }
 
+        //added information for when subclass nodes are counted as empty by the Generation functions 
+        internal virtual bool isNodeEmpty() { return false; }
     }
 
+    public class DebugNode : Node
+    {
+        private int edgeFromX;
+        private int edgeFromY;
+
+        internal DebugNode(int x, int y) : base(x, y)
+        {
+            this.edgeFromX = -1;
+            this.edgeFromY = -1;
+        }
+        internal int getEdgeX() { return edgeFromX; }
+        internal int getEdgeY() { return edgeFromY; }
+
+        internal bool isEmpty() { return (edgeFromX == -1 && edgeFromY == -1); }
+        //-1 is out of range position = null or false
+
+        internal void setEdgeFrom(DebugNode n)
+        {
+            this.edgeFromX = n.getX();
+            this.edgeFromY = n.getY();
+        }
+        internal bool edgeExist(DebugNode n)
+        {
+            bool edgeToMe = edgeFromX == n.getX() && edgeFromY == n.getY();
+            bool edgeFromMe = this.getX() == n.getEdgeX() && this.getY() == n.getEdgeY();
+            return (edgeToMe || edgeFromMe);
+        }
+
+    }
 
     public class DebugView
     {
