@@ -178,29 +178,6 @@ namespace Shard
             createObjects();
 
             Debug.Log("Bing!");
-
-
-
-
-            // which sprites are used
-            // make sure RoomTiles have/use correct dimensions
-            //draw up start room
-
-            WorldMap wm = new WorldMap(4, 0, (8, 6));
-            List<List<Room>> map = wm.getMap(); 
-            Room startRoom = wm.GetStartRoom();
-            // map[startRoom.getY()][startRoom.getX()].getRoomLayout();
-            startRoom.getRoomLayout();
-            Bootstrap.getSound().playMusic("examplemusic.wav", SDL.SDL_MIX_MAXVOLUME);
-
-
-            //   MazeMaker maze = new MazeMaker(10, 10, 0, 2);
-            // DebugView view = new DebugView(maze);
-            //view.draw();
-
-
-
-
         }
 
         public void handleInput(InputEvent inp, string eventType)

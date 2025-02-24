@@ -35,6 +35,13 @@ namespace Shard
         {
             Bootstrap.getInput().addListener(this);
 
+            WorldMap wm = new WorldMap(4, 0, (8, 6));
+            List<List<Room>> map = wm.getMap();
+            Room startRoom = wm.GetStartRoom();
+            // map[startRoom.getY()][startRoom.getX()].getRoomLayout();
+            startRoom.getRoomLayout();
+            Bootstrap.getSound().playMusic("examplemusic.wav", SDL.SDL_MIX_MAXVOLUME);
+
         }
 
         public void handleInput(InputEvent inp, string eventType)
