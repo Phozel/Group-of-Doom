@@ -23,15 +23,5 @@ namespace Shard.GameOfDoom
 
             
         }
-
-
-
-
-        //        sprites[0] = "invader1.png";
-
-        //          this.Transform.X = 200.0f;
-        //        this.Transform.Y = 100.0f;
-        //      this.Transform.SpritePath = Bootstrap.getAssetManager().getAssetPath(sprites[0]);
-
     }
 }

@@ -82,53 +82,55 @@ namespace Shard.GameOfDoom
             startRoom.makeFinite(lengthToEnd);
             return startRoom; 
         }
-        private void GrowFrom(Room growthNode) {
-            List<Room> rooms = [growthNode];
+        private void GrowFrom(Room startRoom) {
+            List<Room> rooms = [startRoom];
             if (rand.Next(100) > 70) // chance of split
-                    rooms.Add(growthNode); // new growthNode created
+                rooms.Add(startRoom); // new growthNode created
             if (rand.Next(100) > 70) // chance of split
-                rooms.Add(growthNode); // new growthNode created
-            GrowFrom(rooms); 
+                rooms.Add(startRoom); // new growthNode created
+            List<Room> allRooms = new List<Room> { startRoom };
+            allRooms.AddRange(MazeParts.growLightning(rooms, worldMap));
+            allRooms[allRooms.Count - 1].setRoomType(Room.RoomType.End);
+            addDoors(allRooms); //fix doors
+            
         }
-        private void GrowFrom(List<Room> growthNodes)
+
+        private void addDoors(List<Room> allRooms)
         {
-            while (growthNodes.Any())
+
+            List<Room> adjecentNodes;
+            foreach (Room room in allRooms)
             {
-                //Console.WriteLine("number of grow nodes" + growthNodes.Count());
-                for (int i = 0; i < growthNodes.Count();)
-                {
-                    //Console.WriteLine("dead? " + growthNodes[i].isDead());
-                    //Console.WriteLine("finite? " + growthNodes[i].isFinite());
-                    Room currentNode = growthNodes[i];
-                    List<Room> growTo = MazeParts.whereNodeCanGrow(currentNode, worldMap);
-
-                    if (!growTo.Any() || (currentNode.isDead()))
-                    {
-                        if (growthNodes.Count() == 1) { currentNode.setRoomType(Room.RoomType.End); } //if is last room on last node
-                        growthNodes.RemoveAt(i);
-                        continue;
-                    }
-                    //if (currentNode.isFinite()) { currentNode.lowerIteration(); }
-
-                    if (growTo.Count() > 1) if (rand.Next(100) > 70) // chance of split
-                            growthNodes.Add(currentNode); // new growthNode created
-
-                    // grow from node
-                    Room newNode = growTo.ElementAt(rand.Next(growTo.Count()));
-                    if (currentNode.isFinite())
-                    {
-                        currentNode.lowerIteration();
-                        newNode.makeFinite(currentNode.getIteration());
-                    }
-                    //newNode.setEdgeFrom(currentNode);
-                    currentNode.addDoors(newNode); // "add" doors.
-                    growthNodes[i] = newNode;
-                    i++;
-                }
+                adjecentNodes = MazeParts.adjecentFullNodes(room, worldMap); //find adjesent rooms
+                foreach(Room aj in adjecentNodes) { room.addDoors(aj); Console.WriteLine("here"); } //add doors for found
             }
+            
+            
         }
 
+        /*private Room connectRooms(List<Room> rooms, int i)
+        {
+            List<Room>.Enumerator r = rooms.GetEnumerator();
+            r.
+            for (int j = i+1; j < rooms.Count; j++)
+            {
+                if (isNeighbour(rooms[i], rooms[j]))
+                {
+                    List<Room> rest =;
+                    Room room = connectRooms(rooms, j);
+                    if (room != null)
+                        rooms[i].addDoors(room);
+                }
+                    
 
+            }
+            return null;
+        }*/
+
+        private bool isNeighbour(Room room1,Room room2) { 
+            return room1.getX() + 1 == room2.getX() || room1.getX() - 1 == room2.getX() || 
+                room1.getY() + 1 == room2.getY() || room1.getY() - 1 == room2.getY(); 
+        }
 
 
         private void SetKeyRoom()
@@ -163,7 +165,53 @@ namespace Shard.GameOfDoom
 
     internal static class MazeParts
     {
+        //doesn't make a copy of list startGrowthNodes before altering it, FIX!
+        internal static List<T> growLightning<T>(List<T> startGrowthNodes, List<List<T>> area) where T : Node
+        {
+            Random rand = new Random();
+            List<T> allGrownToNodes = new List<T>();
+            // allGrownToNodes.AddRange(startGrowthNodes); //adds start nodes to allGrownToNodes
+            foreach (T node in startGrowthNodes) { node.setNotEmpty(); }
+            while (startGrowthNodes.Any())
+            {
+                //Console.WriteLine("number of grow nodes" + growthNodes.Count());
+                for (int i = 0; i < startGrowthNodes.Count();)
+                {
+                    //Console.WriteLine("dead? " + growthNodes[i].isDead());
+                    //Console.WriteLine("finite? " + growthNodes[i].isFinite());
+                    T currentNode = startGrowthNodes[i];
+                    List<T> growTo = whereNodeCanGrow(currentNode, area);
 
+                    if (!growTo.Any() || (currentNode.isDead()))
+                    {
+                        //               if (startGrowthNodes.Count() == 1) { currentNode.setRoomType(Room.RoomType.End); } //if is last room on last node
+                        startGrowthNodes.RemoveAt(i);
+                        continue;
+                    }
+                    //if (currentNode.isFinite()) { currentNode.lowerIteration(); }
+
+                    if (growTo.Count() > 1) if (rand.Next(100) > 70) // chance of split
+                            startGrowthNodes.Add(currentNode); // new growthNode created
+
+                    // grow from node
+                    T newNode = growTo.ElementAt(rand.Next(growTo.Count()));
+                    if (currentNode.isFinite())
+                    {
+                        currentNode.lowerIteration();
+                        newNode.makeFinite(currentNode.getIteration());
+                    }
+                    //newNode.setEdgeFrom(currentNode);
+                    //                currentNode.addDoors(newNode); // "add" doors.
+                    startGrowthNodes[i] = newNode;
+                    newNode.setNotEmpty();
+                    allGrownToNodes.Add(newNode);
+                    i++;
+                }
+            }
+            return allGrownToNodes;
+        }
+
+        //choose a number (nr) of random nodes from a list of Nodes
         internal static List<T> chooseRandomNodes<T>(List<T> nodeList, int nr) where T : Node
         {
             Random rand = new Random();
@@ -201,6 +249,20 @@ namespace Shard.GameOfDoom
             if (isNodeEmpty(southOfNode(n, area)) && isNodeEmpty(southOfNode(southOfNode(n, area), area)))
                 adjacentNodes.Add(southOfNode(n, area));
             return adjacentNodes;
+        }
+        internal static List<T> adjecentFullNodes<T>(T n, List<List<T>> area) where T : Node
+        {
+            List<T> adjacentNodes = new List<T>();
+            if (westOfNode(n, area) != null) if (!westOfNode(n, area).isNodeEmpty())
+                adjacentNodes.Add(westOfNode(n, area));
+            if (eastOfNode(n, area) != null) if (!eastOfNode(n, area).isNodeEmpty())
+                adjacentNodes.Add(eastOfNode(n, area));
+            if (northOfNode(n, area) != null) if (!northOfNode(n, area).isNodeEmpty())
+                adjacentNodes.Add(northOfNode(n, area));
+            if (southOfNode(n, area) != null) if (!southOfNode(n, area).isNodeEmpty())
+                adjacentNodes.Add(southOfNode(n, area));
+            return adjacentNodes;
+            
         }
         private static bool isNodeEmpty<T>(T n) where T : Node
         {
@@ -262,7 +324,7 @@ namespace Shard.GameOfDoom
 
         }
 
-        internal override bool isNodeEmpty() { return !(doorUp || doorDown || doorLeft || doorRight); }
+        //internal override bool isNodeEmpty() { return !(doorUp || doorDown || doorLeft || doorRight); }
         internal bool isDeadEnd() { return (doorUp ^ doorDown ^ doorLeft ^ doorRight); }
 
         public List<List<Tile>> getRoomLayout()
@@ -277,7 +339,8 @@ namespace Shard.GameOfDoom
             List<Tile> wallNodes = buildOuterWallsAndDoors();
             List<Tile> growthNodes  = MazeParts.chooseRandomNodes(wallNodes, rand.Next(roomWidth / 2));
             foreach (Tile tile in growthNodes) { tile.makeFinite(rand.Next(roomHeight / 2)); }
-            generateObstacles(growthNodes);
+            List<Tile> allFreeWalls = MazeParts.growLightning(growthNodes, roomLayout);
+            foreach (Tile tile in allFreeWalls) { tile.setImagePath(images.GetValueOrDefault(ImagePosition.FreeWall)); }
             //generateRoom();
             addGroundImagePath();
         }
@@ -341,42 +404,6 @@ namespace Shard.GameOfDoom
             int index = rand.Next(wall.Count());
             wall[index].setImagePath(imagePath);
             wall.RemoveAt(index);
-        }
-
-        private void generateObstacles(List<Tile> growthNodes)
-        {
-            while (growthNodes.Any())
-            {
-                //Console.WriteLine("number of grow nodes" + growthNodes.Count());
-                for (int i = 0; i < growthNodes.Count();)
-                {
-                    //Console.WriteLine("dead? " + growthNodes[i].isDead());
-                    //Console.WriteLine("finite? " + growthNodes[i].isFinite());
-                    Tile currentNode = growthNodes[i];
-                    List<Tile> growTo = MazeParts.whereNodeCanGrow(currentNode, roomLayout);
-
-                    if (!growTo.Any() || (currentNode.isDead()))
-                    {
-                        growthNodes.RemoveAt(i);
-                        continue;
-                    }
-                    //if (currentNode.isFinite()) { currentNode.lowerIteration(); }
-
-                    if (growTo.Count() > 1) if (rand.Next(100) > 70) // chance of split
-                            growthNodes.Add(currentNode); // new growthNode created
-
-                    // grow from node
-                    Tile newNode = growTo.ElementAt(rand.Next(growTo.Count()));
-                    if (currentNode.isFinite())
-                    {
-                        currentNode.lowerIteration();
-                        newNode.makeFinite(currentNode.getIteration());
-                    }
-                    newNode.setImagePath(images.GetValueOrDefault(ImagePosition.FreeWall));
-                    growthNodes[i] = newNode;
-                    i++;
-                }
-            }
         }
 
         private void addGroundImagePath()
