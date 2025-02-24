@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Shard.Shard.GoD_s_Work.Tiles_Libary;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace Shard.GameOfDoom
+namespace Shard.Shard.GoDsWork.TilesLibrary
 {
     public abstract class Node : GameObject
     {
@@ -20,30 +20,30 @@ namespace Shard.GameOfDoom
 
         internal Node(int x, int y)
         {
-            this.positionX = x;
-            this.positionY = y;
+            positionX = x;
+            positionY = y;
 
 
-           // Console.WriteLine("Constructor Node: Random Image Path becuase this is a GameObject");
-          //  this.Transform.SpritePath = Bootstrap.getAssetManager().getAssetPath("TopWall.png");
+            // Console.WriteLine("Constructor Node: Random Image Path becuase this is a GameObject");
+            //  this.Transform.SpritePath = Bootstrap.getAssetManager().getAssetPath("TopWall.png");
         }
 
         internal int getX() { return positionX; }
         internal int getY() { return positionY; }
         internal int getIteration() { return iterations; }
-        internal bool isFinite() { return this.finite; }
-        internal bool isDead() { return (finite && iterations < 1); }
+        internal bool isFinite() { return finite; }
+        internal bool isDead() { return finite && iterations < 1; }
 
-        internal void lowerIteration() { this.iterations--; }
+        internal void lowerIteration() { iterations--; }
         internal void makeFinite(int iterations)
         {
-            this.finite = true;
+            finite = true;
             this.iterations = iterations;
         }
 
         //added information for when subclass nodes are counted as empty by the Generation functions 
         internal virtual bool isNodeEmpty() { return empty; }
-        internal void setNotEmpty() { empty = false; }
+        internal virtual void setNotEmpty() { empty = false; }
     }
-   
+
 }

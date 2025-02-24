@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
-using Shard.GameOfDoom;
+using Shard.Shard.GoDsWork.TilesLibrary;
 
 namespace Shard.Shard.GoD_s_Work.Tiles_Libary
 {
