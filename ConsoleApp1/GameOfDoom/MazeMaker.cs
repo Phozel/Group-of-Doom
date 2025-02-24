@@ -299,6 +299,43 @@ namespace Shard.GameOfDoom
 
     }
 
+    
+
+    public abstract class Node : GameObject
+    {
+
+        private readonly int positionX;
+        private readonly int positionY;
+        private bool finite = false;
+        private int iterations = 0;
+
+        internal Node(int x, int y)
+        {
+            this.positionX = x;
+            this.positionY = y;
+
+
+           // Console.WriteLine("Constructor Node: Random Image Path becuase this is a GameObject");
+          //  this.Transform.SpritePath = Bootstrap.getAssetManager().getAssetPath("TopWall.png");
+        }
+
+        internal int getX() { return positionX; }
+        internal int getY() { return positionY; }
+        internal int getIteration() { return iterations; }
+        internal bool isFinite() { return this.finite; }
+        internal bool isDead() { return (finite && iterations < 1); }
+
+        internal void lowerIteration() { this.iterations--; }
+        internal void makeFinite(int iterations)
+        {
+            this.finite = true;
+            this.iterations = iterations;
+        }
+
+        //added information for when subclass nodes are counted as empty by the Generation functions 
+        internal virtual bool isNodeEmpty() { return false; }
+    }
+
     public class DebugNode : Node
     {
         private int edgeFromX;
@@ -328,37 +365,6 @@ namespace Shard.GameOfDoom
         }
 
     }
-
-
-    public class Node 
-    {
-
-        private readonly int positionX;
-        private readonly int positionY;
-        private bool finite = false;
-        private int iterations = 0;
-
-        internal Node(int x, int y)
-        {
-            this.positionX = x;
-            this.positionY = y;
-        }
-
-        internal int getX() { return positionX; }
-        internal int getY() { return positionY; }
-        internal int getIteration() { return iterations; }
-        internal bool isFinite() { return this.finite; }
-        internal bool isDead() { return (finite && iterations < 1); }
-
-        internal void lowerIteration() { this.iterations--; }
-        internal void makeFinite(int iterations)
-        {
-            this.finite = true;
-            this.iterations = iterations;
-        }
-
-    }
-
 
     public class DebugView
     {

@@ -33,8 +33,15 @@ namespace Shard
 
         public void swapSpriteSet(int spriteSetToUse)
         {
-            _spriteSetToUse = spriteSetToUse;
-            _spriteToUse = 0;
+            if (spriteSetToUse <  _spriteArrays.Count) { 
+                _spriteSetToUse = spriteSetToUse;
+                _spriteToUse = 0;
+            }
+            else
+            {
+                throw new IndexOutOfRangeException();
+            }
+            
         }
 
     }

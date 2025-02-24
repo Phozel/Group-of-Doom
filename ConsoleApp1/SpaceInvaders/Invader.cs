@@ -1,4 +1,5 @@
 ﻿using Shard;
+using Shard.Shard.GoDsWork.Animation;
 using System;
 
 namespace SpaceInvaders
@@ -13,12 +14,14 @@ namespace SpaceInvaders
         private int xdir;
         private GameSpaceInvaders game;
         private Random rand;
+        SpriteSheetAnimation animation;
 
         public int Xdir { get => xdir; set => xdir = value; }
 
         public override void initialize()
         {
             sprites = new string[2];
+            animation = new SpriteSheetAnimation(this, "Walls.png", 64, 64, 3, 3);
 
             game = (GameSpaceInvaders)Bootstrap.getRunningGame();
 
@@ -29,7 +32,8 @@ namespace SpaceInvaders
 
             this.Transform.X = 200.0f;
             this.Transform.Y = 100.0f;
-            this.Transform.SpritePath = Bootstrap.getAssetManager().getAssetPath(sprites[0]);
+            //this.Transform.SpritePath = Bootstrap.getAssetManager().getAssetPath(sprites[0]);
+            animation.changeSprite(0, 0);
 
             setPhysicsEnabled();
             MyBody.addRectCollider();
@@ -46,20 +50,24 @@ namespace SpaceInvaders
         public void changeSprite()
         {
             spriteToUse += 1;
-
-            if (spriteToUse >= sprites.Length)
+            
+            
+            if (spriteToUse >= 3)
             {
                 spriteToUse = 0;
             }
 
-            this.Transform.SpritePath = Bootstrap.getAssetManager().getAssetPath(sprites[spriteToUse]);
+            animation.changeSprite(0, spriteToUse);
+
+            /*
+            this.Transform.SpritePath = Bootstrap.getAssetManager().getAssetPath(sprites[spriteToUse]);*/
 
         }
 
         public override void update()
         {
 
-
+            
             Bootstrap.getDisplay().addToDraw(this);
         }
 

@@ -1,4 +1,4 @@
-﻿using SDL2;
+using SDL2;
 using Shard.GameOfDoom;
 using SpaceInvaders;
 using System;
@@ -180,9 +180,17 @@ namespace Shard
             Debug.Log("Bing!");
 
 
+
+
+            // which sprites are used
+            // make sure RoomTiles have/use correct dimensions
+            //draw up start room
+
             WorldMap wm = new WorldMap(4, 0, (8, 6));
             List<List<Room>> map = wm.getMap(); 
-            map[0][0].getRoomLayout();
+            Room startRoom = wm.GetStartRoom();
+            // map[startRoom.getY()][startRoom.getX()].getRoomLayout();
+            startRoom.getRoomLayout();
             Bootstrap.getSound().playMusic("examplemusic.wav", SDL.SDL_MIX_MAXVOLUME);
 
 

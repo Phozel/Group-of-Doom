@@ -29,3 +29,9 @@ I - "... -I will fill the forest with trees...."
 D - fill the trees with pie-ass instead
 D - where the HUD where the HUD where the HUD at
 R - Why not fill the pie-ass with trees? Hmmm?
+
+A - I've got visuals on the target!
+I - They are close, I can hear them. Keep me updated on the visual? 
+A - Distance to target, *Static* tiles *Static*, good luck
+
+A - Target is still moving!
