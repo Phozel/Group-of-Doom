@@ -22,7 +22,6 @@ namespace SpaceInvaders
         public override void initialize()
         {
             sprites = new string[2];
-            animation = new SpriteSheetAnimation(this, "Walls.png", 64, 64, 3, 3);
 
             game = (GameSpaceInvaders)Bootstrap.getRunningGame();
 
@@ -34,7 +33,7 @@ namespace SpaceInvaders
 
             this.Transform.X = 200.0f;
             this.Transform.Y = 100.0f;
-            //this.Transform.SpritePath = Bootstrap.getAssetManager().getAssetPath(sprites[0]);
+            this.Transform.SpritePath = Bootstrap.getAssetManager().getAssetPath(sprites[0]);
             animation.changeSprite(0, 0);
 
             setPhysicsEnabled();
@@ -54,20 +53,15 @@ namespace SpaceInvaders
             spriteToUse += 1;
             
             
-            if (spriteToUse >= 3)
+            if (spriteToUse >= 2)
             {
-                rowtouse++;
+                
                 spriteToUse = 0;
             }
-            if (rowtouse >= 3)
-            {
-                rowtouse = 0;
-            }
-            
-            animation.changeSprite(rowtouse, spriteToUse);
 
-            /*
-            this.Transform.SpritePath = Bootstrap.getAssetManager().getAssetPath(sprites[spriteToUse]);*/
+
+            
+            this.Transform.SpritePath = Bootstrap.getAssetManager().getAssetPath(sprites[spriteToUse]);
 
         }
 
