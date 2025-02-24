@@ -34,7 +34,7 @@ namespace SpaceInvaders
             this.Transform.X = 200.0f;
             this.Transform.Y = 100.0f;
             this.Transform.SpritePath = Bootstrap.getAssetManager().getAssetPath(sprites[0]);
-            animation.changeSprite(0, 0);
+            
 
             setPhysicsEnabled();
             MyBody.addRectCollider();
