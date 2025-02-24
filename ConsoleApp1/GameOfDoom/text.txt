@@ -35,3 +35,5 @@ I - They are close, I can hear them. Keep me updated on the visual?
 A - Distance to target, *Static* tiles *Static*, good luck
 
 A - Target is still moving!
+
+A - Target neutralized!

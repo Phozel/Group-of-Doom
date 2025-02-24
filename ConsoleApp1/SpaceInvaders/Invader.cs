@@ -10,6 +10,7 @@ namespace SpaceInvaders
         // https://github.com/sausheong/invaders
 
         private int spriteToUse;
+        private int rowtouse;
         private string[] sprites;
         private int xdir;
         private GameSpaceInvaders game;
@@ -29,6 +30,7 @@ namespace SpaceInvaders
             sprites[1] = "invader2.png";
 
             spriteToUse = 0;
+            rowtouse = 0;
 
             this.Transform.X = 200.0f;
             this.Transform.Y = 100.0f;
@@ -54,10 +56,15 @@ namespace SpaceInvaders
             
             if (spriteToUse >= 3)
             {
+                rowtouse++;
                 spriteToUse = 0;
             }
-
-            animation.changeSprite(0, spriteToUse);
+            if (rowtouse >= 3)
+            {
+                rowtouse = 0;
+            }
+            
+            animation.changeSprite(rowtouse, spriteToUse);
 
             /*
             this.Transform.SpritePath = Bootstrap.getAssetManager().getAssetPath(sprites[spriteToUse]);*/
