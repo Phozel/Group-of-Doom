@@ -3,13 +3,14 @@ using Shard.GameOfDoom;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using static Shard.GameOfDoom.World;
 
 namespace Shard
 {
     class GameGOD : Game, InputListener
     {
-        
 
+        World world;
 
         public override bool isRunning()
         {
@@ -18,7 +19,7 @@ namespace Shard
         }
         public override void update()
         {
-
+            world.update();
         }
 
         public void draw()
@@ -35,11 +36,8 @@ namespace Shard
         {
             Bootstrap.getInput().addListener(this);
 
-            WorldMap wm = new WorldMap(4, 0, (8, 6));
-            List<List<Room>> map = wm.getMap();
-            Room startRoom = wm.GetStartRoom();
-            // map[startRoom.getY()][startRoom.getX()].getRoomLayout();
-            startRoom.getRoomLayout();
+            world = new World();
+            
             Bootstrap.getSound().playMusic("examplemusic.wav", SDL.SDL_MIX_MAXVOLUME);
 
         }
