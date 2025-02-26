@@ -39,3 +39,4 @@ A - Target is still moving!
 A - Target neutralized!
 
 A - THE BABY
+R - The baby was the Dark Buffoon all along!
