@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -23,7 +24,7 @@ namespace Shard.GameOfDoom
 
         private SpriteSheetAnimation animation;
 
-        private bool _left, _right, _up, _down, _space;
+        private bool _left, _right, _up, _down, _space, _lShift;
         private string _direction;
 
         public CharacterGoD() {
@@ -56,6 +57,12 @@ namespace Shard.GameOfDoom
 
             addTag("Player");
         }
+
+        public void fireGun()
+        {
+
+        }
+
         public override void handleInput(InputEvent inp, string eventType)
         {
             if (Bootstrap.getRunningGame().isRunning() == false)

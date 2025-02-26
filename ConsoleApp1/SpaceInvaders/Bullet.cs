@@ -19,7 +19,6 @@ namespace SpaceInvaders
             this.Transform.Wid = 1;
             this.Transform.Ht = 20;
 
-
             setPhysicsEnabled();
 
             MyBody.addRectCollider();
