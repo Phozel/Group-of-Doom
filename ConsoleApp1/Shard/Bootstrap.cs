@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Numerics;
+using SDL2;
 
 namespace Shard
 {
@@ -30,6 +31,7 @@ namespace Shard
         private static AssetManagerBase asset;
         private static HudManager hudManager;
 
+        private static bool running = true;
         private static int targetFrameRate;
         private static int millisPerFrame;
         private static double deltaTime;
@@ -110,6 +112,11 @@ namespace Shard
         public static Game getRunningGame()
         {
             return runningGame;
+        }
+
+        public static void quitGame()
+        {
+            running = false;
         }
 
         public static void setup(string path)
@@ -276,7 +283,7 @@ namespace Shard
                 physDebug = true;
             }
 
-            while (true)
+            while (running)
             {
                 frames += 1;
 
@@ -358,9 +365,9 @@ namespace Shard
 
                 lastTick = timeInMillisecondsStart;
 
-            } 
+            }
 
-
+            SDL.SDL_Quit();
         }
     }
 }

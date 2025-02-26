@@ -32,14 +32,16 @@ namespace Shard.Shard.GoDsWork.HUD
         {
             Display display = Bootstrap.getDisplay();
 
-            int barWidth = 600;
-            int barHeight = 50;
+            int barWidth = 199;
+            int barHeight = 24;
+            int outlineWidth = 200;
+            int outlineHeight = 25;
             int x = (int)Position.X;
             int y = (int)Position.Y;
 
-            int filledWidth = (int)((_currentHealth / (float)_maxHealth) * barWidth);
+            int filledWidth = (int)((_currentHealth / (float)_maxHealth) * (barWidth));
             
-            display.drawRectangle(x, y, barWidth, barHeight, System.Drawing.Color.White);  // Outline
+            display.drawRectangle(x, y, outlineWidth, outlineHeight, System.Drawing.Color.White);  // Outline
             display.drawFilledRectangle(x, y, filledWidth, barHeight, System.Drawing.Color.Red);
             
             display.showText($"{_currentHealth}/{_maxHealth} HP", x + 5, y - 10, 12, 255, 255, 255, "Arial"); // White text
