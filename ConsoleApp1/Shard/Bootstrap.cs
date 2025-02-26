@@ -8,11 +8,12 @@
 *   @author Erik Tran Simonsson (see Changelog for 1.3.0)
 */
 
+using Shard.Shard.GoDsWork.HUD;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
-using SDL2;
+using System.Numerics;
 
 namespace Shard
 {
@@ -27,6 +28,7 @@ namespace Shard
         private static InputSystem input;
         private static PhysicsManager phys;
         private static AssetManagerBase asset;
+        private static HudManager hudManager;
 
         private static int targetFrameRate;
         private static int millisPerFrame;
@@ -37,7 +39,6 @@ namespace Shard
         private static long startTime;
         private static string baseDir;
         private static Dictionary<string,string> enVars;
-        private static bool running = true;
 
         public static bool checkEnvironmentalVariable (string id) {
             return enVars.ContainsKey (id);
@@ -109,11 +110,6 @@ namespace Shard
         public static Game getRunningGame()
         {
             return runningGame;
-        }
-
-        public static void quitGame()
-        {
-            running = false;
         }
 
         public static void setup(string path)
@@ -190,6 +186,12 @@ namespace Shard
             {
                 Environment.Exit(0);
             }
+
+            hudManager = new HudManager();
+
+            HealthBar healthBar = new HealthBar(100);
+            healthBar.Position = new Vector2(10, 10);
+            hudManager.AddElement(healthBar);
         }
 
         public static long getCurrentMillis()
@@ -274,7 +276,7 @@ namespace Shard
                 physDebug = true;
             }
 
-            while (running)
+            while (true)
             {
                 frames += 1;
 
@@ -320,6 +322,10 @@ namespace Shard
                     }
 
                 }
+                hudManager.Update((float)deltaTime);
+                hudManager.Draw();
+                
+
 
                 // Render the screen.
                 Bootstrap.getDisplay().display();
@@ -352,9 +358,8 @@ namespace Shard
 
                 lastTick = timeInMillisecondsStart;
 
-            }
+            } 
 
-            SDL.SDL_Quit();
 
         }
     }

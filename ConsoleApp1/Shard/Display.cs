@@ -28,6 +28,26 @@ namespace Shard
         {
         }
 
+        public virtual void drawRectangle(int x, int y, int width, int height, Color col)
+        {
+            drawLine(x, y, x + width, y, col);         // Top border
+            drawLine(x, y + height, x + width, y + height, col); // Bottom border
+            drawLine(x, y, x, y + height, col);        // Left border
+            drawLine(x + width, y, x + width, y + height, col); // Right border
+        }
+
+     
+
+        public virtual void drawFilledRectangle(int x, int y, int width, int height, Color col)
+        {
+            while (width > 0 && height > 0)
+                    {
+                        drawRectangle(x, y, width, height, col);
+                width -= 1;
+                height -= 1;
+                    }
+        }
+
         public virtual void drawCircle(int x, int y, int rad, Color col)
         {
             drawCircle(x, y, rad, col.R, col.G, col.B, col.A);

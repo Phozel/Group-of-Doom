@@ -35,7 +35,13 @@ namespace Shard.Shard.GoDsWork.HUD
             {
                 if (element.IsVisible)
                     element.Draw();
+                Console.WriteLine("HUD Draw Called");
             }
+
+            Display display = Bootstrap.getDisplay();
+
+            int x = 10, y = 10, width = 200, height = 10;
+            
         }
 
     }
