@@ -8,8 +8,8 @@ namespace Shard
 {
     class GameGOD : Game, InputListener
     {
-        
 
+        CharacterGoD player;
 
         public override bool isRunning()
         {
@@ -41,6 +41,7 @@ namespace Shard
             // map[startRoom.getY()][startRoom.getX()].getRoomLayout();
             startRoom.getRoomLayout();
             Bootstrap.getSound().playMusic("examplemusic.wav", SDL.SDL_MIX_MAXVOLUME);
+            player = new CharacterGoD();
 
         }
 
