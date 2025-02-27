@@ -27,17 +27,17 @@ namespace Shard.Shard.GoDsWork.ControllableGameObject
 
         public void onCollisionEnter(PhysicsBody x)
         {
-            throw new NotImplementedException();
+            
         }
 
         public void onCollisionExit(PhysicsBody x)
         {
-            throw new NotImplementedException();
+            
         }
 
         public void onCollisionStay(PhysicsBody x)
         {
-            throw new NotImplementedException();
+           
         }
 
         public abstract override void update();

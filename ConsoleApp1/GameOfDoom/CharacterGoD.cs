@@ -36,7 +36,7 @@ namespace Shard.GameOfDoom
             _name = "God";
             _maxHealth = 100;
             _health = 100;
-            _firePower = 10;
+            _firePower = 0;
             _armour = 0;
             _movementSpeed = 100;
             animation = new SpriteSheetAnimation(this, "Character.png", 64, 32, 1, 1);
@@ -60,7 +60,20 @@ namespace Shard.GameOfDoom
 
         public void fireGun()
         {
+            if (_firePower >= 10)
+            {
+                Rocket rocket = new Rocket();
+                rocket.setUpRocket(this.Transform.Centre.X, this.Transform.Centre.Y, _direction);
+                Bootstrap.getSound().playSound("fire.wav", 16);
 
+            }
+            else if (_firePower < 10)
+            {
+                Bullet bullet = new Bullet();
+                bullet.setUpBullet(this.Transform.Centre.X, this.Transform.Centre.Y, _direction);
+                Bootstrap.getSound().playSound("fire.wav", 16);
+
+            }
         }
 
         public override void handleInput(InputEvent inp, string eventType)
@@ -123,6 +136,24 @@ namespace Shard.GameOfDoom
 
             }
 
+            if (eventType == "KeyUp")
+            {
+                if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_SPACE)
+                {
+                    fireGun();
+                }
+                if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_LSHIFT)
+                {
+                    if (_firePower >= 10)
+                    { 
+                        _firePower = 0;
+                    }
+                    else
+                    {
+                        _firePower = 20;
+                    }
+                }
+            }
         }
 
         public override void update()

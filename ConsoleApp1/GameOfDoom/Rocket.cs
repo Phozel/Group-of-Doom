@@ -11,7 +11,9 @@ namespace Shard.GameOfDoom
 {
     internal class Rocket : GameObject, CollisionHandler
     {
-        private string dir;
+        private string direction;
+        int xDir = 0;
+        int yDir = 0;
 
         SpriteSheetAnimation animation;
 
@@ -19,7 +21,35 @@ namespace Shard.GameOfDoom
         { 
             this.Transform.X = x;
             this.Transform.Y = y;
-            this.dir = dir;
+            this.direction = dir;
+
+            
+
+            if (direction == "up")
+            {
+                xDir = 0;
+                yDir = -1;
+            }
+            if (direction == "down")
+            {
+                xDir = 0;
+                yDir = 1;
+            }
+            if (direction == "left")
+            {
+                xDir = -1;
+                yDir = 0;
+            }
+            if (direction == "right")
+            {
+                xDir = 1;
+                yDir = 0;
+            }
+
+            //setPhysicsEnabled();
+
+            //MyBody.addRectCollider();
+
             animation = new SpriteSheetAnimation(this, "PlayerRocket1.png", 32, 32, 1, 1);
             animation.changeSprite(0,0);
 
@@ -28,33 +58,16 @@ namespace Shard.GameOfDoom
         public override void initialize()
         {
             this.Transient = true;
+
         }
 
         public override void update()
         {
-            int xDir = 0;
-            int yDir = 0;
-
-            if (dir == "up") { 
-                xDir = 0;
-                yDir = -1;
-            }
-            if (dir == "down") {
-                xDir = 0;
-                yDir = 1;
-            }
-            if (dir == "left") {
-                xDir = -1;
-                yDir = 0;
-            }
-            if (dir == "right") {
-                xDir = 1;
-                yDir = 0;
-            }
             
-            this.Transform.translate(xDir * 400, yDir * 400 * Bootstrap.getDeltaTime());
+            
+            this.Transform.translate(xDir * 400 * Bootstrap.getDeltaTime(), yDir * 400 * Bootstrap.getDeltaTime());
 
-            animation.changeSprite(0, 0);
+            
             Bootstrap.getDisplay().addToDraw(this);
         }
 
