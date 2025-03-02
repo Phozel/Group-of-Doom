@@ -17,6 +17,7 @@ namespace Shard
         private Transform myRect;
         private float baseWid, baseHt;
         private float x, y, wid, ht;
+        private float offsetX = 0, offsetY = 0; //Ida - added offset parameters 
         private bool fromTrans;
 
 
@@ -31,9 +32,9 @@ namespace Shard
         }
 
         public ColliderRect(CollisionHandler gob, Transform t, float x, float y, float wid, float ht) : base(gob)
-        {
-            X = x;
-            Y = y;
+        {            
+            offsetX = x; // Ida - changed from X to offsetX
+            offsetY = y; // Ida - changed from Y to offsetY
             BaseWid = wid;
             BaseHt = ht;
             RotateAtOffset = true;
@@ -73,10 +74,8 @@ namespace Shard
             // Bit of trig here to calculate the new height and width
             nwid = (float)(Math.Abs(Wid * cos) + Math.Abs(Ht * sin));
             nht = (float)(Math.Abs(Wid * sin) + Math.Abs(Ht * cos));
-
-            X = (float)MyRect.X + (Wid / 2);
-            Y = (float)MyRect.Y + (Ht / 2);
-
+            X = (float)MyRect.X + (Wid / 2) + offsetX; // Ida - Added hitbox offset
+            Y = (float)MyRect.Y + (Ht / 2) + offsetY; // Ida - Added hitbox offset
             Wid = nwid;
             Ht = nht;
 

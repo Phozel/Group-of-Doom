@@ -22,6 +22,7 @@ namespace Shard.Shard.GoDsWork.TilesLibrary
         {
             positionX = x;
             positionY = y;
+            GameObjectManager.getInstance().removeGameObject(this);
 
 
             // Console.WriteLine("Constructor Node: Random Image Path becuase this is a GameObject");

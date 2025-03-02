@@ -10,7 +10,7 @@ using Shard.Shard.GoDsWork.TilesLibrary;
 
 namespace Shard.Shard.GoD_s_Work.Tiles_Libary
 {
-    public class Tile : Node
+    public class Tile : Node, CollisionHandler
     {
         internal static float width = 64;
         private string imagePath;
@@ -26,11 +26,28 @@ namespace Shard.Shard.GoD_s_Work.Tiles_Libary
             this.imagePath = imagePath;
             this.Transform.SpritePath = Bootstrap.getAssetManager().getAssetPath(imagePath);
         }
+        internal string getImagePath() {  return this.imagePath; }
         internal override bool isNodeEmpty() { return imagePath == null; }
         public override void initialize() { }
         public override void update() { Bootstrap.getDisplay().addToDraw(this); }
 
 
+
+
+        void CollisionHandler.onCollisionEnter(PhysicsBody x)
+        {
+      //      throw new NotImplementedException();
+        }
+
+        void CollisionHandler.onCollisionExit(PhysicsBody x)
+        {
+       //     throw new NotImplementedException();
+        }
+
+        void CollisionHandler.onCollisionStay(PhysicsBody x)
+        {
+     //       throw new NotImplementedException();
+        }
     }
 
 }
