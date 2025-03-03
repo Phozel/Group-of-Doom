@@ -22,7 +22,7 @@ namespace Shard
         public override void update()
         {
             world.update();
-            enemy.Update(deltaTime);
+            //enemy.Update(deltaTime);
         }
 
         public void draw()

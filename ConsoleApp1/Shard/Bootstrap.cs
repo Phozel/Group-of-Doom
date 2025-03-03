@@ -199,6 +199,10 @@ namespace Shard
             HealthBar healthBar = new HealthBar(100);
             healthBar.Position = new Vector2(10, 10);
             hudManager.AddElement(healthBar);
+
+            ScoreCount scoreCount = new ScoreCount();
+            scoreCount.Position = new Vector2(550, 20);
+            hudManager.AddElement(scoreCount);
         }
 
         public static long getCurrentMillis()
