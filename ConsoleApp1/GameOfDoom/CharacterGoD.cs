@@ -20,7 +20,6 @@ namespace Shard.GameOfDoom
         private float _armour { get; set; }
         //private List<Item> _inventory { get; set; }
         private float _movementSpeed { get; set; }
-        private string _imagePath { get; set; }
 
         private SpriteSheetAnimation animation;
 
@@ -39,11 +38,10 @@ namespace Shard.GameOfDoom
             _firePower = 0;
             _armour = 0;
             _movementSpeed = 100;
-            animation = new SpriteSheetAnimation(this, "Character.png", 64, 32, 1, 1);
+            animation = new SpriteSheetAnimation(this, "Character v2-Sheet.png", 64, 32, 1, 4);
             _direction = "left";
             //_inventory = new List<Item>();
 
-            _imagePath = "God.png";
             this.Transform.X = 500.0f;
             this.Transform.Y = 600.0f;
             animation.changeSprite(0, 0);
@@ -53,8 +51,7 @@ namespace Shard.GameOfDoom
 
             setPhysicsEnabled();
 
-            MyBody.addRectCollider();
-
+            MyBody.addRectCollider(16, 16, 128, 32);
             addTag("Player");
         }
 
@@ -165,25 +162,29 @@ namespace Shard.GameOfDoom
              */
             if (_left)
             {
+                animation.changeSprite(0, 0);
                 this.Transform.translate(-1 * amount, 0);
             }
 
             if (_right)
             {
+                animation.changeSprite(0, 1);
                 this.Transform.translate(1 * amount, 0);
             }
 
             if (_up)
             {
+                animation.changeSprite(0, 2);
                 this.Transform.translate(0, -1 * amount);
             }
 
             if (_down)
             {
+                animation.changeSprite(0, 3);
                 this.Transform.translate(0, 1 * amount);
             }
 
-            animation.changeSprite(0, 0);
+            
             Bootstrap.getDisplay().addToDraw(this);
         }
 
