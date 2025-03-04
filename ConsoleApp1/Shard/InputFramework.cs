@@ -109,6 +109,11 @@ namespace Shard
                     informListeners(ie, "KeyUp");
                 }
 
+                if (ev.type == SDL.SDL_EventType.SDL_QUIT)
+                {
+                    Bootstrap.quitGame();
+                }
+
                 tick -= timeInterval;
             }
 

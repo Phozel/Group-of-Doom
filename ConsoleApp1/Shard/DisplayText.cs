@@ -150,12 +150,13 @@ namespace Shard
 
             SDL.SDL_Init(SDL.SDL_INIT_EVERYTHING);
             SDL_ttf.TTF_Init();
+            SDL.SDL_WindowFlags windowFlags = (SDL.SDL_WindowFlags.SDL_WINDOW_RESIZABLE);
             _window = SDL.SDL_CreateWindow("Shard Game Engine",
                 SDL.SDL_WINDOWPOS_CENTERED,
                 SDL.SDL_WINDOWPOS_CENTERED,
                 getWidth(),
                 getHeight(),
-                0);
+                windowFlags);
 
 
             _rend = SDL.SDL_CreateRenderer(_window,
