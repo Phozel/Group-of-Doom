@@ -40,17 +40,47 @@ namespace Shard.Shard.GoD_s_Work.Tiles_Libary
 
         void CollisionHandler.onCollisionEnter(PhysicsBody x)
         {
-            if (this.checkTag(World.Tags.Destroyable.ToString())) //destroy "self" on collision with missile
+            if (this.checkTag(World.Tags.Destroyable.ToString())) //"destroy" self on collision with missile
             {
                 if (x.Parent.checkTag("Rocket")) 
                 {
+                    Console.WriteLine("here destroy");
                     this.MyBody.clearColliders();
-                    this.MyBody = null;
-                    this.clearTags();
+                  //  this.MyBody = null;
+                   // this.clearTags();
                     this.setImagePath(World.Room.images.GetValueOrDefault(ImagePosition.Ground));
                     this.addTag(Tags.Ground.ToString());
                 }
             }
+
+            if (this.checkTag(World.Tags.Door.ToString()) && x.Parent.checkTag("God")) 
+            {
+                double EnterDoor = Bootstrap.TimeElapsed;
+                if (EnterDoor - World.getInstance().whenLastEnterDoor > 0.5)
+                {
+                    Console.WriteLine("Here is door");
+                    World.getInstance().whenLastEnterDoor = EnterDoor;
+
+                    if (this.checkTag(GameGOD.Direction.Left.ToString()))
+                    {
+                       World.getInstance().switchRoom(GameGOD.Direction.Left); 
+                    }
+                    if (this.checkTag(GameGOD.Direction.Right.ToString()))
+                    {
+                        World.getInstance().switchRoom(GameGOD.Direction.Right);
+                    }
+                    if (this.checkTag(GameGOD.Direction.Up.ToString()))
+                    {
+                        World.getInstance().switchRoom(GameGOD.Direction.Up);
+                    }
+                    if (this.checkTag(GameGOD.Direction.Down.ToString()))
+                    {
+                        World.getInstance().switchRoom(GameGOD.Direction.Down);
+                    }
+                }
+            }
+
+
       //      throw new NotImplementedException();
         }
 
