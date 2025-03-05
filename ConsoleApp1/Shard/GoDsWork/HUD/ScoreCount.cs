@@ -17,7 +17,7 @@ namespace Shard.Shard.GoDsWork.HUD
             int x = (int)Position.X;
             int y = (int)Position.Y;
 
-            display.showText($"Score: {currentScore}", x + 5, y - 10, 12, 255, 255, 255, "Arial");
+            display.showText($"S c o r e: {currentScore}", x + 5, y - 10, 12, 255, 255, 255, "Arial");
 
             Console.WriteLine($"Drawing Score Counter at {Position}");
         }
