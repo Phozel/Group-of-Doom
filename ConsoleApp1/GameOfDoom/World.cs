@@ -237,7 +237,7 @@ namespace Shard.GameOfDoom
                 }
                 addGroundAndTag();
 
-
+                isGenerated = true;
             }
             private void MakeRoom()
             {

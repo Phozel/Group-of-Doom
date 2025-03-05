@@ -62,6 +62,7 @@ namespace Shard
             Bootstrap.getInput().addListener(this);
 
             world = World.getInstance();
+            world.addRefToGameGOD(this);
             
             Bootstrap.getSound().playMusic("examplemusic.wav", SDL.SDL_MIX_MAXVOLUME);
 
