@@ -19,6 +19,7 @@ namespace Shard.GameOfDoom
         SpriteSheetAnimation animation;
         private NPC npcBehavior;
         private GameObject player;
+        private string _direction;
         private float animationTimer;
         private const float ANIMATION_SPEED = 0.1f;
 
@@ -51,7 +52,7 @@ namespace Shard.GameOfDoom
             Vector2[] patrolPoints = { new Vector2(150, 100), new Vector2(250, 100) };
             npcBehavior = new NPC(startPos, patrolPoints, player);
 
-            addTag("Invader");
+            this.addTag("Enemy");
 
             MyBody.PassThrough = true;
 
@@ -94,17 +95,30 @@ namespace Shard.GameOfDoom
             this.Transform.Y = npcBehavior.Position.Y;
             Bootstrap.getDisplay().addToDraw(this);
         }
+        public void fire()
+        {
+            Bullet b = new Bullet();
+
+            b.setUpBullet(this.Transform.Centre.X, this.Transform.Centre.Y,_direction);
+           
+        }
         public void onCollisionEnter(PhysicsBody x)
         {
             if (x.Parent.checkTag("Player"))
             {
                 x.Parent.ToBeDestroyed = true;
             }
-
-            if (x.Parent.checkTag("BunkerBit"))
+            else if (x.Parent.checkTag("Bullet"))
             {
-                x.Parent.ToBeDestroyed = true;
+                this.ToBeDestroyed = true;
             }
+            
+            if (x.Parent.checkTag("Bullet"))
+            {
+                Console.WriteLine("Bullet hit the enemy!");
+                this.ToBeDestroyed = true;
+            }
+
         }
 
         public void onCollisionExit(PhysicsBody x)
