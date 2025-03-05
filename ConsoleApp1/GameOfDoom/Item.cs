@@ -32,7 +32,7 @@ namespace Shard.GameOfDoom
             this.Transform.SpritePath = Bootstrap.getAssetManager().getAssetPath(spriteName);
             
             addTag(itemTag);
-            MyBody.addRectCollider((int)Transform.X, (int)Transform.Y, sizex, sizey);
+            MyBody.addRectCollider(0, 0, sizex, sizey);
             MyBody.PassThrough = true;
 
         }
