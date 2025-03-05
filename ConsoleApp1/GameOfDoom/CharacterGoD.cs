@@ -24,6 +24,7 @@ namespace Shard.GameOfDoom
         private SpriteSheetAnimation animation;
 
         private bool _left, _right, _up, _down, _space, _lShift;
+
         private string _direction;
         private bool _isCollidingWithEnvironment = false;
 
@@ -164,6 +165,7 @@ namespace Shard.GameOfDoom
              */
             if (!_isCollidingWithEnvironment)
             {
+                
                 if (_left)
                 {
                     animation.changeSprite(0, 0);
@@ -197,17 +199,20 @@ namespace Shard.GameOfDoom
             if (x.Parent.checkTag("Wall"))
             {
                 _isCollidingWithEnvironment = true;
+                
             }
+
+            
         }
 
         public override void onCollisionExit(PhysicsBody x)
         {
-            
+            _isCollidingWithEnvironment = false;
         }
 
         public override void onCollisionStay(PhysicsBody x)
         {
-            
+           
         }
     }
 }
