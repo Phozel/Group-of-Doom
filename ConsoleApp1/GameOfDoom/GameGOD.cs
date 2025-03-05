@@ -1,4 +1,5 @@
-﻿using SDL2;
+﻿using ManicMiner;
+using SDL2;
 using Shard.GameOfDoom;
 using System;
 using System.Collections.Generic;
@@ -38,7 +39,9 @@ namespace Shard
             Bootstrap.getInput().addListener(this);
 
             world = new World();
-            
+
+            Key key = new Key(300, 200);
+
             Bootstrap.getSound().playMusic("examplemusic.wav", SDL.SDL_MIX_MAXVOLUME);
             (float, float) t = world.getAcceptibeSpawnPosition();
             player = new CharacterGoD(t.Item1, t.Item2);
