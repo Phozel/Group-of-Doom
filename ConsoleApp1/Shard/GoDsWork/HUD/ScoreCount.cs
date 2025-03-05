@@ -19,7 +19,7 @@ namespace Shard.Shard.GoDsWork.HUD
 
             display.showText($"S c o r e: {currentScore}", x + 5, y - 10, 12, 255, 255, 255, "Arial");
 
-            Console.WriteLine($"Drawing Score Counter at {Position}");
+            //Console.WriteLine($"Drawing Score Counter at {Position}");
         }
 
         public override void Update(float deltaTime)

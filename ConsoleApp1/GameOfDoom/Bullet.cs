@@ -77,6 +77,7 @@ namespace Shard.GameOfDoom
                 this.ToBeDestroyed = true;
             }
             
+            
         }
 
         public void onCollisionExit(PhysicsBody x)

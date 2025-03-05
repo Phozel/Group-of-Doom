@@ -47,7 +47,7 @@ namespace Shard.Shard.GoDsWork.HUD
             display.showText($"{_currentHealth}/{_maxHealth} HP", x + 5, y - 10, 12, 255, 255, 255, "Arial"); // White text
 
 
-            Console.WriteLine($"Drawing Health Bar at {Position} with {_currentHealth}/{_maxHealth} HP");
+            //Console.WriteLine($"Drawing Health Bar at {Position} with {_currentHealth}/{_maxHealth} HP");
         }
     }
 }

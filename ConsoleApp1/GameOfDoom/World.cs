@@ -5,27 +5,45 @@ using System.Text;
 using System.Threading.Tasks;
 using Shard.Shard.GoD_s_Work.Tiles_Libary;
 using Shard.Shard.GoDsWork.TilesLibrary;
+using static Shard.GameGOD;
 using static Shard.GameOfDoom.World;
 
 namespace Shard.GameOfDoom
 {
     internal class World
     {
-        //  private static Navigate instance;
-        //  public static Navigate Instance;
-        //singleton?
+        private static World me;
+        private GameGOD gameGod;
+        internal List<List<Room>> worldMap;
+        internal Room currentRoom;
+        public double whenLastEnterDoor = 0;
 
-        private List<List<Room>> worldMap;
-        private Room currentRoom;
+        public static World getInstance()
+        {
+            if (me == null)
+            {
+                me = new World();
+            }
 
-        internal World()
+            return me;
+        }
+
+        private World()
         {
             WorldMap wm = new WorldMap(3, 0, (5, 7));
-            this.worldMap = wm.getMap();
+            worldMap = wm.getMap();
             currentRoom = wm.GetStartRoom();
             currentRoom.getRoomLayout();
 
         }
+        internal void addRefToGameGOD(GameGOD gameGod) { this.gameGod = gameGod; }
+        internal void switchRoom(Direction leavingDirection) {
+            if (worldMap != null && currentRoom != null)
+            {
+                gameGod.switchRoom(leavingDirection);
+            }
+        }
+
 
         internal void update()
         {
@@ -60,8 +78,8 @@ namespace Shard.GameOfDoom
                     Console.Error.WriteLine("Custom Error in Map: LeastRooms is larger than mapSize area.");
                     return;
                 }
-                width = mapSize.Item1;
-                height = mapSize.Item2;
+                width = mapSize.Item2;
+                height = mapSize.Item1;
                 this.lengthToEnd = lengthToEnd;
                 this.leastRooms = LeastRooms;
                 worldMap = new List<List<Room>>();
@@ -123,31 +141,6 @@ namespace Shard.GameOfDoom
                 }
 
 
-            }
-
-            /*private Room connectRooms(List<Room> rooms, int i)
-            {
-                List<Room>.Enumerator r = rooms.GetEnumerator();
-                r.
-                for (int j = i+1; j < rooms.Count; j++)
-                {
-                    if (isNeighbour(rooms[i], rooms[j]))
-                    {
-                        List<Room> rest =;
-                        Room room = connectRooms(rooms, j);
-                        if (room != null)
-                            rooms[i].addDoors(room);
-                    }
-
-
-                }
-                return null;
-            }*/
-
-            private bool isNeighbour(Room room1, Room room2)
-            {
-                return room1.getX() + 1 == room2.getX() || room1.getX() - 1 == room2.getX() ||
-                    room1.getY() + 1 == room2.getY() || room1.getY() - 1 == room2.getY();
             }
 
 
@@ -213,8 +206,8 @@ namespace Shard.GameOfDoom
             {
                 if (this.getX() < room.getX()) { doorRight = true; room.doorLeft = true; } // this left from room
                 if (this.getX() > room.getX()) { doorLeft = true; room.doorRight = true; } // this right from room
-                if (this.getY() < room.getY()) { doorUp = true; room.doorDown = true; } // this down from room
-                if (this.getY() > room.getY()) { doorDown = true; room.doorUp = true; } // this up from room
+                if (this.getY() < room.getY()) { doorDown = true; room.doorUp = true; } // this down from room
+                if (this.getY() > room.getY()) { doorUp = true; room.doorDown = true; } // this up from room
 
             }
 
@@ -234,15 +227,12 @@ namespace Shard.GameOfDoom
                 List<Tile> growthNodes = Generation.chooseRandomNodes(wallNodes, rand.Next(roomWidth));
                 foreach (Tile tile in growthNodes) { tile.makeFinite(rand.Next(roomHeight/2)); }
                 List<Tile> allFreeWalls = Generation.growLightning(growthNodes, roomLayout);
-
-                
-
                 foreach (Tile tile in allFreeWalls) 
                 { 
                     tile.setImagePath(images.GetValueOrDefault(ImagePosition.FreeWall));
                     tile.setPhysicsEnabled();
                     tile.MyBody.Kinematic = true;
-                          tile.MyBody.addRectCollider(8, 8, 48, 48);
+                    tile.MyBody.addRectCollider(8, 8, 48, 48);
                     tile.addTag(Tags.Destroyable.ToString());
                 }
                 addGroundAndTag();
@@ -337,10 +327,10 @@ namespace Shard.GameOfDoom
                     current.MyBody.addRectCollider(32, 0, 32, 64); //right
 
                 }
-                if (doorUp) { addDoor(topWall, images.GetValueOrDefault(ImagePosition.DoorUp)); } //door up
-                if (doorDown) { addDoor(bottomWall, images.GetValueOrDefault(ImagePosition.DoorDown)); } //door down
-                if (doorLeft) { addDoor(leftWall, images.GetValueOrDefault(ImagePosition.DoorLeft)); } //door left
-                if (doorRight) { addDoor(rightWall, images.GetValueOrDefault(ImagePosition.DoorRight)); } //door right
+                if (doorUp) { addDoor(topWall, images.GetValueOrDefault(ImagePosition.DoorUp), GameGOD.Direction.Up); } //door up
+                if (doorDown) { addDoor(bottomWall, images.GetValueOrDefault(ImagePosition.DoorDown), GameGOD.Direction.Down); } //door down
+                if (doorLeft) { addDoor(leftWall, images.GetValueOrDefault(ImagePosition.DoorLeft), GameGOD.Direction.Left); } //door left
+                if (doorRight) { addDoor(rightWall, images.GetValueOrDefault(ImagePosition.DoorRight), GameGOD.Direction.Right); } //door right
 
                 borderNodes.AddRange(topWall);
                 borderNodes.AddRange(bottomWall);
@@ -349,10 +339,11 @@ namespace Shard.GameOfDoom
 
                 return borderNodes;
             }
-            private void addDoor(List<Tile> wall, string imagePath)
+            private void addDoor(List<Tile> wall, string imagePath, GameGOD.Direction dir)
             {
                 int index = rand.Next(wall.Count());
                 wall[index].setImagePath(imagePath);
+                wall[index].addTag(dir.ToString());
                 wall.RemoveAt(index);
             }
 
@@ -380,29 +371,7 @@ namespace Shard.GameOfDoom
                     }
                 }
             }
-            private void FixWallsNotMove()
-            {
-                foreach (List<Tile> row in roomLayout)
-                {
-                    foreach (Tile tile in row)
-                    {
-                        if (tile.MyBody != null)
-                        {
-                            tile.MyBody.Kinematic = true;
-                        }
-                    }
-                }
-                foreach (List<Tile> row in roomLayout)
-                {
-                    foreach (Tile tile in row)
-                    {
-                        if (tile.MyBody != null)
-                            {
-                                tile.MyBody.Kinematic = true;
-                            }
-                    }
-                }
-            }
+
             public override void update()
             {
                 foreach (List<Tile> row in roomLayout)

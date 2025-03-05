@@ -34,7 +34,7 @@ namespace Shard
                 return assets[asset];
             }
 
-            Debug.Log ("No entry for " + asset);
+            //Debug.Log ("No entry for " + asset);
 
             return null;
         }
