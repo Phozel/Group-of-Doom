@@ -39,8 +39,7 @@ namespace Shard.GameOfDoom
             animation.changeSprite(0, 0);
 
 
-            this.Transform.X = 200.0f;
-            this.Transform.Y = 100.0f;
+           
             
 
 
@@ -48,13 +47,22 @@ namespace Shard.GameOfDoom
             MyBody.addRectCollider();
 
             rand = new Random();
-            Vector2 startPos = new Vector2(this.Transform.X, this.Transform.Y);
+            float randomX = rand.Next(100, 700);
+            float randomY = rand.Next(100, 500);
+
+            this.Transform.X = randomX;
+            this.Transform.Y = 100.0f;
+
+            Vector2 startPos = new Vector2(this.Transform.X,this.Transform.Y);
             Vector2[] patrolPoints = { new Vector2(150, 100), new Vector2(250, 100) };
             npcBehavior = new NPC(startPos, patrolPoints, player);
 
             this.addTag("Enemy");
 
             MyBody.PassThrough = true;
+            Console.WriteLine($"Enemy tags: {this.getTags()}");
+
+
 
         }
         public void changeSprite()
@@ -102,13 +110,15 @@ namespace Shard.GameOfDoom
             {
                 x.Parent.ToBeDestroyed = true;
             }
-            else if (x.Parent.checkTag("Bullet"))
+            else if (x.Parent.checkTag("Bullet") || (x.Parent.checkTag("Rocket")))
             {
+                Console.WriteLine("Enemy hit!");
                 this.ToBeDestroyed = true;
-                
+
             }
             
-           
+            
+
 
         }
 
