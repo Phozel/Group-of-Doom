@@ -380,7 +380,7 @@ namespace Shard.GameOfDoom
                 FreeWall, Ground, DoorUp, DoorRight, DoorDown, DoorLeft,
             }
 
-            private static Dictionary<ImagePosition, string> images = new Dictionary<ImagePosition, string>()
+            internal static Dictionary<ImagePosition, string> images = new Dictionary<ImagePosition, string>()
         { 
             //corners
             { ImagePosition.TopRightCorner, "TopRightWall.png" },
