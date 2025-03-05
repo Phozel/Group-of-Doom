@@ -221,6 +221,21 @@ namespace Shard.GameOfDoom
                 }
                 //generateRoom();
                 addGroundAndTag();
+
+
+                foreach (List<Tile> row in roomLayout)
+                {
+                    foreach (Tile tile in row)
+                    {
+                        if(tile.MyBody != null)
+                        {
+                            tile.MyBody.Kinematic=true;
+                            tile.MyBody.Mass = 10;
+                        }
+                    }
+                }
+
+
             }
             private void MakeRoom()
             {
