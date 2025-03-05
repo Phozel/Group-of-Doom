@@ -88,20 +88,14 @@ namespace Shard.GameOfDoom
                 changeSprite();
                 animationTimer = 0f;
             }
-            Console.WriteLine($"spriteToUse: {spriteToUse}, animationTimer: {animationTimer}");
+           // Console.WriteLine($"spriteToUse: {spriteToUse}, animationTimer: {animationTimer}");
 
             // Apply NPC movement to enemy position
             this.Transform.X = npcBehavior.Position.X;
             this.Transform.Y = npcBehavior.Position.Y;
             Bootstrap.getDisplay().addToDraw(this);
         }
-        public void fire()
-        {
-            Bullet b = new Bullet();
-
-            b.setUpBullet(this.Transform.Centre.X, this.Transform.Centre.Y,_direction);
-           
-        }
+     
         public void onCollisionEnter(PhysicsBody x)
         {
             if (x.Parent.checkTag("Player"))
@@ -111,13 +105,10 @@ namespace Shard.GameOfDoom
             else if (x.Parent.checkTag("Bullet"))
             {
                 this.ToBeDestroyed = true;
+                
             }
             
-            if (x.Parent.checkTag("Bullet"))
-            {
-                Console.WriteLine("Bullet hit the enemy!");
-                this.ToBeDestroyed = true;
-            }
+           
 
         }
 
