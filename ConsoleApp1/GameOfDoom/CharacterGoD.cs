@@ -26,6 +26,7 @@ namespace Shard.GameOfDoom
 
         private bool _left, _right, _up, _down, _space, _lShift;
 
+        private float _posX, _posY;
         private string _direction;
         private bool _isCollidingWithEnvironment = false;
 
@@ -233,5 +234,14 @@ namespace Shard.GameOfDoom
                 this.Transform.translate(dX, dY);
             }
         }
+
+        public void changePos(float nx, float ny)
+        {
+            this._posX = nx;
+            this._posY = ny;
+            this.Transform.X = this._posX;
+            this.Transform.Y = this._posY;
+        }
+
     }
 }
