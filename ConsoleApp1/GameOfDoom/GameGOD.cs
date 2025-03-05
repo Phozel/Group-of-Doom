@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 using ManicMiner;
+=======
+﻿using ManicMiner;
+>>>>>>> 700737f (Item and Key)
 using SDL2;
 using Shard.GameOfDoom;
 using Shard.Shard.GoD_s_Work.Tiles_Libary;
@@ -62,8 +66,15 @@ namespace Shard
         {
             Bootstrap.getInput().addListener(this);
 
+<<<<<<< HEAD
             world = World.getInstance();
             
+=======
+            world = new World();
+
+            Key key = new Key(300, 200);
+
+>>>>>>> 700737f (Item and Key)
             Bootstrap.getSound().playMusic("examplemusic.wav", SDL.SDL_MIX_MAXVOLUME);
 
             
