@@ -47,6 +47,7 @@ namespace Shard
 
             if (isRunning() == false)
             {
+                Bootstrap.getDisplay().clearDisplay();
                 rand = new Random();
                 Color col = Color.FromArgb(rand.Next(0, 256), rand.Next(0, 256), rand.Next(0, 256));
                 Bootstrap.getDisplay().showText("GAME OVER!", 300, 300, 128, col, null);
@@ -77,6 +78,7 @@ namespace Shard
             Bootstrap.getInput().addListener(this);
 
             world = World.getInstance();
+            world.addRefToGameGOD(this);
             
             Bootstrap.getSound().playMusic("examplemusic.wav", SDL.SDL_MIX_MAXVOLUME);
 
