@@ -119,7 +119,7 @@ namespace Shard.GameOfDoom
                 foreach (Room room in allRooms)
                 {
                     adjecentNodes = Generation.adjecentFullNodes(room, worldMap); //find adjesent rooms
-                    foreach (Room aj in adjecentNodes) { room.addDoors(aj); Console.WriteLine("here"); } //add doors for found
+                    foreach (Room aj in adjecentNodes) { room.addDoors(aj);  } //add doors for found
                 }
 
 
