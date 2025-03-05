@@ -231,8 +231,8 @@ namespace Shard.GameOfDoom
             {
                 MakeRoom();
                 List<Tile> wallNodes = buildOuterWallsAndDoors();
-                List<Tile> growthNodes = Generation.chooseRandomNodes(wallNodes, rand.Next(roomWidth / 2));
-                foreach (Tile tile in growthNodes) { tile.makeFinite(rand.Next(roomHeight / 2)); }
+                List<Tile> growthNodes = Generation.chooseRandomNodes(wallNodes, rand.Next(roomWidth));
+                foreach (Tile tile in growthNodes) { tile.makeFinite(rand.Next(roomHeight/2)); }
                 List<Tile> allFreeWalls = Generation.growLightning(growthNodes, roomLayout);
                 foreach (Tile tile in allFreeWalls) 
                 { 
