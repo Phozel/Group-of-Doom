@@ -27,8 +27,9 @@ namespace Shard.GameOfDoom
         private string _direction;
         private bool _isCollidingWithEnvironment = false;
 
-        public CharacterGoD() {
-            
+        public CharacterGoD(float fXstart, float fYstart) {
+            this.Transform.X = fXstart;
+            this.Transform.Y = fYstart;
         }
 
         public override void initialize()
@@ -44,8 +45,7 @@ namespace Shard.GameOfDoom
             //_inventory = new List<Item>();
             
             this.addTag("God");
-            this.Transform.X = 500.0f;
-            this.Transform.Y = 600.0f;
+            
             animation.changeSprite(0, 0);
 
 
