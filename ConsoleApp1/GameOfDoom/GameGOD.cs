@@ -74,8 +74,8 @@ namespace Shard
 
             Key key = new Key(300, 200);
             //Weapon gun = new Weapon(64, 128);
-            //Armor armor = new Armor(64, 192);
-            //HealthPack helth = new HealthPack(64, 256);
+            Armor armor = new Armor(64, 192);
+            HealthPack helth = new HealthPack(64, 256);
 
 >>>>>>> 700737f (Item and Key)
             Bootstrap.getSound().playMusic("examplemusic.wav", SDL.SDL_MIX_MAXVOLUME);
