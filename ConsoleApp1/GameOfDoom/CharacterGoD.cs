@@ -20,6 +20,7 @@ namespace Shard.GameOfDoom
         private float _armour { get; set; }
         //private List<Item> _inventory { get; set; }
         private float _movementSpeed { get; set; }
+        private double _fireTime = 1;
 
         private SpriteSheetAnimation animation;
 
@@ -60,6 +61,8 @@ namespace Shard.GameOfDoom
 
         public void fireGun()
         {
+            
+
             if (_firePower >= 10)
             {
                 Rocket rocket = new Rocket();
@@ -140,7 +143,15 @@ namespace Shard.GameOfDoom
             {
                 if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_SPACE)
                 {
-                    fireGun();
+                    Console.WriteLine(Bootstrap.TimeElapsed);
+                    if (Bootstrap.TimeElapsed - _fireTime >= 0.2) 
+                    {
+                        Console.WriteLine("Pew!");
+                        _fireTime = Bootstrap.TimeElapsed;
+                        fireGun(); 
+                    }
+                    
+                    
                 }
                 if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_LSHIFT)
                 {
