@@ -32,7 +32,7 @@ namespace Shard.Shard.GoDsWork.NPCAI
 
         public void Update(float deltaTime)
         {
-            float distanceToPlayer = Position.Distance(new Vector2(player.Transform.X, player.Transform.Y));
+            float distanceToPlayer = Position.Distance(new Vector2(player.Transform.Centre.X, player.Transform.Centre.Y));
 
             if (distanceToPlayer < detectionRange)
             {

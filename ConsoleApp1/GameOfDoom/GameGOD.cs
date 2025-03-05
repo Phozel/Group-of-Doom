@@ -63,11 +63,11 @@ namespace Shard
             
             Bootstrap.getSound().playMusic("examplemusic.wav", SDL.SDL_MIX_MAXVOLUME);
 
-            enemy = new Enemy();
+            
 
             (float, float) t = world.getAcceptibeSpawnPosition();
             player = new CharacterGoD(t.Item1, t.Item2);
-
+            enemy = new Enemy();
 
         }
 
