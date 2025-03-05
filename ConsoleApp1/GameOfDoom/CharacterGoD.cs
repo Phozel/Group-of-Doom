@@ -50,7 +50,7 @@ namespace Shard.GameOfDoom
             
             animation.changeSprite(0, 0);
 
-
+            
             Bootstrap.getInput().addListener(this);
 
             setPhysicsEnabled();
@@ -223,13 +223,16 @@ namespace Shard.GameOfDoom
 
         public override void onCollisionStay(PhysicsBody x)
         {
-            float cX = x.Parent.Transform.Centre.X;
-            float cY = x.Parent.Transform.Centre.Y;
+            if (x.Parent.checkTag("Wall"))
+            {
+                float cX = x.Parent.Transform.Centre.X;
+                float cY = x.Parent.Transform.Centre.Y;
 
-            float dX = this.Transform.Centre.X - cX;
-            float dY = this.Transform.Centre.Y - cY;
+                float dX = this.Transform.Centre.X - cX;
+                float dY = this.Transform.Centre.Y - cY;
 
-            this.Transform.translate(dX, dY);
+                this.Transform.translate(dX, dY);
+            }
         }
     }
 }

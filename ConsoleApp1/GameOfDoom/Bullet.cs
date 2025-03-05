@@ -46,9 +46,9 @@ namespace Shard.GameOfDoom
 
             setPhysicsEnabled();
 
-            MyBody.PassThrough = true;
+            
             MyBody.addRectCollider(8, 8, 16, 16); //
-
+            MyBody.PassThrough = true;
             animation = new SpriteSheetAnimation(this, "PlayerBullet1.png", 32, 32, 1, 1);
             animation.changeSprite(0, 0);
 
