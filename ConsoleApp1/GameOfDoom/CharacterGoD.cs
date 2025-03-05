@@ -223,7 +223,13 @@ namespace Shard.GameOfDoom
 
         public override void onCollisionStay(PhysicsBody x)
         {
-           
+            float cX = x.Parent.Transform.Centre.X;
+            float cY = x.Parent.Transform.Centre.Y;
+
+            float dX = this.Transform.Centre.X - cX;
+            float dY = this.Transform.Centre.Y - cY;
+
+            this.Transform.translate(dX, dY);
         }
     }
 }
