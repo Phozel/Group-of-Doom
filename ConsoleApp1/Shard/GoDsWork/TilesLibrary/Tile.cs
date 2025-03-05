@@ -42,8 +42,9 @@ namespace Shard.Shard.GoD_s_Work.Tiles_Libary
         {
             if (this.checkTag(World.Tags.Destroyable.ToString())) //destroy "self" on collision with missile
             {
-                if (x.Parent.checkTag("Missile")) 
+                if (x.Parent.checkTag("Rocket")) 
                 {
+                    this.MyBody.getColliders().Clear();
                     this.MyBody = null;
                     this.clearTags();
                     this.setImagePath(World.Room.images.GetValueOrDefault(ImagePosition.Ground));
