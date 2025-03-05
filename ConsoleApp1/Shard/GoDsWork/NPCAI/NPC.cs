@@ -13,8 +13,8 @@ namespace Shard.Shard.GoDsWork.NPCAI
         private Vector2[] waypoints;
         private int currentWaypointIndex = 0;
         private float moveSpeed = 2.0f;
-        private float chaseSpeed = 4.0f;
-        private float detectionRange = 5.0f;
+        private float chaseSpeed = 10.0f;
+        private float detectionRange = 200.0f;
         private GameObject player;
         private State currentState = State.Patrolling;
 
