@@ -62,14 +62,14 @@ namespace Shard.GameOfDoom
             if (_firePower >= 10)
             {
                 Rocket rocket = new Rocket();
-                rocket.setUpRocket(this.Transform.Centre.X, this.Transform.Centre.Y, _direction);
+                rocket.setUpRocket(this.Transform.Centre.X-16, this.Transform.Centre.Y-16, _direction);
                 Bootstrap.getSound().playSound("fire.wav", 16);
 
             }
             else if (_firePower < 10)
             {
                 Bullet bullet = new Bullet();
-                bullet.setUpBullet(this.Transform.Centre.X, this.Transform.Centre.Y, _direction);
+                bullet.setUpBullet(this.Transform.Centre.X -16, this.Transform.Centre.Y-16, _direction);
                 Bootstrap.getSound().playSound("fire.wav", 16);
 
             }
@@ -202,10 +202,7 @@ namespace Shard.GameOfDoom
 
         public override void onCollisionExit(PhysicsBody x)
         {
-            if (x.Parent.checkTag("Wall"))
-            {
-                _isCollidingWithEnvironment = false;
-            }
+            
         }
 
         public override void onCollisionStay(PhysicsBody x)

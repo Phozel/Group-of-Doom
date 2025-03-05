@@ -38,7 +38,7 @@ namespace Shard.GameOfDoom
             Random rand = new Random();
             int index = rand.Next(groundTiles.Count());
             Tile startTile = groundTiles[index];
-            return (startTile.Transform.X+32, startTile.Transform.Y+32);
+            return (startTile.Transform.X, startTile.Transform.Y);
         }
 
 

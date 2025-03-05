@@ -47,7 +47,7 @@ namespace Shard.GameOfDoom
             setPhysicsEnabled();
 
             MyBody.PassThrough = true;
-            MyBody.addRectCollider(0,0,16,16);
+            MyBody.addRectCollider(8, 8, 16, 16); //
 
             animation = new SpriteSheetAnimation(this, "PlayerBullet1.png", 32, 32, 1, 1);
             animation.changeSprite(0, 0);
@@ -72,6 +72,10 @@ namespace Shard.GameOfDoom
 
         public void onCollisionEnter(PhysicsBody x)
         {
+            if (!x.Parent.checkTag("God"))
+            {
+                this.ToBeDestroyed = true;
+            }
             
         }
 
