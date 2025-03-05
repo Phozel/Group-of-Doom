@@ -57,6 +57,8 @@ namespace Shard.GameOfDoom
         public override void initialize()
         {
             this.Transient = true;
+            this.addTag("Bullet");
+            Console.WriteLine($"Bullet tags: {this.getTags()}");
 
         }
 
@@ -77,7 +79,8 @@ namespace Shard.GameOfDoom
                 this.ToBeDestroyed = true;
             }
             
-            
+           
+
         }
 
         public void onCollisionExit(PhysicsBody x)
