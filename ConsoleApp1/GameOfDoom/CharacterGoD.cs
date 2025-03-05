@@ -42,6 +42,7 @@ namespace Shard.GameOfDoom
             _direction = "left";
             //_inventory = new List<Item>();
 
+            this.addTag("God");
             this.Transform.X = 500.0f;
             this.Transform.Y = 600.0f;
             animation.changeSprite(0, 0);
