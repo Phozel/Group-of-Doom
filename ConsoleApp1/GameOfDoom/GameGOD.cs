@@ -40,7 +40,7 @@ namespace Shard
             world = new World();
             
             Bootstrap.getSound().playMusic("examplemusic.wav", SDL.SDL_MIX_MAXVOLUME);
-            player = new CharacterGoD();
+            player = new CharacterGoD(100f, 100f);
 
         }
 

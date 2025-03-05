@@ -20,7 +20,7 @@ namespace Shard.GameOfDoom
             this.Transform.X = x;
             this.Transform.Y = y;
             this.direction = dir;
-
+            this.addTag("bullet");
 
 
             if (direction == "up")
@@ -44,9 +44,10 @@ namespace Shard.GameOfDoom
                 yDir = 0;
             }
 
-            //setPhysicsEnabled();
+            setPhysicsEnabled();
 
-            //MyBody.addRectCollider();
+            MyBody.PassThrough = true;
+            MyBody.addRectCollider(0,0,16,16);
 
             animation = new SpriteSheetAnimation(this, "PlayerBullet1.png", 32, 32, 1, 1);
             animation.changeSprite(0, 0);
@@ -71,7 +72,7 @@ namespace Shard.GameOfDoom
 
         public void onCollisionEnter(PhysicsBody x)
         {
-
+            
         }
 
         public void onCollisionExit(PhysicsBody x)

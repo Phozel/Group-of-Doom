@@ -25,17 +25,17 @@ namespace Shard.Shard.GoDsWork.ControllableGameObject
 
         public abstract void handleInput(InputEvent inp, string eventType);
 
-        public void onCollisionEnter(PhysicsBody x)
+        public virtual void onCollisionEnter(PhysicsBody x)
         {
             
         }
 
-        public void onCollisionExit(PhysicsBody x)
+        public virtual void onCollisionExit(PhysicsBody x)
         {
             
         }
 
-        public void onCollisionStay(PhysicsBody x)
+        public virtual void onCollisionStay(PhysicsBody x)
         {
            
         }
