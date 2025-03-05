@@ -218,23 +218,12 @@ namespace Shard.GameOfDoom
                     tile.setImagePath(images.GetValueOrDefault(ImagePosition.FreeWall));
                     tile.setPhysicsEnabled();
                     tile.MyBody.addRectCollider(8, 8, 48, 48);
+                    tile.addTag(Tags.Destroyable.ToString());
                 }
                 //generateRoom();
                 addGroundAndTag();
 
-
-                foreach (List<Tile> row in roomLayout)
-                {
-                    foreach (Tile tile in row)
-                    {
-                        if(tile.MyBody != null)
-                        {
-                            tile.MyBody.Kinematic=true;
-                            tile.MyBody.Mass = 10;
-                        }
-                    }
-                }
-
+                FixWallsNotMove();
 
             }
             private void MakeRoom()
@@ -360,6 +349,20 @@ namespace Shard.GameOfDoom
                     }
                 }
             }
+            private void FixWallsNotMove()
+            {
+                foreach (List<Tile> row in roomLayout)
+                {
+                    foreach (Tile tile in row)
+                    {
+                        if (tile.MyBody != null)
+                        {
+                            tile.MyBody.Kinematic = true;
+                            tile.MyBody.Mass = 10;
+                        }
+                    }
+                }
+            }
             public override void update()
             {
                 foreach (List<Tile> row in roomLayout)
@@ -399,7 +402,7 @@ namespace Shard.GameOfDoom
             {ImagePosition.Ground, "Ground.png" },
         };
         }
-        internal enum Tags { Wall, Ground, Door }
+        internal enum Tags { Wall, Ground, Door, Destroyable }
 
     }
 }
