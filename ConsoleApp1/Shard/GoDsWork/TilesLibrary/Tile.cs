@@ -6,7 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
+using Shard.GameOfDoom;
 using Shard.Shard.GoDsWork.TilesLibrary;
+using static Shard.GameOfDoom.World.Room;
+using static Shard.GameOfDoom.World;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Shard.Shard.GoD_s_Work.Tiles_Libary
 {
@@ -36,6 +40,17 @@ namespace Shard.Shard.GoD_s_Work.Tiles_Libary
 
         void CollisionHandler.onCollisionEnter(PhysicsBody x)
         {
+            if (this.checkTag(World.Tags.Destroyable.ToString())) //destroy "self" on collision with missile
+            {
+                if (x.Parent.checkTag("Rocket")) 
+                {
+                    this.MyBody.clearColliders();
+                    this.MyBody = null;
+                    this.clearTags();
+                    this.setImagePath(World.Room.images.GetValueOrDefault(ImagePosition.Ground));
+                    this.addTag(Tags.Ground.ToString());
+                }
+            }
       //      throw new NotImplementedException();
         }
 

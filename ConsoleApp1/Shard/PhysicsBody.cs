@@ -369,6 +369,10 @@ namespace Shard
         {
             myColliders.Add(col);
         }
+        public void clearColliders()
+        {
+            myColliders.Clear();
+        }
 
         public List<Collider> getColliders()
         {

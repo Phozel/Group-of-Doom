@@ -23,35 +23,40 @@ namespace Shard.GameOfDoom
             this.Transform.Y = y;
             this.direction = dir;
 
+            animation = new SpriteSheetAnimation(this, "PlayerRocket-sheet.png", 32, 32, 1, 4);
             
 
             if (direction == "up")
             {
                 xDir = 0;
                 yDir = -1;
+                animation.changeSprite(0, 2);
             }
             if (direction == "down")
             {
                 xDir = 0;
                 yDir = 1;
+                animation.changeSprite(0, 3);
             }
             if (direction == "left")
             {
                 xDir = -1;
                 yDir = 0;
+                animation.changeSprite(0, 0);
             }
             if (direction == "right")
             {
                 xDir = 1;
                 yDir = 0;
+                animation.changeSprite(0, 1);
             }
 
-            //setPhysicsEnabled();
+            setPhysicsEnabled();
+            this.addTag("Rocket");
+            MyBody.addRectCollider(8, 8, 64, 16);
+            MyBody.PassThrough = true;
 
-            //MyBody.addRectCollider();
-
-            animation = new SpriteSheetAnimation(this, "PlayerRocket1.png", 32, 32, 1, 1);
-            animation.changeSprite(0,0);
+            
 
         }
 
@@ -73,6 +78,11 @@ namespace Shard.GameOfDoom
 
         public void onCollisionEnter(PhysicsBody x)
         {
+            if (!x.Parent.checkTag("God"))
+            {
+                this.ToBeDestroyed = true;
+            }
+
             
         }
 

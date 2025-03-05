@@ -42,6 +42,10 @@ namespace Shard
         {
             return tags.Contains(tag);
         }
+        public void clearTags()
+        {
+            tags.Clear();
+        }
 
         public String getTags()
         {

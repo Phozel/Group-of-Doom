@@ -20,10 +20,12 @@ namespace Shard.GameOfDoom
         private float _armour { get; set; }
         //private List<Item> _inventory { get; set; }
         private float _movementSpeed { get; set; }
+        private double _fireTime = 1;
 
         private SpriteSheetAnimation animation;
 
         private bool _left, _right, _up, _down, _space, _lShift;
+
         private string _direction;
         private bool _isCollidingWithEnvironment = false;
 
@@ -59,17 +61,19 @@ namespace Shard.GameOfDoom
 
         public void fireGun()
         {
+            
+
             if (_firePower >= 10)
             {
                 Rocket rocket = new Rocket();
-                rocket.setUpRocket(this.Transform.Centre.X, this.Transform.Centre.Y, _direction);
+                rocket.setUpRocket(this.Transform.Centre.X-16, this.Transform.Centre.Y-16, _direction);
                 Bootstrap.getSound().playSound("fire.wav", 16);
 
             }
             else if (_firePower < 10)
             {
                 Bullet bullet = new Bullet();
-                bullet.setUpBullet(this.Transform.Centre.X, this.Transform.Centre.Y, _direction);
+                bullet.setUpBullet(this.Transform.Centre.X -16, this.Transform.Centre.Y-16, _direction);
                 Bootstrap.getSound().playSound("fire.wav", 16);
 
             }
@@ -139,7 +143,15 @@ namespace Shard.GameOfDoom
             {
                 if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_SPACE)
                 {
-                    fireGun();
+                    Console.WriteLine(Bootstrap.TimeElapsed);
+                    if (Bootstrap.TimeElapsed - _fireTime >= 0.2) 
+                    {
+                        Console.WriteLine("Pew!");
+                        _fireTime = Bootstrap.TimeElapsed;
+                        fireGun(); 
+                    }
+                    
+                    
                 }
                 if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_LSHIFT)
                 {
@@ -164,6 +176,7 @@ namespace Shard.GameOfDoom
              */
             if (!_isCollidingWithEnvironment)
             {
+                
                 if (_left)
                 {
                     animation.changeSprite(0, 0);
@@ -197,20 +210,26 @@ namespace Shard.GameOfDoom
             if (x.Parent.checkTag("Wall"))
             {
                 _isCollidingWithEnvironment = true;
+                
             }
+
+            
         }
 
         public override void onCollisionExit(PhysicsBody x)
         {
-            if (x.Parent.checkTag("Wall"))
-            {
-                _isCollidingWithEnvironment = false;
-            }
+            _isCollidingWithEnvironment = false;
         }
 
         public override void onCollisionStay(PhysicsBody x)
         {
-            
+            float cX = x.Parent.Transform.Centre.X;
+            float cY = x.Parent.Transform.Centre.Y;
+
+            float dX = this.Transform.Centre.X - cX;
+            float dY = this.Transform.Centre.Y - cY;
+
+            this.Transform.translate(dX, dY);
         }
     }
 }
