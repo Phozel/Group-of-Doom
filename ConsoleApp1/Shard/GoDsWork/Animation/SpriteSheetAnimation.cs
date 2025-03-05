@@ -37,6 +37,14 @@ namespace Shard.Shard.GoDsWork.Animation
          */
         public void changeSprite(int row, int col)
         {
+            if (col >= this._columns)
+            {
+                col = (int)this._columns-1;
+            }
+            if (row >= this._rows)
+            {
+                row = (int)this._rows - 1;
+            }
             // Calculates sprite position in sheet
             SpritePosX = col * _spriteWidth;
             SpritePosY = row * _spriteHeight;
@@ -46,6 +54,7 @@ namespace Shard.Shard.GoDsWork.Animation
             _gameObject.Transform.Scaley = _spriteHeightPercentage;
 
             // Picks out correct sprite based on position
+            
             _gameObject.Transform.StartX = SpritePosX;
             _gameObject.Transform.StartY = SpritePosY;
             
