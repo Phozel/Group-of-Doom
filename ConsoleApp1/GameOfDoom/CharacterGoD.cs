@@ -1,7 +1,6 @@
 ﻿using SDL2;
 using Shard.Shard.GoDsWork.Animation;
 using Shard.Shard.GoDsWork.ControllableGameObject;
-using Shard.Shard.GoDsWork.HUD;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -24,19 +23,13 @@ namespace Shard.GameOfDoom
 
         private SpriteSheetAnimation animation;
 
-        private AmmoCount ammoCounter;
-
         private bool _left, _right, _up, _down, _space, _lShift;
         private string _direction;
+        private bool _isCollidingWithEnvironment = false;
 
-        public CharacterGoD()
-        {
-            
-        }
-
-        public void SetAmmoCounter(AmmoCount ammoCounter)
-        {
-            this.ammoCounter = ammoCounter;
+        public CharacterGoD(float fXstart, float fYstart) {
+            this.Transform.X = fXstart;
+            this.Transform.Y = fYstart;
         }
 
         public override void initialize()
@@ -50,16 +43,16 @@ namespace Shard.GameOfDoom
             animation = new SpriteSheetAnimation(this, "Character v2-Sheet.png", 64, 32, 1, 4);
             _direction = "left";
             //_inventory = new List<Item>();
-
-            this.Transform.X = 500.0f;
-            this.Transform.Y = 600.0f;
+            
+            this.addTag("God");
+            
             animation.changeSprite(0, 0);
 
 
             Bootstrap.getInput().addListener(this);
 
             setPhysicsEnabled();
-
+            
             MyBody.addRectCollider(16, 16, 128, 32);
             addTag("Player");
         }
@@ -71,7 +64,6 @@ namespace Shard.GameOfDoom
                 Rocket rocket = new Rocket();
                 rocket.setUpRocket(this.Transform.Centre.X, this.Transform.Centre.Y, _direction);
                 Bootstrap.getSound().playSound("fire.wav", 16);
-                ammoCounter.currentAmmo--;
 
             }
             else if (_firePower < 10)
@@ -79,7 +71,7 @@ namespace Shard.GameOfDoom
                 Bullet bullet = new Bullet();
                 bullet.setUpBullet(this.Transform.Centre.X, this.Transform.Centre.Y, _direction);
                 Bootstrap.getSound().playSound("fire.wav", 16);
-                ammoCounter.currentAmmo--;
+
             }
         }
 
@@ -170,48 +162,55 @@ namespace Shard.GameOfDoom
             /*
              * Input handling
              */
-            if (_left)
+            if (!_isCollidingWithEnvironment)
             {
-                animation.changeSprite(0, 0);
-                this.Transform.translate(-1 * amount, 0);
-            }
+                if (_left)
+                {
+                    animation.changeSprite(0, 0);
+                    this.Transform.translate(-1 * amount, 0);
+                }
 
-            if (_right)
-            {
-                animation.changeSprite(0, 1);
-                this.Transform.translate(1 * amount, 0);
-            }
+                if (_right)
+                {
+                    animation.changeSprite(0, 1);
+                    this.Transform.translate(1 * amount, 0);
+                }
 
-            if (_up)
-            {
-                animation.changeSprite(0, 2);
-                this.Transform.translate(0, -1 * amount);
-            }
+                if (_up)
+                {
+                    animation.changeSprite(0, 2);
+                    this.Transform.translate(0, -1 * amount);
+                }
 
-            if (_down)
-            {
-                animation.changeSprite(0, 3);
-                this.Transform.translate(0, 1 * amount);
+                if (_down)
+                {
+                    animation.changeSprite(0, 3);
+                    this.Transform.translate(0, 1 * amount);
+                }
             }
-
             
             Bootstrap.getDisplay().addToDraw(this);
         }
 
-        public void onCollisionEnter(PhysicsBody x)
+        public override void onCollisionEnter(PhysicsBody x)
         {
-
+            if (x.Parent.checkTag("Wall"))
+            {
+                _isCollidingWithEnvironment = true;
+            }
         }
 
-        public void onCollisionExit(PhysicsBody x)
+        public override void onCollisionExit(PhysicsBody x)
         {
-
-            //MyBody.DebugColor = Color.Green;
+            if (x.Parent.checkTag("Wall"))
+            {
+                _isCollidingWithEnvironment = false;
+            }
         }
 
-        public void onCollisionStay(PhysicsBody x)
+        public override void onCollisionStay(PhysicsBody x)
         {
-            //MyBody.DebugColor = Color.Blue;
+            
         }
     }
 }
