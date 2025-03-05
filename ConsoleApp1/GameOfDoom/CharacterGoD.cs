@@ -146,7 +146,6 @@ namespace Shard.GameOfDoom
                     Console.WriteLine(Bootstrap.TimeElapsed);
                     if (Bootstrap.TimeElapsed - _fireTime >= 0.2) 
                     {
-                        Console.WriteLine("Pew!");
                         _fireTime = Bootstrap.TimeElapsed;
                         fireGun(); 
                     }
