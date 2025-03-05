@@ -9,18 +9,40 @@ namespace Shard
 {
     class GameGOD : Game, InputListener
     {
-
+        Enemy enemy;
         CharacterGoD player;
         World world;
+        private bool gameOver = false;
+        private Random rand;
 
         public override bool isRunning()
         {
+            if (player == null || player.ToBeDestroyed == true)
+            {
+                return false;
+            }
             return true;
             
         }
         public override void update()
         {
             world.update();
+
+            if (isRunning() == false)
+            {
+                rand = new Random();
+                Color col = Color.FromArgb(rand.Next(0, 256), rand.Next(0, 256), rand.Next(0, 256));
+                Bootstrap.getDisplay().showText("GAME OVER!", 300, 300, 128, col, null);
+                if (!gameOver)
+                {
+                    Bootstrap.getSound().stopMusic();
+                    Bootstrap.getSound().playSound("pajas.wav", SDL.SDL_MIX_MAXVOLUME);
+                    Console.WriteLine("Game over");
+                    gameOver = true;
+                }
+                return;
+
+            }
         }
 
         public void draw()
@@ -41,7 +63,13 @@ namespace Shard
             
             Bootstrap.getSound().playMusic("examplemusic.wav", SDL.SDL_MIX_MAXVOLUME);
             player = new CharacterGoD(100f, 100f);
+            enemy = new Enemy();
 
+        }
+
+        public GameObject GetPlayer()
+        {
+            return player;
         }
 
         public void handleInput(InputEvent inp, string eventType)
