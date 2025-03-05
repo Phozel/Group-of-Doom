@@ -1,6 +1,5 @@
 ﻿using SDL2;
 using Shard.GameOfDoom;
-using Shard.Shard.GoDsWork.NPCAI;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -10,8 +9,8 @@ namespace Shard
 {
     class GameGOD : Game, InputListener
     {
-        private NPC enemy;
-        private GameObject player;
+
+        CharacterGoD player;
         World world;
 
         public override bool isRunning()
@@ -22,12 +21,11 @@ namespace Shard
         public override void update()
         {
             world.update();
-            //enemy.Update(deltaTime);
         }
 
         public void draw()
         {
-            
+           
         }
 
         public void createObjects()
@@ -42,6 +40,7 @@ namespace Shard
             world = new World();
             
             Bootstrap.getSound().playMusic("examplemusic.wav", SDL.SDL_MIX_MAXVOLUME);
+            player = new CharacterGoD();
 
         }
 
