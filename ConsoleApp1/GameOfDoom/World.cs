@@ -234,17 +234,19 @@ namespace Shard.GameOfDoom
                 List<Tile> growthNodes = Generation.chooseRandomNodes(wallNodes, rand.Next(roomWidth));
                 foreach (Tile tile in growthNodes) { tile.makeFinite(rand.Next(roomHeight/2)); }
                 List<Tile> allFreeWalls = Generation.growLightning(growthNodes, roomLayout);
+
+                
+
                 foreach (Tile tile in allFreeWalls) 
                 { 
                     tile.setImagePath(images.GetValueOrDefault(ImagePosition.FreeWall));
                     tile.setPhysicsEnabled();
-                    tile.MyBody.addRectCollider(8, 8, 48, 48);
+                    tile.MyBody.Kinematic = true;
+                          tile.MyBody.addRectCollider(8, 8, 48, 48);
                     tile.addTag(Tags.Destroyable.ToString());
                 }
-                //generateRoom();
                 addGroundAndTag();
 
-                FixWallsNotMove();
 
             }
             private void MakeRoom()
@@ -276,24 +278,28 @@ namespace Shard.GameOfDoom
                 current = roomLayout[0][0];
                 current.setImagePath(images.GetValueOrDefault(ImagePosition.TopLeftCorner));
                 current.setPhysicsEnabled();
+                current.MyBody.Kinematic = true;
                 current.MyBody.addRectCollider(0, 0, 64, 32); //top
                 current.MyBody.addRectCollider(0, 0, 32, 64); //left
 
                 current = roomLayout[0][roomWidth - 1];
                 current.setImagePath(images.GetValueOrDefault(ImagePosition.TopRightCorner));
                 current.setPhysicsEnabled();
+                current.MyBody.Kinematic = true;
                 current.MyBody.addRectCollider(0, 0, 64, 32); //top
                 current.MyBody.addRectCollider(32, 0, 32, 64); //right
 
                 current = roomLayout[roomHeight - 1][0];
                 current.setImagePath(images.GetValueOrDefault(ImagePosition.BottomLeftCorner));
                 current.setPhysicsEnabled();
+                current.MyBody.Kinematic = true;
                 current.MyBody.addRectCollider(0, 32, 64, 32); //bottom
                 current.MyBody.addRectCollider(0, 0, 32, 64); //left
 
                 current = roomLayout[roomHeight - 1][roomWidth - 1];
                 current.setImagePath(images.GetValueOrDefault(ImagePosition.BottomRightCorner));
                 current.setPhysicsEnabled();
+                current.MyBody.Kinematic = true;
                 current.MyBody.addRectCollider(0, 32, 64, 32); //bottom
                 current.MyBody.addRectCollider(32, 0, 32, 64); //right
 
@@ -304,12 +310,14 @@ namespace Shard.GameOfDoom
                     current = roomLayout[0][i];
                     current.setImagePath(images.GetValueOrDefault(ImagePosition.TopWall));
                     current.setPhysicsEnabled();
+                    current.MyBody.Kinematic = true;
                     current.MyBody.addRectCollider(0, 0, 64, 32); //top
 
                     bottomWall.Add(roomLayout[roomHeight - 1][i]); // down
                     current = roomLayout[roomHeight - 1][i];
                     current.setImagePath(images.GetValueOrDefault(ImagePosition.BottomWall));
                     current.setPhysicsEnabled();
+                    current.MyBody.Kinematic = true;
                     current.MyBody.addRectCollider(0, 32, 64, 32); //bottom
                 }
                 for (int i = 1; i < roomHeight - 1; i++)
@@ -318,12 +326,14 @@ namespace Shard.GameOfDoom
                     current = roomLayout[i][0];
                     current.setImagePath(images.GetValueOrDefault(ImagePosition.LeftWall));
                     current.setPhysicsEnabled();
+                    current.MyBody.Kinematic = true;
                     current.MyBody.addRectCollider(0, 0, 32, 64); //left
 
                     rightWall.Add(roomLayout[i][roomWidth - 1]); //right
                     current = roomLayout[i][roomWidth - 1];
                     current.setImagePath(images.GetValueOrDefault(ImagePosition.RightWall));
                     current.setPhysicsEnabled();
+                    current.MyBody.Kinematic = true;
                     current.MyBody.addRectCollider(32, 0, 32, 64); //right
 
                 }
@@ -379,8 +389,17 @@ namespace Shard.GameOfDoom
                         if (tile.MyBody != null)
                         {
                             tile.MyBody.Kinematic = true;
-                            tile.MyBody.Mass = 10;
                         }
+                    }
+                }
+                foreach (List<Tile> row in roomLayout)
+                {
+                    foreach (Tile tile in row)
+                    {
+                        if (tile.MyBody != null)
+                            {
+                                tile.MyBody.Kinematic = true;
+                            }
                     }
                 }
             }
