@@ -1,6 +1,7 @@
 ﻿using SDL2;
 using Shard.Shard.GoDsWork.Animation;
 using Shard.Shard.GoDsWork.ControllableGameObject;
+using Shard.Shard.GoDsWork.HUD;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -23,11 +24,19 @@ namespace Shard.GameOfDoom
 
         private SpriteSheetAnimation animation;
 
+        private AmmoCount ammoCounter;
+
         private bool _left, _right, _up, _down, _space, _lShift;
         private string _direction;
 
-        public CharacterGoD() {
+        public CharacterGoD()
+        {
             
+        }
+
+        public void SetAmmoCounter(AmmoCount ammoCounter)
+        {
+            this.ammoCounter = ammoCounter;
         }
 
         public override void initialize()
@@ -62,6 +71,7 @@ namespace Shard.GameOfDoom
                 Rocket rocket = new Rocket();
                 rocket.setUpRocket(this.Transform.Centre.X, this.Transform.Centre.Y, _direction);
                 Bootstrap.getSound().playSound("fire.wav", 16);
+                ammoCounter.currentAmmo--;
 
             }
             else if (_firePower < 10)
@@ -69,7 +79,7 @@ namespace Shard.GameOfDoom
                 Bullet bullet = new Bullet();
                 bullet.setUpBullet(this.Transform.Centre.X, this.Transform.Centre.Y, _direction);
                 Bootstrap.getSound().playSound("fire.wav", 16);
-
+                ammoCounter.currentAmmo--;
             }
         }
 

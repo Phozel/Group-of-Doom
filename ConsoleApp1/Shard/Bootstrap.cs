@@ -15,6 +15,7 @@ using System.IO;
 using System.Threading;
 using System.Numerics;
 using SDL2;
+using Shard.GameOfDoom;
 
 namespace Shard
 {
@@ -196,6 +197,8 @@ namespace Shard
 
             hudManager = new HudManager();
 
+            //Add HUD elements here
+
             HealthBar healthBar = new HealthBar(100);
             healthBar.Position = new Vector2(10, 10);
             hudManager.AddElement(healthBar);
@@ -203,6 +206,8 @@ namespace Shard
             ScoreCount scoreCount = new ScoreCount();
             scoreCount.Position = new Vector2(550, 20);
             hudManager.AddElement(scoreCount);
+
+          
         }
 
         public static long getCurrentMillis()
