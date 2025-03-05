@@ -10,6 +10,7 @@ namespace Shard
     class GameGOD : Game, InputListener
     {
 
+        CharacterGoD player;
         World world;
 
         public override bool isRunning()
@@ -39,6 +40,7 @@ namespace Shard
             world = new World();
             
             Bootstrap.getSound().playMusic("examplemusic.wav", SDL.SDL_MIX_MAXVOLUME);
+            player = new CharacterGoD();
 
         }
 
