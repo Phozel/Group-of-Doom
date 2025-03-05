@@ -32,6 +32,15 @@ namespace Shard.GameOfDoom
             currentRoom.update();
         }
 
+        internal (float,float) getAcceptibeSpawnPosition()
+        {
+            List<Tile> groundTiles = currentRoom.getGroundTiles();
+            Random rand = new Random();
+            int index = rand.Next(groundTiles.Count());
+            Tile startTile = groundTiles[index];
+            return (startTile.Transform.X+32, startTile.Transform.Y+32);
+        }
+
 
         public class WorldMap
         {
@@ -186,6 +195,18 @@ namespace Shard.GameOfDoom
             private RoomType roomType = RoomType.Null;
             internal enum RoomType { Start, End, Key, Normal, Null }
             internal Room(int x, int y) : base(x, y) { }
+            internal List<Tile> getGroundTiles()
+            {
+                List<Tile> groundTiles = new List<Tile>();
+                foreach (List<Tile> row in roomLayout)
+                {
+                    foreach(Tile tile in row)
+                    {
+                        if (tile.checkTag(Tags.Ground.ToString())) { groundTiles.Add(tile); }
+                    }
+                }
+                return groundTiles;
+            }
             internal void setRoomType(RoomType roomType) { this.roomType = roomType; }
             internal RoomType getRoomType() { return roomType; }
             internal void addDoors(Room room)
