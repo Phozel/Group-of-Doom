@@ -44,7 +44,7 @@ namespace Shard.Shard.GoD_s_Work.Tiles_Libary
             {
                 if (x.Parent.checkTag("Rocket")) 
                 {
-                    this.MyBody.getColliders().Clear();
+                    this.MyBody.clearColliders();
                     this.MyBody = null;
                     this.clearTags();
                     this.setImagePath(World.Room.images.GetValueOrDefault(ImagePosition.Ground));
