@@ -180,25 +180,25 @@ namespace Shard.GameOfDoom
                 
                 if (_left)
                 {
-                    animation.changeSprite(0+armorLevel, 0);
+                    animation.changeSprite(armorLevel, 0);
                     this.Transform.translate(-1 * amount, 0);
                 }
 
                 if (_right)
                 {
-                    animation.changeSprite(0+armorLevel, 1);
+                    animation.changeSprite(armorLevel, 1);
                     this.Transform.translate(1 * amount, 0);
                 }
 
                 if (_up)
                 {
-                    animation.changeSprite(0+armorLevel, 2);
+                    animation.changeSprite(armorLevel, 2);
                     this.Transform.translate(0, -1 * amount);
                 }
 
                 if (_down)
                 {
-                    animation.changeSprite(0+armorLevel, 3);
+                    animation.changeSprite(armorLevel, 3);
                     this.Transform.translate(0, 1 * amount);
                 }
             }

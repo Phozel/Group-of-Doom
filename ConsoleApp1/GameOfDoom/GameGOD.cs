@@ -65,9 +65,9 @@ namespace Shard
 
             //Key key = new Key(300, 200);
             //Weapon gun = new Weapon(64, 128);
-            Armor armor1 = new Armor(64, 192);
-            //Armor armor2 = new Armor(128, 192);
-            //Armor armor3 = new Armor(192, 192);
+            Armor armor1 = new Armor(64, 192, 0);
+            //Armor armor2 = new Armor(128, 192, 1);
+            //Armor armor3 = new Armor(192, 192, 2);
             //HealthPack helth = new HealthPack(64, 256);
 
             Bootstrap.getSound().playMusic("examplemusic.wav", SDL.SDL_MIX_MAXVOLUME);
