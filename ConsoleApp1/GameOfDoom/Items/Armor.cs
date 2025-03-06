@@ -8,7 +8,7 @@ namespace Shard.GameOfDoom
 {
     class Armor : Item
     {
-        public Armor(int posx, int posy) : base("armor", "PH.png", 64, 64, posx, posy)
+        public Armor(int posx, int posy) : base("Armor", "Armor.png", 64, 64, posx, posy)
         {
         }
 

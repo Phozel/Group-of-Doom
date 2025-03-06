@@ -8,7 +8,7 @@ namespace Shard.GameOfDoom
 {
     class HealthPack : Item
     {
-        public HealthPack(int posx, int posy) : base("healthpack", "HealthPack.png", 64, 64, posx, posy)
+        public HealthPack(int posx, int posy) : base("HealthPack", "HealthPack.png", 64, 64, posx, posy)
         {
         }
 

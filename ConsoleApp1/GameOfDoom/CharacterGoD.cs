@@ -29,6 +29,7 @@ namespace Shard.GameOfDoom
         private float _posX, _posY;
         private string _direction;
         private bool _isCollidingWithEnvironment = false;
+        private int armorLevel = 0;
 
         public CharacterGoD(float fXstart, float fYstart) {
             this.Transform.X = fXstart;
@@ -43,7 +44,7 @@ namespace Shard.GameOfDoom
             _firePower = 0;
             _armour = 0;
             _movementSpeed = 100;
-            animation = new SpriteSheetAnimation(this, "Character v2-Sheet.png", 64, 32, 1, 4);
+            animation = new SpriteSheetAnimation(this, "Character v3-Sheet.png", 64, 64, 4, 4);
             _direction = "left";
             //_inventory = new List<Item>();
             
@@ -56,7 +57,7 @@ namespace Shard.GameOfDoom
 
             setPhysicsEnabled();
             
-            MyBody.addRectCollider(16, 16, 128, 32);
+            MyBody.addRectCollider(16, 16, 128, 128);
             addTag("Player");
         }
 
@@ -179,25 +180,25 @@ namespace Shard.GameOfDoom
                 
                 if (_left)
                 {
-                    animation.changeSprite(0, 0);
+                    animation.changeSprite(0+armorLevel, 0);
                     this.Transform.translate(-1 * amount, 0);
                 }
 
                 if (_right)
                 {
-                    animation.changeSprite(0, 1);
+                    animation.changeSprite(0+armorLevel, 1);
                     this.Transform.translate(1 * amount, 0);
                 }
 
                 if (_up)
                 {
-                    animation.changeSprite(0, 2);
+                    animation.changeSprite(0+armorLevel, 2);
                     this.Transform.translate(0, -1 * amount);
                 }
 
                 if (_down)
                 {
-                    animation.changeSprite(0, 3);
+                    animation.changeSprite(0+armorLevel, 3);
                     this.Transform.translate(0, 1 * amount);
                 }
             }
@@ -213,7 +214,12 @@ namespace Shard.GameOfDoom
                 
             }
 
-            
+            if (x.Parent.checkTag("Armor"))
+            {
+                armorLevel += 1;
+                Console.Write("New armor level: " + armorLevel);
+            }
+
         }
 
         public override void onCollisionExit(PhysicsBody x)
