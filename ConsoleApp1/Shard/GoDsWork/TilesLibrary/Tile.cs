@@ -17,14 +17,15 @@ namespace Shard.Shard.GoD_s_Work.Tiles_Libary
 {
     public class Tile : Node, CollisionHandler
     {
+        private readonly static int offsetFromCornerX = 10, offsetFromCornerY = 50;
         internal static float width = 64;
         private string imagePath;
         internal Item item { get; set; }
 
         internal Tile(int x, int y) : base(x, y) 
         { 
-            this.Transform.X = x * width; // where to draw
-            this.Transform.Y = y * width; // where to draw
+            this.Transform.X = x * width + offsetFromCornerX; // where to draw
+            this.Transform.Y = y * width + offsetFromCornerY; // where to draw
         }
 
         internal void setImagePath(string imagePath)
