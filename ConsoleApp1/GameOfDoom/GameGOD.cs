@@ -163,12 +163,13 @@ namespace Shard
             int i;
             for (i = 1; i < layout.Count - 1; i++)
             {
-                if (layout[i][layout.Count() - 1].checkTag(Tags.Door.ToString()))
+                if (layout[i][layout[0].Count() - 1].checkTag(Tags.Door.ToString()))
                 {
                     break;
                 }
+                
             }
-            Tile t = layout[i][layout.Count() - 2];
+            Tile t = layout[i][layout[0].Count() - 2];
             return (t.Transform.X, t.Transform.Y);
 
         }
@@ -200,7 +201,7 @@ namespace Shard
                     break;
                 }
             }
-            Tile t = layout[1][i];
+            Tile t = layout[layout.Count() - 2][i];
             return (t.Transform.X, t.Transform.Y);
         }
         private (float, float) switchRoomDown()
@@ -215,7 +216,7 @@ namespace Shard
                     break;
                 }
             }
-            Tile t = layout[layout.Count() - 2][i];
+            Tile t = layout[1][i];
             return (t.Transform.X, t.Transform.Y);
         }
 

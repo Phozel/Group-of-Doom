@@ -11,6 +11,7 @@ using Shard.Shard.GoDsWork.TilesLibrary;
 using static Shard.GameOfDoom.World.Room;
 using static Shard.GameOfDoom.World;
 using static System.Net.Mime.MediaTypeNames;
+using System.Timers;
 
 namespace Shard.Shard.GoD_s_Work.Tiles_Libary
 {
@@ -34,7 +35,8 @@ namespace Shard.Shard.GoD_s_Work.Tiles_Libary
         internal string getImagePath() {  return this.imagePath; }
         internal override bool isNodeEmpty() { return imagePath == null; }
         public override void initialize() { }
-        public override void update() { Bootstrap.getDisplay().addToDraw(this); }
+        public override void update() { Bootstrap.getDisplay().addToDraw(this); //if(item != null) item.update();
+                                                                                }
 
 
 
