@@ -60,6 +60,10 @@ namespace Shard.GameOfDoom
             MyBody.addRectCollider(16, 16, 128, 128);
             addTag("Player");
         }
+        public float Health
+        {
+            get { return _health; }
+        }
 
         public void fireGun()
         {
@@ -218,6 +222,28 @@ namespace Shard.GameOfDoom
             {
                 armorLevel += 1;
                 Console.Write("New armor level: " + armorLevel);
+            }
+
+            if (x.Parent.checkTag("Enemy"))
+            {
+                float cX = x.Parent.Transform.Centre.X;
+                float cY = x.Parent.Transform.Centre.Y;
+
+                float dX = this.Transform.Centre.X - cX;
+                float dY = this.Transform.Centre.Y - cY;
+
+                if (Math.Abs(dX) > Math.Abs(dY))
+                {
+                    if (dX > 20) { dX = 20; }
+                    if (dX < 20) { dX = -20; }
+                    this.Transform.translate(dX, 0);
+                }
+                else
+                {
+                    if (dY > 20) { dY = 20; }
+                    if (dY < 20) { dY = -20; }
+                    this.Transform.translate(0, dY);
+                }
             }
 
         }

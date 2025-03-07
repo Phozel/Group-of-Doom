@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Linq;
 using static Shard.GameOfDoom.World;
 
+
 namespace Shard
 {
     class GameGOD : Game, InputListener
@@ -36,11 +37,16 @@ namespace Shard
             {
                 lastSpawnTime = Bootstrap.TimeElapsed;
                 Enemy enemy = new Enemy();
-                enemy.Transform.Centre.X = new Random().Next(50, 700);
-                enemy.Transform.Centre.Y = new Random().Next(100, 500);
+                float offsetX = player.Transform.X + 40;
+                float offsetY = player.Transform.Y + 40;
+
+
+                enemy.Transform.Centre.X = new Random().Next(50, 700) + offsetX;
+                enemy.Transform.Centre.Y = new Random().Next(100, 500) + offsetY;
 
                 spawnCount++;
                 Console.WriteLine($"Spawn count: {spawnCount}");
+                Console.WriteLine($"Position: {enemy.Transform.Centre.X} , {enemy.Transform.Centre.Y}");
             }
 
 
@@ -97,10 +103,12 @@ namespace Shard
 
             Random rand = new Random();
             List<Enemy> enemies = new List<Enemy>();
-            for (int i = 0; i < 5;  i++)
+            for (int i = 0; i < 2;  i++)
             {
                 float randomX = rand.Next(0, World.Room.roomWidth);
                 float randomY = rand.Next(0, World.Room.roomHeight);
+                
+
 
                 Enemy enemy = new Enemy();
                 enemy.Transform.Centre.X = player.Transform.Centre.X + randomX;
@@ -142,6 +150,8 @@ namespace Shard
                 case Direction.Down: PlayerPos = switchRoomDown(); break;
                 default: Console.WriteLine("Error in World: How did you get here, this is not a valid direction"); break;
             }
+            Enemy enemy = new Enemy();
+            enemy.initialize();
             player.changePos(PlayerPos.Item1, PlayerPos.Item2);
             Debug(); //
         }

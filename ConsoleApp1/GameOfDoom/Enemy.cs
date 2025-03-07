@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static Shard.GameOfDoom.World;
+using static Shard.GameOfDoom.CharacterGoD;
+
 
 namespace Shard.GameOfDoom
 {
@@ -20,6 +22,7 @@ namespace Shard.GameOfDoom
         SpriteSheetAnimation animation;
         private NPC npcBehavior;
         private GameObject player;
+        private int damage;
         private string _direction;
         private float animationTimer;
         private const float ANIMATION_SPEED = 0.1f;
@@ -60,14 +63,15 @@ namespace Shard.GameOfDoom
 
             
             
-                Vector2 startPos = new Vector2(this.Transform.X, this.Transform.Y);
-                Vector2[] patrolPoints = { new Vector2(150, 100), new Vector2(250, 100) };
-                npcBehavior = new NPC(startPos, patrolPoints, player);
+            Vector2 startPos = new Vector2(this.Transform.X, this.Transform.Y);
+            Vector2[] patrolPoints = { new Vector2(150, 100), new Vector2(250, 100) };
+            npcBehavior = new NPC(startPos, patrolPoints, player);
 
-                this.addTag("Enemy");
+            this.addTag("Enemy");
 
-                MyBody.PassThrough = true;
-                Console.WriteLine($"Enemy tags: {this.getTags()}");
+            MyBody.PassThrough = true;
+            Console.WriteLine($"Enemy tags: {this.getTags()}");
+            damage = 5;
             
 
 
@@ -115,7 +119,24 @@ namespace Shard.GameOfDoom
         {
             if (x.Parent.checkTag("Player"))
             {
-                x.Parent.ToBeDestroyed = true;
+                CharacterGoD player = x.Parent as CharacterGoD;
+
+
+
+
+                if (player != null)
+                {
+                    player.changeHealth(player.Health - damage);
+                    Console.WriteLine($"Player hit! Health is now: {player.Health}");
+
+                }
+                if (player.Health <=0)
+                {
+                    x.Parent.ToBeDestroyed = true;
+                }
+
+
+
             }
             else if (x.Parent.checkTag("Bullet") || (x.Parent.checkTag("Rocket")))
             {
@@ -131,10 +152,12 @@ namespace Shard.GameOfDoom
 
         public void onCollisionExit(PhysicsBody x)
         {
+
         }
 
         public void onCollisionStay(PhysicsBody x)
         {
+
         }
     }
 }
