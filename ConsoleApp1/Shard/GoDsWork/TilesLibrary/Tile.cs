@@ -11,18 +11,21 @@ using Shard.Shard.GoDsWork.TilesLibrary;
 using static Shard.GameOfDoom.World.Room;
 using static Shard.GameOfDoom.World;
 using static System.Net.Mime.MediaTypeNames;
+using System.Timers;
 
 namespace Shard.Shard.GoD_s_Work.Tiles_Libary
 {
     public class Tile : Node, CollisionHandler
     {
+        private readonly static int offsetFromCornerX = 10, offsetFromCornerY = 50;
         internal static float width = 64;
         private string imagePath;
+        internal Item item { get; set; }
 
         internal Tile(int x, int y) : base(x, y) 
         { 
-            this.Transform.X = x * width; // where to draw
-            this.Transform.Y = y * width; // where to draw
+            this.Transform.X = x * width + offsetFromCornerX; // where to draw
+            this.Transform.Y = y * width + offsetFromCornerY; // where to draw
         }
 
         internal void setImagePath(string imagePath)
@@ -33,7 +36,8 @@ namespace Shard.Shard.GoD_s_Work.Tiles_Libary
         internal string getImagePath() {  return this.imagePath; }
         internal override bool isNodeEmpty() { return imagePath == null; }
         public override void initialize() { }
-        public override void update() { Bootstrap.getDisplay().addToDraw(this); }
+        public override void update() { Bootstrap.getDisplay().addToDraw(this); //if(item != null) item.update();
+                                                                                }
 
 
 
@@ -44,7 +48,6 @@ namespace Shard.Shard.GoD_s_Work.Tiles_Libary
             {
                 if (x.Parent.checkTag("Rocket")) 
                 {
-                    Console.WriteLine("here destroy");
                     this.MyBody.clearColliders();
                   //  this.MyBody = null;
                    // this.clearTags();
@@ -58,8 +61,8 @@ namespace Shard.Shard.GoD_s_Work.Tiles_Libary
                 double EnterDoor = Bootstrap.TimeElapsed;
                 if (EnterDoor - World.getInstance().whenLastEnterDoor > 0.5)
                 {
-                    Console.WriteLine("Here is door");
                     World.getInstance().whenLastEnterDoor = EnterDoor;
+                    World.getInstance().currentRoom.removeHitboxes(); //remove current room's hitboxes from play area
 
                     if (this.checkTag(GameGOD.Direction.Left.ToString()))
                     {

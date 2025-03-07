@@ -61,6 +61,10 @@ namespace Shard.GameOfDoom
             MyBody.addRectCollider(16, 16, 32, 32);
             addTag("Player");
         }
+        public float Health
+        {
+            get { return _health; }
+        }
 
         public void fireGun()
         {
@@ -280,6 +284,28 @@ namespace Shard.GameOfDoom
                 Console.Write("You have " + bombs + " bombs" + "\n");
             }
 
+            if (x.Parent.checkTag("Enemy"))
+            {
+                float cX = x.Parent.Transform.Centre.X;
+                float cY = x.Parent.Transform.Centre.Y;
+
+                float dX = this.Transform.Centre.X - cX;
+                float dY = this.Transform.Centre.Y - cY;
+
+                if (Math.Abs(dX) > Math.Abs(dY))
+                {
+                    if (dX > 20) { dX = 20; }
+                    if (dX < 20) { dX = -20; }
+                    this.Transform.translate(dX, 0);
+                }
+                else
+                {
+                    if (dY > 20) { dY = 20; }
+                    if (dY < 20) { dY = -20; }
+                    this.Transform.translate(0, dY);
+                }
+            }
+
         }
 
         public override void onCollisionExit(PhysicsBody x)
@@ -329,6 +355,11 @@ namespace Shard.GameOfDoom
             this._posY = ny;
             this.Transform.X = this._posX;
             this.Transform.Y = this._posY;
+        }
+
+        public void changeHealth(float health)
+        {
+            this._health = health;
         }
 
     }

@@ -214,10 +214,11 @@ namespace Shard.GameOfDoom
             //internal override bool isNodeEmpty() { return !(doorUp || doorDown || doorLeft || doorRight); }
             internal bool isDeadEnd() { return (doorUp ^ doorDown ^ doorLeft ^ doorRight); }
 
+            public void removeHitboxes() { TileHitboxesHandler.ClearHitboxes(this.roomLayout); }
             public List<List<Tile>> getRoomLayout()
             {
-                if (isGenerated) return roomLayout;
-                generateRoom();
+                if (isGenerated) { TileHitboxesHandler.addHitboxes(this.roomLayout); }
+                else { generateRoom(); }
                 return roomLayout;
             }
             private void generateRoom()
@@ -227,15 +228,21 @@ namespace Shard.GameOfDoom
                 List<Tile> growthNodes = Generation.chooseRandomNodes(wallNodes, rand.Next(roomWidth));
                 foreach (Tile tile in growthNodes) { tile.makeFinite(rand.Next(roomHeight/2)); }
                 List<Tile> allFreeWalls = Generation.growLightning(growthNodes, roomLayout);
+         //       allFreeWalls.AddRange(growthNodes);
                 foreach (Tile tile in allFreeWalls) 
                 { 
                     tile.setImagePath(images.GetValueOrDefault(ImagePosition.FreeWall));
                     tile.setPhysicsEnabled();
                     tile.MyBody.Kinematic = true;
-                    tile.MyBody.addRectCollider(8, 8, 48, 48);
+                    
                     tile.addTag(Tags.Destroyable.ToString());
+         //           tile.MyBody.addRectCollider(8, 8, 48, 48);
                 }
                 addGroundAndTag();
+
+                if (roomType == RoomType.Key) addKeyToRoom();
+
+                TileHitboxesHandler.createHitboxes(this.roomLayout);
 
                 isGenerated = true;
             }
@@ -251,7 +258,6 @@ namespace Shard.GameOfDoom
                     }
                 }
             }
-
             private List<Tile> buildOuterWallsAndDoors()
             {
                 List<Tile> borderNodes = new List<Tile>();
@@ -269,29 +275,29 @@ namespace Shard.GameOfDoom
                 current.setImagePath(images.GetValueOrDefault(ImagePosition.TopLeftCorner));
                 current.setPhysicsEnabled();
                 current.MyBody.Kinematic = true;
-                current.MyBody.addRectCollider(0, 0, 64, 32); //top
-                current.MyBody.addRectCollider(0, 0, 32, 64); //left
+        //        current.MyBody.addRectCollider(0, 0, 64, 32); //top
+        //        current.MyBody.addRectCollider(0, 0, 32, 64); //left
 
                 current = roomLayout[0][roomWidth - 1];
                 current.setImagePath(images.GetValueOrDefault(ImagePosition.TopRightCorner));
                 current.setPhysicsEnabled();
                 current.MyBody.Kinematic = true;
-                current.MyBody.addRectCollider(0, 0, 64, 32); //top
-                current.MyBody.addRectCollider(32, 0, 32, 64); //right
+        //        current.MyBody.addRectCollider(0, 0, 64, 32); //top
+        //        current.MyBody.addRectCollider(32, 0, 32, 64); //right
 
                 current = roomLayout[roomHeight - 1][0];
                 current.setImagePath(images.GetValueOrDefault(ImagePosition.BottomLeftCorner));
                 current.setPhysicsEnabled();
                 current.MyBody.Kinematic = true;
-                current.MyBody.addRectCollider(0, 32, 64, 32); //bottom
-                current.MyBody.addRectCollider(0, 0, 32, 64); //left
+         //       current.MyBody.addRectCollider(0, 32, 64, 32); //bottom
+        //        current.MyBody.addRectCollider(0, 0, 32, 64); //left
 
                 current = roomLayout[roomHeight - 1][roomWidth - 1];
                 current.setImagePath(images.GetValueOrDefault(ImagePosition.BottomRightCorner));
                 current.setPhysicsEnabled();
                 current.MyBody.Kinematic = true;
-                current.MyBody.addRectCollider(0, 32, 64, 32); //bottom
-                current.MyBody.addRectCollider(32, 0, 32, 64); //right
+        //        current.MyBody.addRectCollider(0, 32, 64, 32); //bottom
+        //        current.MyBody.addRectCollider(32, 0, 32, 64); //right
 
                 // everything in between
                 for (int i = 1; i < roomWidth - 1; i++)
@@ -301,14 +307,14 @@ namespace Shard.GameOfDoom
                     current.setImagePath(images.GetValueOrDefault(ImagePosition.TopWall));
                     current.setPhysicsEnabled();
                     current.MyBody.Kinematic = true;
-                    current.MyBody.addRectCollider(0, 0, 64, 32); //top
+            //        current.MyBody.addRectCollider(0, 0, 64, 32); //top
 
                     bottomWall.Add(roomLayout[roomHeight - 1][i]); // down
                     current = roomLayout[roomHeight - 1][i];
                     current.setImagePath(images.GetValueOrDefault(ImagePosition.BottomWall));
                     current.setPhysicsEnabled();
                     current.MyBody.Kinematic = true;
-                    current.MyBody.addRectCollider(0, 32, 64, 32); //bottom
+           //         current.MyBody.addRectCollider(0, 32, 64, 32); //bottom
                 }
                 for (int i = 1; i < roomHeight - 1; i++)
                 { // everything in between
@@ -317,14 +323,14 @@ namespace Shard.GameOfDoom
                     current.setImagePath(images.GetValueOrDefault(ImagePosition.LeftWall));
                     current.setPhysicsEnabled();
                     current.MyBody.Kinematic = true;
-                    current.MyBody.addRectCollider(0, 0, 32, 64); //left
+           //         current.MyBody.addRectCollider(0, 0, 32, 64); //left
 
                     rightWall.Add(roomLayout[i][roomWidth - 1]); //right
                     current = roomLayout[i][roomWidth - 1];
                     current.setImagePath(images.GetValueOrDefault(ImagePosition.RightWall));
                     current.setPhysicsEnabled();
                     current.MyBody.Kinematic = true;
-                    current.MyBody.addRectCollider(32, 0, 32, 64); //right
+             //       current.MyBody.addRectCollider(32, 0, 32, 64); //right
 
                 }
                 if (doorUp) { addDoor(topWall, images.GetValueOrDefault(ImagePosition.DoorUp), GameGOD.Direction.Up); } //door up
@@ -346,7 +352,6 @@ namespace Shard.GameOfDoom
                 wall[index].addTag(dir.ToString());
                 wall.RemoveAt(index);
             }
-
             private void addGroundAndTag()
             {
                 foreach (List<Tile> row in roomLayout)
@@ -371,7 +376,12 @@ namespace Shard.GameOfDoom
                     }
                 }
             }
-
+            private void addKeyToRoom()
+            {
+                List<Tile> groundTiles = getGroundTiles();
+                Tile keyTile = groundTiles[rand.Next(groundTiles.Count)];
+                keyTile.item = new Key((int)keyTile.Transform.X, (int)keyTile.Transform.Y);
+            }
             public override void update()
             {
                 foreach (List<Tile> row in roomLayout)
@@ -381,14 +391,12 @@ namespace Shard.GameOfDoom
                         tile.update();
                     }
             }
-
             internal enum ImagePosition
             {
                 TopLeftCorner, TopWall, TopRightCorner, RightWall,
                 BottomRightCorner, BottomWall, BottomLeftCorner, LeftWall,
                 FreeWall, Ground, DoorUp, DoorRight, DoorDown, DoorLeft,
             }
-
             internal static Dictionary<ImagePosition, string> images = new Dictionary<ImagePosition, string>()
         { 
             //corners

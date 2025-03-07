@@ -36,6 +36,10 @@ namespace Shard.GameOfDoom
             this.Transform.Y = posy;
             this.collectible = collectible;
 
+            //removes from automatically update = doesn't render when leaving the room it resides in
+            //causes problem of not being able to pick up key
+            //    GameObjectManager.getInstance().removeGameObject(this); 
+
             initializeItem();
         }
 
