@@ -82,6 +82,34 @@ namespace Shard.GameOfDoom
             }
         }
 
+        public void placeBomb()
+        {
+            int bx = 0, by = 0;
+            if (_direction == "left")
+            {
+                bx = (int)this.Transform.X - 16;
+                by = (int)this.Transform.Y + 16;
+            }
+            if (_direction == "right")
+            {
+                bx = (int)this.Transform.X + 48;
+                by = (int)this.Transform.Y + 16;
+            }
+            if (_direction == "up")
+            {
+                bx = (int)this.Transform.X + 16;
+                by = (int)this.Transform.Y - 16;
+            }
+            if (_direction == "down")
+            {
+                bx = (int)this.Transform.X + 16;
+                by = (int)this.Transform.Y + 48;
+            }
+
+            Bomb bomb = new Bomb(bx, by, false);
+            Console.WriteLine("Bomb placed at " + bx + " " + by + "\n");
+        }
+
         public override void handleInput(InputEvent inp, string eventType)
         {
             if (Bootstrap.getRunningGame().isRunning() == false)
@@ -168,7 +196,11 @@ namespace Shard.GameOfDoom
                 }
                 if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_LALT)
                 {
-
+                    if (bombs > 0)
+                    {
+                        placeBomb();
+                        bombs -= 1;
+                    }
                 }
             }
         }
@@ -241,7 +273,7 @@ namespace Shard.GameOfDoom
                 Console.Write("New armor level: " + armorLevel + "\n");
             }
 
-            if (x.Parent.checkTag("Bomb"))
+            if (x.Parent.checkTag("Bomb") & x.Parent.checkTag("Collectible"))
             {
                 bombs += 1;
                 Console.Write("You picked up a bomb!" + "\n");

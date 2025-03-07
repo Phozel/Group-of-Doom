@@ -25,8 +25,10 @@ namespace Shard.Shard.GoDsWork.Animation
         private float _columns = columns;
 
         // Calculate how much space each sprite occupies in the sheet
-        private float _spriteWidthPercentage = spriteWidth / (float)(spriteWidth * columns);
-        private float _spriteHeightPercentage = spriteHeight / (float)(spriteHeight * rows);
+        private float _spriteWidthPercentage = 1 / columns;
+        private float _spriteHeightPercentage = 1 / rows;
+        //private float _spriteWidthPercentage = spriteWidth / (spriteWidth * columns);
+        //private float _spriteHeightPercentage = spriteHeight / (spriteHeight * rows);
 
         // Default position of sprite in sheet
         float SpritePosX = 0;
