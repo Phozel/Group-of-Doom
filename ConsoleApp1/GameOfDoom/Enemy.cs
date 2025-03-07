@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Shard.GameOfDoom.World;
 
 namespace Shard.GameOfDoom
 {
@@ -47,21 +48,27 @@ namespace Shard.GameOfDoom
             MyBody.addRectCollider();
 
             rand = new Random();
-            float randomX = rand.Next(100, 700);
-            float randomY = rand.Next(100, 500);
 
-            this.Transform.X = randomX;
-            this.Transform.Y = 100.0f;
+            float offsetX = player.Transform.X + 100;
+            float offsetY = player.Transform.Y + 100;
 
-            Vector2 startPos = new Vector2(this.Transform.X,this.Transform.Y);
-            Vector2[] patrolPoints = { new Vector2(150, 100), new Vector2(250, 100) };
-            npcBehavior = new NPC(startPos, patrolPoints, player);
+            float randomX = rand.Next(0, World.Room.roomWidth);
+            float randomY = rand.Next(0, World.Room.roomHeight);
 
-            this.addTag("Enemy");
+            this.Transform.X = offsetX + randomX;
+            this.Transform.Y = offsetY + randomY;
 
-            MyBody.PassThrough = true;
-            Console.WriteLine($"Enemy tags: {this.getTags()}");
+            
+            
+                Vector2 startPos = new Vector2(this.Transform.X, this.Transform.Y);
+                Vector2[] patrolPoints = { new Vector2(150, 100), new Vector2(250, 100) };
+                npcBehavior = new NPC(startPos, patrolPoints, player);
 
+                this.addTag("Enemy");
+
+                MyBody.PassThrough = true;
+                Console.WriteLine($"Enemy tags: {this.getTags()}");
+            
 
 
         }

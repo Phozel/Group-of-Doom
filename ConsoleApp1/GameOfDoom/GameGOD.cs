@@ -99,8 +99,8 @@ namespace Shard
             List<Enemy> enemies = new List<Enemy>();
             for (int i = 0; i < 10;  i++)
             {
-                float randomX = rand.Next(100, 600);
-                float randomY = rand.Next(100, 500);
+                float randomX = rand.Next(0, World.Room.roomWidth);
+                float randomY = rand.Next(0, World.Room.roomHeight);
 
                 Enemy enemy = new Enemy();
                 enemy.Transform.Centre.X = player.Transform.Centre.X + randomX;
