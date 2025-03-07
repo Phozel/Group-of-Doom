@@ -16,6 +16,8 @@ namespace Shard
         World world;
         private bool gameOver = false;
         private Random rand;
+        double lastSpawnTime = 0;
+        int spawnCount;
 
         public override bool isRunning()
         {
@@ -30,8 +32,22 @@ namespace Shard
         {
             world.update();
 
+            if (Bootstrap.TimeElapsed - lastSpawnTime >= 5)
+            {
+                lastSpawnTime = Bootstrap.TimeElapsed;
+                Enemy enemy = new Enemy();
+                enemy.Transform.Centre.X = new Random().Next(50, 700);
+                enemy.Transform.Centre.Y = new Random().Next(100, 500);
+
+                spawnCount++;
+                Console.WriteLine($"Spawn count: {spawnCount}");
+            }
+
+
+
             if (isRunning() == false)
             {
+                Bootstrap.getDisplay().clearDisplay();
                 rand = new Random();
                 Color col = Color.FromArgb(rand.Next(0, 256), rand.Next(0, 256), rand.Next(0, 256));
                 Bootstrap.getDisplay().showText("GAME OVER!", 300, 300, 128, col, null);
@@ -62,6 +78,8 @@ namespace Shard
             Bootstrap.getInput().addListener(this);
 
             world = World.getInstance();
+            world.addRefToGameGOD(this);
+            
 
             //Key key = new Key(300, 200);
             //Weapon gun = new Weapon(64, 128);
@@ -76,7 +94,26 @@ namespace Shard
 
             (float, float) t = world.getAcceptibeSpawnPosition();
             player = new CharacterGoD(t.Item1, t.Item2);
-            enemy = new Enemy();
+
+            Random rand = new Random();
+            List<Enemy> enemies = new List<Enemy>();
+            for (int i = 0; i < 10;  i++)
+            {
+                float randomX = rand.Next(100, 600);
+                float randomY = rand.Next(100, 500);
+
+                Enemy enemy = new Enemy();
+                enemy.Transform.Centre.X = player.Transform.Centre.X + randomX;
+                enemy.Transform.Centre.Y = player.Transform.Centre.Y + randomY;
+
+                enemies.Add(enemy);
+
+                Console.WriteLine($"Spawned Enemy {i + 1} at ({randomX}, {randomY})");
+                if (enemy.Transform.X < 0 || enemy.Transform.X > Bootstrap.getDisplay().getWidth() || enemy.Transform.Y < 0 || enemy.Transform.Y > Bootstrap.getDisplay().getHeight())
+                {
+                    enemy.ToBeDestroyed = true;
+                }
+            }
 
 
             Debug();
