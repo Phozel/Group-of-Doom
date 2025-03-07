@@ -196,7 +196,7 @@ namespace Shard
             int i;
             for (i = 1; i < layout[0].Count - 1; i++)
             {
-                if (layout[0][i].checkTag(Tags.Door.ToString()))
+                if (layout[layout.Count() - 1][i].checkTag(Tags.Door.ToString()))
                 {
                     break;
                 }
@@ -211,7 +211,7 @@ namespace Shard
             int i;
             for (i = 1; i < layout[0].Count - 1; i++)
             {
-                if (layout[layout.Count() - 1][i].checkTag(Tags.Door.ToString()))
+                if (layout[0][i].checkTag(Tags.Door.ToString()))
                 {
                     break;
                 }
