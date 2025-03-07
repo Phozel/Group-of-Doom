@@ -249,5 +249,10 @@ namespace Shard.GameOfDoom
             this.Transform.Y = this._posY;
         }
 
+        public void changeHealth(float health)
+        {
+            this._health = health;
+        }
+
     }
 }
