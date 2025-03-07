@@ -97,7 +97,7 @@ namespace Shard
 
             Random rand = new Random();
             List<Enemy> enemies = new List<Enemy>();
-            for (int i = 0; i < 10;  i++)
+            for (int i = 0; i < 5;  i++)
             {
                 float randomX = rand.Next(0, World.Room.roomWidth);
                 float randomY = rand.Next(0, World.Room.roomHeight);
@@ -108,7 +108,7 @@ namespace Shard
 
                 enemies.Add(enemy);
 
-                Console.WriteLine($"Spawned Enemy {i + 1} at ({randomX}, {randomY})");
+                Console.WriteLine($"Spawned Enemy {i + 1} at ({enemy.Transform.Centre.X}, {enemy.Transform.Centre.Y})");
                 if (enemy.Transform.X < 0 || enemy.Transform.X > Bootstrap.getDisplay().getWidth() || enemy.Transform.Y < 0 || enemy.Transform.Y > Bootstrap.getDisplay().getHeight())
                 {
                     enemy.ToBeDestroyed = true;

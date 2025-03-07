@@ -49,14 +49,14 @@ namespace Shard.GameOfDoom
 
             rand = new Random();
 
-            float offsetX = player.Transform.X + 100;
-            float offsetY = player.Transform.Y + 100;
+            float offsetX = player.Transform.X + 60;
+            float offsetY = player.Transform.Y + 60;
 
-            float randomX = rand.Next(0, World.Room.roomWidth);
-            float randomY = rand.Next(0, World.Room.roomHeight);
+            float randomX = rand.Next(100, 700);
+            float randomY = rand.Next(100, 500);
 
-            this.Transform.X = offsetX + randomX;
-            this.Transform.Y = offsetY + randomY;
+            this.Transform.X = offsetX + World.Room.roomWidth;
+            this.Transform.Y = offsetY + World.Room.roomHeight;
 
             
             
