@@ -214,10 +214,11 @@ namespace Shard.GameOfDoom
             //internal override bool isNodeEmpty() { return !(doorUp || doorDown || doorLeft || doorRight); }
             internal bool isDeadEnd() { return (doorUp ^ doorDown ^ doorLeft ^ doorRight); }
 
+            public void removeHitboxes() { TileHitboxesHandler.ClearHitboxes(this.roomLayout); }
             public List<List<Tile>> getRoomLayout()
             {
-                if (isGenerated) return roomLayout;
-                generateRoom();
+                if (isGenerated) { TileHitboxesHandler.addHitboxes(this.roomLayout); }
+                else { generateRoom(); }
                 return roomLayout;
             }
             private void generateRoom()
@@ -237,6 +238,8 @@ namespace Shard.GameOfDoom
                 }
                 addGroundAndTag();
 
+                if (roomType == RoomType.Key) addKeyToRoom();
+
                 isGenerated = true;
             }
             private void MakeRoom()
@@ -251,7 +254,6 @@ namespace Shard.GameOfDoom
                     }
                 }
             }
-
             private List<Tile> buildOuterWallsAndDoors()
             {
                 List<Tile> borderNodes = new List<Tile>();
@@ -346,7 +348,6 @@ namespace Shard.GameOfDoom
                 wall[index].addTag(dir.ToString());
                 wall.RemoveAt(index);
             }
-
             private void addGroundAndTag()
             {
                 foreach (List<Tile> row in roomLayout)
@@ -371,7 +372,12 @@ namespace Shard.GameOfDoom
                     }
                 }
             }
-
+            private void addKeyToRoom()
+            {
+                List<Tile> groundTiles = getGroundTiles();
+                Tile keyTile = groundTiles[rand.Next(groundTiles.Count)];
+                keyTile.item = new Key((int)keyTile.Transform.X, (int)keyTile.Transform.Y);
+            }
             public override void update()
             {
                 foreach (List<Tile> row in roomLayout)
@@ -381,14 +387,12 @@ namespace Shard.GameOfDoom
                         tile.update();
                     }
             }
-
             internal enum ImagePosition
             {
                 TopLeftCorner, TopWall, TopRightCorner, RightWall,
                 BottomRightCorner, BottomWall, BottomLeftCorner, LeftWall,
                 FreeWall, Ground, DoorUp, DoorRight, DoorDown, DoorLeft,
             }
-
             internal static Dictionary<ImagePosition, string> images = new Dictionary<ImagePosition, string>()
         { 
             //corners

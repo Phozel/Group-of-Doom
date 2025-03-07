@@ -18,6 +18,7 @@ namespace Shard.Shard.GoD_s_Work.Tiles_Libary
     {
         internal static float width = 64;
         private string imagePath;
+        internal Item item { get; set; }
 
         internal Tile(int x, int y) : base(x, y) 
         { 
@@ -44,7 +45,6 @@ namespace Shard.Shard.GoD_s_Work.Tiles_Libary
             {
                 if (x.Parent.checkTag("Rocket")) 
                 {
-                    Console.WriteLine("here destroy");
                     this.MyBody.clearColliders();
                   //  this.MyBody = null;
                    // this.clearTags();
@@ -58,8 +58,8 @@ namespace Shard.Shard.GoD_s_Work.Tiles_Libary
                 double EnterDoor = Bootstrap.TimeElapsed;
                 if (EnterDoor - World.getInstance().whenLastEnterDoor > 0.5)
                 {
-                    Console.WriteLine("Here is door");
                     World.getInstance().whenLastEnterDoor = EnterDoor;
+                    World.getInstance().currentRoom.removeHitboxes(); //remove current room's hitboxes from play area
 
                     if (this.checkTag(GameGOD.Direction.Left.ToString()))
                     {
