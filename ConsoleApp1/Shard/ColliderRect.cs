@@ -56,13 +56,17 @@ namespace Shard
 
             if (fromTrans)
             {
-                Wid = (float)(MyRect.Wid * MyRect.Scalex);
-                Ht = (float)(MyRect.Ht * MyRect.Scaley);
+                Wid = MyRect.Wid;
+                Ht = MyRect.Ht;
+                //Wid = (float)(MyRect.Wid * MyRect.Scalex);
+                //Ht = (float)(MyRect.Ht * MyRect.Scaley);
             }
             else
             {
-                Wid = (float)(BaseWid * MyRect.Scalex);
-                Ht = (float)(BaseHt * MyRect.Scaley);
+                Wid = BaseWid;
+                Ht = BaseHt;
+                //Wid = (float)(BaseWid * MyRect.Scalex);
+                //Ht = (float)(BaseHt * MyRect.Scaley);
             }
 
             angle = (float)(Math.PI * MyRect.Rotz / 180.0f);

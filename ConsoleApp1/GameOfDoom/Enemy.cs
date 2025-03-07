@@ -44,7 +44,7 @@ namespace Shard.GameOfDoom
 
 
             setPhysicsEnabled();
-            MyBody.addRectCollider();
+            MyBody.addRectCollider(8, 3, 49, 65);
 
             rand = new Random();
             float randomX = rand.Next(100, 700);

@@ -30,6 +30,7 @@ namespace Shard.GameOfDoom
         private string _direction;
         private bool _isCollidingWithEnvironment = false;
         private int armorLevel = 0;
+        private int bombs = 0;
 
         public CharacterGoD(float fXstart, float fYstart) {
             this.Transform.X = fXstart;
@@ -57,7 +58,7 @@ namespace Shard.GameOfDoom
 
             setPhysicsEnabled();
             
-            MyBody.addRectCollider(16, 16, 128, 128);
+            MyBody.addRectCollider(16, 16, 32, 32);
             addTag("Player");
         }
 
@@ -165,6 +166,10 @@ namespace Shard.GameOfDoom
                         _firePower = 20;
                     }
                 }
+                if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_LALT)
+                {
+
+                }
             }
         }
 
@@ -180,26 +185,42 @@ namespace Shard.GameOfDoom
                 
                 if (_left)
                 {
-                    animation.changeSprite(armorLevel, 0);
+                    if (_direction == "left")
+                    {
+                        animation.changeSprite(armorLevel, 0);
+                    }
                     this.Transform.translate(-1 * amount, 0);
+                    //_direction = "left";
                 }
 
                 if (_right)
                 {
-                    animation.changeSprite(armorLevel, 1);
+                    if (_direction == "right")
+                    {
+                        animation.changeSprite(armorLevel, 1);
+                    }
                     this.Transform.translate(1 * amount, 0);
+                    //_direction = "right";
                 }
 
                 if (_up)
                 {
-                    animation.changeSprite(armorLevel, 2);
+                    if (_direction == "up")
+                    {
+                        animation.changeSprite(armorLevel, 2);
+                    }
                     this.Transform.translate(0, -1 * amount);
+                    //_direction = "up";
                 }
 
                 if (_down)
                 {
-                    animation.changeSprite(armorLevel, 3);
+                    if (_direction == "down")
+                    {
+                        animation.changeSprite(armorLevel, 3);
+                    }
                     this.Transform.translate(0, 1 * amount);
+                    //_direction = "down";
                 }
             }
             
@@ -208,7 +229,7 @@ namespace Shard.GameOfDoom
 
         public override void onCollisionEnter(PhysicsBody x)
         {
-            if (x.Parent.checkTag("Wall"))
+            if (x.Parent.checkTag("Wall") | (x.Parent.checkTag("Item") & !x.Parent.checkTag("Collectible")))
             {
                 _isCollidingWithEnvironment = true;
                 
@@ -217,7 +238,14 @@ namespace Shard.GameOfDoom
             if (x.Parent.checkTag("Armor"))
             {
                 armorLevel += 1;
-                Console.Write("New armor level: " + armorLevel);
+                Console.Write("New armor level: " + armorLevel + "\n");
+            }
+
+            if (x.Parent.checkTag("Bomb"))
+            {
+                bombs += 1;
+                Console.Write("You picked up a bomb!" + "\n");
+                Console.Write("You have " + bombs + " bombs" + "\n");
             }
 
         }
@@ -238,6 +266,28 @@ namespace Shard.GameOfDoom
                 float dY = this.Transform.Centre.Y - cY;
 
                 this.Transform.translate(dX, dY);
+            }
+
+            if (x.Parent.checkTag("Item") & !x.Parent.checkTag("Collectible"))
+            {
+                float cX = x.Parent.Transform.Centre.X;
+                float cY = x.Parent.Transform.Centre.Y;
+
+                float dX = this.Transform.Centre.X - cX;
+                float dY = this.Transform.Centre.Y - cY;
+
+                if (Math.Abs(dX) > Math.Abs(dY))
+                {
+                    if (dX > 4) { dX = 4; }
+                    if (dX < 4) { dX = -4; }
+                    this.Transform.translate(dX, 0);
+                }
+                else
+                {
+                    if (dY > 4) { dY = 4; }
+                    if (dY < 4) { dY = -4; }
+                    this.Transform.translate(0, dY);
+                }
             }
         }
 
