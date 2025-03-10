@@ -16,6 +16,7 @@ namespace Shard
         Enemy enemy;
         CharacterGoD player;
         World world;
+        List<Enemy> enemies = new List<Enemy>();
         private bool gameOver = false;
         private Random rand;
         double lastSpawnTime = 0;
@@ -119,7 +120,6 @@ namespace Shard
             hudManager.AddElement(scoreCount);
 
             Random rand = new Random();
-            List<Enemy> enemies = new List<Enemy>();
             for (int i = 0; i < 2;  i++)
             {
                 float randomX = rand.Next(0, World.Room.roomWidth);
@@ -158,6 +158,9 @@ namespace Shard
         internal enum Direction { Left, Right, Up, Down }
         internal void switchRoom(Direction leavingDirection)
         {
+            Random rand = new Random();
+            float randomX = rand.Next(0, World.Room.roomWidth);
+            float randomY = rand.Next(0, World.Room.roomHeight);
             (float, float) PlayerPos = (0, 0);
             switch (leavingDirection)
             {
@@ -168,7 +171,10 @@ namespace Shard
                 default: Console.WriteLine("Error in World: How did you get here, this is not a valid direction"); break;
             }
             Enemy enemy = new Enemy();
-            enemy.initialize();
+            enemy.Transform.Centre.X = player.Transform.Centre.X + randomX;
+            enemy.Transform.Centre.Y = player.Transform.Centre.Y + randomY;
+            enemies.Add (enemy);
+            //enemy.initialize();
             player.changePos(PlayerPos.Item1, PlayerPos.Item2);
             Debug(); //
         }
