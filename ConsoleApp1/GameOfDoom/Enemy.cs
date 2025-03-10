@@ -120,7 +120,7 @@ namespace Shard.GameOfDoom
 
                 if (player != null)
                 {
-                    player.changeHealth(player.Health - damage);
+                    player.SetHealth(player.Health - damage);
                     Console.WriteLine($"Player hit! Health is now: {player.Health}");
 
                 }

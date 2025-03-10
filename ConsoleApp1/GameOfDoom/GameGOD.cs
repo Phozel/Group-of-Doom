@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using static Shard.GameOfDoom.World;
+
 using Shard.Shard.GoDsWork.HUD;
 
 
@@ -21,7 +22,7 @@ namespace Shard
         private Random rand;
         double lastSpawnTime = 0;
         int spawnCount;
-        public HudManager hudManager;
+        public HudManager _hudManager;
         public HealthBar healthBar;
         public ScoreCount scoreCount;
 
@@ -38,9 +39,15 @@ namespace Shard
         }
         public override void update()
         {
+            Console.WriteLine("_hudManager in update: " + (_hudManager != null));
+            if (_hudManager == null)
+            {
+                Console.WriteLine("Hud Manager becomes null during update");
+            }
             float deltaTime = 0.016f;
             world.update();
-
+            _hudManager.Update(deltaTime);
+            _hudManager.Draw();
             if (Bootstrap.TimeElapsed - lastSpawnTime >= 5)
             {
                 lastSpawnTime = Bootstrap.TimeElapsed;
@@ -75,8 +82,9 @@ namespace Shard
                 return;
 
             }
-            hudManager.Update(deltaTime);
-            hudManager.Draw();
+
+            
+            
         }
 
         public void draw()
@@ -92,6 +100,10 @@ namespace Shard
         public override void initialize()
         {
             Bootstrap.getInput().addListener(this);
+            HudManager _hudManager = new HudManager();
+            
+            
+            
 
             world = World.getInstance();
             world.addRefToGameGOD(this);
@@ -109,15 +121,17 @@ namespace Shard
            
 
             (float, float) t = world.getAcceptibeSpawnPosition();
-            player = new CharacterGoD(t.Item1, t.Item2, hudManager);
+            
+            player = new CharacterGoD(t.Item1, t.Item2, _hudManager);
 
-            hudManager = new HudManager();
+            
 
-            HealthBar healthBar = new HealthBar((int)player.getMaxHealth());
+           // HealthBar healthBar = new HealthBar((int)player.getMaxHealth());
             scoreCount = new ScoreCount();
-
-            hudManager.AddElement(healthBar);
-            hudManager.AddElement(scoreCount);
+            healthBar = new HealthBar(player);
+           
+            _hudManager.AddElement(healthBar);
+            
 
             Random rand = new Random();
             for (int i = 0; i < 2;  i++)
@@ -142,6 +156,11 @@ namespace Shard
 
 
             Debug();
+            Console.WriteLine(_hudManager == null ? "HudManager is NULL in CharacterGoD" : "HudManager is initialized in CharacterGoD");
+            
+            
+            
+            //_hudManager.UpdateHealthBar((int)player.Health);
         }
 
         public GameObject GetPlayer()

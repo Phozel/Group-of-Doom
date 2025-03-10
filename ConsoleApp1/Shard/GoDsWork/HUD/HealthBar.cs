@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using static Shard.GameOfDoom.CharacterGoD;
 
 namespace Shard.Shard.GoDsWork.HUD
 {
@@ -12,14 +13,15 @@ namespace Shard.Shard.GoDsWork.HUD
     {
         private int _maxHealth; //same in player class
         private int _currentHealth;
-        //private CharacterGoD _player;
+        private ICharacter _player;
         
 
-        public HealthBar(int maxHealth)
+        public HealthBar(ICharacter player)
         {
-            //_player = player;
-            _maxHealth = maxHealth;
-            _currentHealth = maxHealth;
+            _player = player;
+            _maxHealth = (int)player.getMaxHealth();
+            _currentHealth = (int)player.Health;
+            
         }
 
        

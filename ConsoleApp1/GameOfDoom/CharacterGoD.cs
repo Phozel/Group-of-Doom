@@ -12,8 +12,10 @@ using System.Threading.Tasks;
 
 namespace Shard.GameOfDoom
 {
-    internal class CharacterGoD : ControllableGameObject
+    internal class CharacterGoD : ControllableGameObject, ICharacter
     {
+        public float Health => _health;
+        public float getMaxHealth() => _maxHealth;
         private string _name { get; set; }
         private float _maxHealth { get; set; }
         private float _health { get; set; }
@@ -33,10 +35,15 @@ namespace Shard.GameOfDoom
         private int armorLevel = 0;
         private HudManager _hudManager;
 
-        public CharacterGoD(float fXstart, float fYstart, HudManager hudManager) {
+        public CharacterGoD(float fXstart, float fYstart, HudManager _hudManager) {
             this.Transform.X = fXstart;
             this.Transform.Y = fYstart;
-            this._hudManager = hudManager;
+            Console.WriteLine("HudManager passed to constructor: " + (_hudManager != null));
+
+            this._hudManager = _hudManager;
+
+            HealthBar healthBar = new HealthBar(this as ICharacter);
+            _hudManager.AddElement(healthBar);
         }
 
         public override void initialize()
@@ -63,10 +70,7 @@ namespace Shard.GameOfDoom
             MyBody.addRectCollider(16, 16, 128, 128);
             addTag("Player");
         }
-        public float Health
-        {
-            get { return _health; }
-        }
+       
 
         public void fireGun()
         {
@@ -209,7 +213,12 @@ namespace Shard.GameOfDoom
                     this.Transform.translate(0, 1 * amount);
                 }
             }
-            
+            Console.WriteLine("_hudManager in update: " + (_hudManager != null));
+            if (_hudManager == null)
+            {
+                Console.WriteLine("_hudManager is null during update.");
+            }
+
             Bootstrap.getDisplay().addToDraw(this);
         }
 
@@ -279,18 +288,16 @@ namespace Shard.GameOfDoom
             this.Transform.Y = this._posY;
         }
 
-        public float getMaxHealth()
-        {
-            return this._maxHealth;
-        }
+       
 
-        public void changeHealth(float health)
+        public void SetHealth(float health)
         {
             _health = Math.Clamp(health, 0, _maxHealth);
 
             if (_hudManager != null )
             {
                 _hudManager.UpdateHealthBar(Convert.ToInt32(health));
+                
             }
             
         }

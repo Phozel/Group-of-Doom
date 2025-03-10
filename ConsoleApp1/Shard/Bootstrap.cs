@@ -30,7 +30,7 @@ namespace Shard
         private static InputSystem input;
         private static PhysicsManager phys;
         private static AssetManagerBase asset;
-        private static HudManager hudManager;
+        
 
         private static bool running = true;
         private static int targetFrameRate;
