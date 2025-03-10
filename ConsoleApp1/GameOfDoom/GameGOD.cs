@@ -112,7 +112,7 @@ namespace Shard
 
             hudManager = new HudManager();
 
-            HealthBar healthBar = new HealthBar(this.Player);
+            HealthBar healthBar = new HealthBar((int)player.getMaxHealth());
             scoreCount = new ScoreCount();
 
             hudManager.AddElement(healthBar);

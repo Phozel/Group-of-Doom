@@ -11,13 +11,15 @@ namespace Shard.Shard.GoDsWork.HUD
     public class HealthBar : HudElement
     {
         private int _maxHealth; //same in player class
-        private CharacterGoD _player;
+        private int _currentHealth;
+        //private CharacterGoD _player;
         
 
-        public HealthBar(CharacterGoD player)
+        public HealthBar(int maxHealth)
         {
-            _player = player;
-            _maxHealth = (int)_player.Health;
+            //_player = player;
+            _maxHealth = maxHealth;
+            _currentHealth = maxHealth;
         }
 
        
@@ -37,7 +39,7 @@ namespace Shard.Shard.GoDsWork.HUD
             int x = (int)Position.X;
             int y = (int)Position.Y;
 
-            int currentHealth = (int)_player.Health;
+            int currentHealth = (int)_currentHealth;
 
             int filledWidth = (int)((currentHealth / (float)_maxHealth) * (barWidth));
             
@@ -48,6 +50,11 @@ namespace Shard.Shard.GoDsWork.HUD
 
 
             //Console.WriteLine($"Drawing Health Bar at {Position} with {_currentHealth}/{_maxHealth} HP");
+        }
+
+        public void setCurrentHealth(int health)
+        {
+            _currentHealth = health;
         }
     }
 }

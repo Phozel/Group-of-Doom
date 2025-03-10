@@ -270,12 +270,18 @@ namespace Shard.GameOfDoom
             }
         }
 
+
         public void changePos(float nx, float ny)
         {
             this._posX = nx;
             this._posY = ny;
             this.Transform.X = this._posX;
             this.Transform.Y = this._posY;
+        }
+
+        public float getMaxHealth()
+        {
+            return this._maxHealth;
         }
 
         public void changeHealth(float health)
