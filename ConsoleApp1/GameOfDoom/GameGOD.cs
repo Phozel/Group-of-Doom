@@ -100,10 +100,7 @@ namespace Shard
         public override void initialize()
         {
             Bootstrap.getInput().addListener(this);
-            HudManager _hudManager = new HudManager();
-            
-            
-            
+            _hudManager = new HudManager(); // tog bort skapandet av ny variabel här
 
             world = World.getInstance();
             world.addRefToGameGOD(this);
