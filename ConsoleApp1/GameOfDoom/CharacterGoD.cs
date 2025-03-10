@@ -1,6 +1,7 @@
 ﻿using SDL2;
 using Shard.Shard.GoDsWork.Animation;
 using Shard.Shard.GoDsWork.ControllableGameObject;
+using Shard.Shard.GoDsWork.HUD;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -30,10 +31,12 @@ namespace Shard.GameOfDoom
         private string _direction;
         private bool _isCollidingWithEnvironment = false;
         private int armorLevel = 0;
+        private HudManager _hudManager;
 
-        public CharacterGoD(float fXstart, float fYstart) {
+        public CharacterGoD(float fXstart, float fYstart, HudManager hudManager) {
             this.Transform.X = fXstart;
             this.Transform.Y = fYstart;
+            this._hudManager = hudManager;
         }
 
         public override void initialize()
@@ -277,7 +280,13 @@ namespace Shard.GameOfDoom
 
         public void changeHealth(float health)
         {
-            this._health = health;
+            _health = Math.Clamp(health, 0, _maxHealth);
+
+            if (_hudManager != null )
+            {
+                _hudManager.UpdateHealthBar(Convert.ToInt32(health));
+            }
+            
         }
 
     }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Shard.GameOfDoom;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
@@ -9,20 +10,17 @@ namespace Shard.Shard.GoDsWork.HUD
 {
     public class HealthBar : HudElement
     {
-        private int _maxHealth;
-        int _currentHealth;
+        private int _maxHealth; //same in player class
+        private CharacterGoD _player;
         
 
-        public HealthBar(int maxHealth)
+        public HealthBar(CharacterGoD player)
         {
-            _maxHealth = maxHealth;
-            _currentHealth = maxHealth;
+            _player = player;
+            _maxHealth = (int)_player.Health;
         }
 
-        public void SetHealth(int health) 
-            {
-                _currentHealth = Math.Clamp(health, 0, _maxHealth);
-            }
+       
         public override void Update(float deltaTime)
         {
 
@@ -39,12 +37,14 @@ namespace Shard.Shard.GoDsWork.HUD
             int x = (int)Position.X;
             int y = (int)Position.Y;
 
-            int filledWidth = (int)((_currentHealth / (float)_maxHealth) * (barWidth));
+            int currentHealth = (int)_player.Health;
+
+            int filledWidth = (int)((currentHealth / (float)_maxHealth) * (barWidth));
             
             display.drawRectangle(x, y, outlineWidth, outlineHeight, System.Drawing.Color.White);  // Outline
             display.drawFilledRectangle(x, y, filledWidth, barHeight, System.Drawing.Color.Red);
             
-            display.showText($"{_currentHealth}/{_maxHealth} HP", x + 5, y - 10, 12, 255, 255, 255, "Arial"); // White text
+            display.showText($"{currentHealth}/{_maxHealth} HP", x + 5, y - 10, 12, 255, 255, 255, "Arial"); // White text
 
 
             //Console.WriteLine($"Drawing Health Bar at {Position} with {_currentHealth}/{_maxHealth} HP");

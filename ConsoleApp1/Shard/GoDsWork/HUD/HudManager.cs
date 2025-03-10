@@ -44,5 +44,16 @@ namespace Shard.Shard.GoDsWork.HUD
             
         }
 
+        public void UpdateHealthBar(int health)
+        {
+            foreach (var element in elements)
+            {
+                if (element is HealthBar healthBar)
+                {
+                    healthBar.Draw();
+                }
+            }
+        }
+
     }
 }

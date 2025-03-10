@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using static Shard.GameOfDoom.World;
+using Shard.Shard.GoDsWork.HUD;
 
 
 namespace Shard
@@ -19,6 +20,11 @@ namespace Shard
         private Random rand;
         double lastSpawnTime = 0;
         int spawnCount;
+        public HudManager hudManager;
+        public HealthBar healthBar;
+        public ScoreCount scoreCount;
+
+        public CharacterGoD Player {  get; private set; }
 
         public override bool isRunning()
         {
@@ -31,6 +37,7 @@ namespace Shard
         }
         public override void update()
         {
+            float deltaTime = 0.016f;
             world.update();
 
             if (Bootstrap.TimeElapsed - lastSpawnTime >= 5)
@@ -67,6 +74,8 @@ namespace Shard
                 return;
 
             }
+            hudManager.Update(deltaTime);
+            hudManager.Draw();
         }
 
         public void draw()
@@ -96,10 +105,18 @@ namespace Shard
 
             Bootstrap.getSound().playMusic("examplemusic.wav", SDL.SDL_MIX_MAXVOLUME);
 
-            
+           
 
             (float, float) t = world.getAcceptibeSpawnPosition();
-            player = new CharacterGoD(t.Item1, t.Item2);
+            player = new CharacterGoD(t.Item1, t.Item2, hudManager);
+
+            hudManager = new HudManager();
+
+            HealthBar healthBar = new HealthBar(this.Player);
+            scoreCount = new ScoreCount();
+
+            hudManager.AddElement(healthBar);
+            hudManager.AddElement(scoreCount);
 
             Random rand = new Random();
             List<Enemy> enemies = new List<Enemy>();
