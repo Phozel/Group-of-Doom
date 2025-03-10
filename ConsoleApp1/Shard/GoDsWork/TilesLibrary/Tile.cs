@@ -36,8 +36,11 @@ namespace Shard.Shard.GoD_s_Work.Tiles_Libary
         internal string getImagePath() {  return this.imagePath; }
         internal override bool isNodeEmpty() { return imagePath == null; }
         public override void initialize() { }
-        public override void update() { Bootstrap.getDisplay().addToDraw(this); //if(item != null) item.update();
-                                                                                }
+        public override void update() {
+            //if (item != null) item.update();
+            Bootstrap.getDisplay().addToDraw(this); 
+            
+        }
 
 
 

@@ -232,8 +232,6 @@ namespace Shard.GameOfDoom
                 foreach (Tile tile in allFreeWalls) 
                 { 
                     tile.setImagePath(images.GetValueOrDefault(ImagePosition.FreeWall));
-                    tile.setPhysicsEnabled();
-                    tile.MyBody.Kinematic = true;
                     
                     tile.addTag(Tags.Destroyable.ToString());
          //           tile.MyBody.addRectCollider(8, 8, 48, 48);
@@ -273,31 +271,15 @@ namespace Shard.GameOfDoom
                 //corners
                 current = roomLayout[0][0];
                 current.setImagePath(images.GetValueOrDefault(ImagePosition.TopLeftCorner));
-                current.setPhysicsEnabled();
-                current.MyBody.Kinematic = true;
-        //        current.MyBody.addRectCollider(0, 0, 64, 32); //top
-        //        current.MyBody.addRectCollider(0, 0, 32, 64); //left
 
                 current = roomLayout[0][roomWidth - 1];
                 current.setImagePath(images.GetValueOrDefault(ImagePosition.TopRightCorner));
-                current.setPhysicsEnabled();
-                current.MyBody.Kinematic = true;
-        //        current.MyBody.addRectCollider(0, 0, 64, 32); //top
-        //        current.MyBody.addRectCollider(32, 0, 32, 64); //right
 
                 current = roomLayout[roomHeight - 1][0];
                 current.setImagePath(images.GetValueOrDefault(ImagePosition.BottomLeftCorner));
-                current.setPhysicsEnabled();
-                current.MyBody.Kinematic = true;
-         //       current.MyBody.addRectCollider(0, 32, 64, 32); //bottom
-        //        current.MyBody.addRectCollider(0, 0, 32, 64); //left
 
                 current = roomLayout[roomHeight - 1][roomWidth - 1];
                 current.setImagePath(images.GetValueOrDefault(ImagePosition.BottomRightCorner));
-                current.setPhysicsEnabled();
-                current.MyBody.Kinematic = true;
-        //        current.MyBody.addRectCollider(0, 32, 64, 32); //bottom
-        //        current.MyBody.addRectCollider(32, 0, 32, 64); //right
 
                 // everything in between
                 for (int i = 1; i < roomWidth - 1; i++)
@@ -305,32 +287,20 @@ namespace Shard.GameOfDoom
                     topWall.Add(roomLayout[0][i]); // up
                     current = roomLayout[0][i];
                     current.setImagePath(images.GetValueOrDefault(ImagePosition.TopWall));
-                    current.setPhysicsEnabled();
-                    current.MyBody.Kinematic = true;
-            //        current.MyBody.addRectCollider(0, 0, 64, 32); //top
 
                     bottomWall.Add(roomLayout[roomHeight - 1][i]); // down
                     current = roomLayout[roomHeight - 1][i];
                     current.setImagePath(images.GetValueOrDefault(ImagePosition.BottomWall));
-                    current.setPhysicsEnabled();
-                    current.MyBody.Kinematic = true;
-           //         current.MyBody.addRectCollider(0, 32, 64, 32); //bottom
                 }
                 for (int i = 1; i < roomHeight - 1; i++)
                 { // everything in between
                     leftWall.Add(roomLayout[i][0]); // left
                     current = roomLayout[i][0];
                     current.setImagePath(images.GetValueOrDefault(ImagePosition.LeftWall));
-                    current.setPhysicsEnabled();
-                    current.MyBody.Kinematic = true;
-           //         current.MyBody.addRectCollider(0, 0, 32, 64); //left
 
                     rightWall.Add(roomLayout[i][roomWidth - 1]); //right
                     current = roomLayout[i][roomWidth - 1];
                     current.setImagePath(images.GetValueOrDefault(ImagePosition.RightWall));
-                    current.setPhysicsEnabled();
-                    current.MyBody.Kinematic = true;
-             //       current.MyBody.addRectCollider(32, 0, 32, 64); //right
 
                 }
                 if (doorUp) { addDoor(topWall, images.GetValueOrDefault(ImagePosition.DoorUp), GameGOD.Direction.Up); } //door up
@@ -365,8 +335,6 @@ namespace Shard.GameOfDoom
                         }
                         else //is wall or door
                         {
-                   //         n.setPhysicsEnabled();
-                   //         n.MyBody.addRectCollider(0, 40, 32, 32); // two first variables not working
                             string imagePath = n.getImagePath();
                             if(imagePath.Contains("door") || imagePath.Contains("Door")) 
                                 { n.addTag(Tags.Door.ToString()); }
