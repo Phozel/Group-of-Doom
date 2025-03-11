@@ -238,13 +238,15 @@ namespace Shard
             foreach (Circle c in _circlesToDraw)
             {
                 SDL.SDL_SetRenderDrawColor(_rend, (byte)c.R, (byte)c.G, (byte)c.B, (byte)c.A);
-                renderCircle(c.X, c.Y, c.Radius);
+                //renderCircle(c.X, c.Y, c.Radius);
+
             }
 
             foreach (Line l in _linesToDraw)
             {
                 SDL.SDL_SetRenderDrawColor(_rend, (byte)l.R, (byte)l.G, (byte)l.B, (byte)l.A);
-                SDL.SDL_RenderDrawLine(_rend, l.Sx, l.Sy, l.Ex, l.Ey);
+                //SDL.SDL_RenderDrawLine(_rend, l.Sx, l.Sy, l.Ex, l.Ey);
+
             }
 
             // Show it off.
