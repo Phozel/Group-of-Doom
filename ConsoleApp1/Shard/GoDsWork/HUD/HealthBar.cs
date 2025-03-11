@@ -21,18 +21,32 @@ namespace Shard.Shard.GoDsWork.HUD
             _player = player;
             _maxHealth = (int)player.getMaxHealth();
             _currentHealth = (int)player.Health;
-            
+
+            int x = (int)Position.X;
+            int y = (int)Position.Y;
+            int barHeight = 24;
+            Display display = Bootstrap.getDisplay();
+
+            display.drawFilledRectangle(x, y, _currentHealth, barHeight, System.Drawing.Color.Black);
+
+            Console.WriteLine($"Drawing Health Bar at {Position} with {_currentHealth}/{_maxHealth} HP");
+
         }
 
-       
+
         public override void Update(float deltaTime)
         {
-
+            if ( _player != null )
+            {
+                _currentHealth = (int )_player.Health;
+            }
         }
 
         public override void Draw()
         {
             Display display = Bootstrap.getDisplay();
+
+            
 
             int barWidth = 199;
             int barHeight = 24;

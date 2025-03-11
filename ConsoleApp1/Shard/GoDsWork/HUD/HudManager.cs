@@ -50,6 +50,7 @@ namespace Shard.Shard.GoDsWork.HUD
             {
                 if (element is HealthBar healthBar)
                 {
+                    
                     healthBar.Draw();
                 }
             }

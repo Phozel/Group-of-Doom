@@ -39,7 +39,7 @@ namespace Shard
         }
         public override void update()
         {
-            Console.WriteLine("_hudManager in update: " + (_hudManager != null));
+           // Console.WriteLine("_hudManager in update: " + (_hudManager != null));
             if (_hudManager == null)
             {
                 Console.WriteLine("Hud Manager becomes null during update");
