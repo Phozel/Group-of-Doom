@@ -20,7 +20,6 @@ namespace Shard.Shard.GoD_s_Work.Tiles_Libary
         private readonly static int offsetFromCornerX = 10, offsetFromCornerY = 50;
         internal static float width = 64;
         private string imagePath;
-        private double _collisionTime = 0;
         private bool _collisionWithBomb = false;
         internal Item item { get; set; }
 
@@ -49,7 +48,6 @@ namespace Shard.Shard.GoD_s_Work.Tiles_Libary
 
         void CollisionHandler.onCollisionEnter(PhysicsBody x)
         {
-            this._collisionTime = Bootstrap.TimeElapsed;
             if (x.Parent.checkTag("Bomb")){
                 this._collisionWithBomb = true;
             }
@@ -112,7 +110,7 @@ namespace Shard.Shard.GoD_s_Work.Tiles_Libary
                         this.setImagePath(World.Room.images.GetValueOrDefault(ImagePosition.Ground));
                         this.addTag(Tags.Ground.ToString());
                 }
-
+                this._collisionWithBomb = false;
             }
             //     throw new NotImplementedException();
         }

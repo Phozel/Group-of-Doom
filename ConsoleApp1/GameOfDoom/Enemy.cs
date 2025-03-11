@@ -27,6 +27,7 @@ namespace Shard.GameOfDoom
         private float animationTimer;
         private const float ANIMATION_SPEED = 0.1f;
 
+        private bool _collisionWithBomb = false;
         public int Xdir { get => xdir; set => xdir = value; }
 
         public override void initialize()
@@ -117,6 +118,11 @@ namespace Shard.GameOfDoom
      
         public void onCollisionEnter(PhysicsBody x)
         {
+            if (x.Parent.checkTag("Bomb"))
+            {
+                this._collisionWithBomb = true;
+            }
+
             if (x.Parent.checkTag("Player"))
             {
                 CharacterGoD player = x.Parent as CharacterGoD;
@@ -152,7 +158,10 @@ namespace Shard.GameOfDoom
 
         public void onCollisionExit(PhysicsBody x)
         {
-
+            if (_collisionWithBomb)
+            {
+                this.ToBeDestroyed = true;
+            }
         }
 
         public void onCollisionStay(PhysicsBody x)
