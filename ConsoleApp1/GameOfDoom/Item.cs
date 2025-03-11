@@ -19,8 +19,10 @@ namespace Shard.GameOfDoom
         public int cols { get; private set; }
         public int startrow { get; private set; }
         public int startcol { get; private set; }
+        public bool collectible { get; private set; }
+        public SpriteSheetAnimation animation { get; protected set; }
 
-        public Item(string itemTag, string spriteName, int sizex, int sizey, int rows, int cols, int startrow, int startcol, int posx, int posy) : base()
+        public Item(string itemTag, string spriteName, int sizex, int sizey, int rows, int cols, int startrow, int startcol, int posx, int posy, bool collectible) : base()
         {
             this.itemTag = itemTag;
             this.spriteName = spriteName;
@@ -32,6 +34,7 @@ namespace Shard.GameOfDoom
             this.startcol = startcol;
             this.Transform.X = posx;
             this.Transform.Y = posy;
+            this.collectible = collectible;
 
             //removes from automatically update = doesn't render when leaving the room it resides in
             //causes problem of not being able to pick up key
@@ -43,13 +46,16 @@ namespace Shard.GameOfDoom
         public void initializeItem()
         {
             setPhysicsEnabled();
-            //this.Transform.SpritePath = Bootstrap.getAssetManager().getAssetPath(spriteName);
-            SpriteSheetAnimation animation = new SpriteSheetAnimation(this, spriteName, sizex, sizey, rows, cols);
+            animation = new SpriteSheetAnimation(this, spriteName, sizex, sizey, rows, cols);
             animation.changeSprite(startrow, startcol);
 
             addTag("Item");
+            if (collectible == true){
+                addTag("Collectible");
+            }
             addTag(itemTag);
-            MyBody.addRectCollider(0, 0, sizex*cols, sizey*rows);
+            MyBody.addRectCollider(0, 0, sizex, sizey);
+            //MyBody.addRectCollider(0, 0, sizex*cols, sizey*rows);
             MyBody.PassThrough = true;
 
         }
@@ -59,9 +65,9 @@ namespace Shard.GameOfDoom
             Bootstrap.getDisplay().addToDraw(this);
         }
 
-        public void onCollisionEnter(PhysicsBody x)
+        public virtual void onCollisionEnter(PhysicsBody x)
         {
-            if (x.Parent.checkTag("God"))
+            if (collectible & x.Parent.checkTag("God"))
             {
                 // add item to inventory
                 this.ToBeDestroyed = true;
@@ -69,11 +75,11 @@ namespace Shard.GameOfDoom
 
         }
 
-        public void onCollisionExit(PhysicsBody x)
+        public virtual void onCollisionExit(PhysicsBody x)
         {
         }
 
-        public void onCollisionStay(PhysicsBody x)
+        public virtual void onCollisionStay(PhysicsBody x)
         {
         }
 

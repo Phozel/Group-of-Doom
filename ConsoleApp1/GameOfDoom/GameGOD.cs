@@ -112,8 +112,9 @@ namespace Shard
             //Armor armor2 = new Armor(128, 192, 1);
             //Armor armor3 = new Armor(192, 192, 2);
             //HealthPack helth = new HealthPack(64, 256);
+            Bomb bomb = new Bomb(64, 256, true);
 
-            Bootstrap.getSound().playMusic("examplemusic.wav", SDL.SDL_MIX_MAXVOLUME);
+            Bootstrap.getSound().playMusic("DoomMusic.wav", 64);
 
            
 

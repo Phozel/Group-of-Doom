@@ -54,7 +54,7 @@ namespace Shard.GameOfDoom
             setPhysicsEnabled();
             
             this.addTag("Rocket");
-            MyBody.addRectCollider(8, 8, 64, 16);
+            MyBody.addRectCollider(8, 8, 16, 16);
             MyBody.PassThrough = true;
 
 

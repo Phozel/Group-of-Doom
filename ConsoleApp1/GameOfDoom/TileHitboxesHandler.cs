@@ -27,19 +27,14 @@ namespace Shard.GameOfDoom
         internal static void ClearHitboxes(Tile tile) 
         {
             if (tile.MyBody != null) PhysicsManager.getInstance().removePhysicsObject(tile.MyBody);
-                //tile.MyBody.inactivateColliders();
             if(tile.item != null) PhysicsManager.getInstance().removePhysicsObject(tile.item.MyBody);
-            //  tile.item.MyBody.inactivateColliders();
-            // tile.MyBody.clearColliders();
         }
         internal static void addHitboxes(List<List<Tile>> room)
         { 
             foreach(List<Tile> row in room) foreach(Tile tile in row)
                 {
                     if (tile.MyBody != null) PhysicsManager.getInstance().addPhysicsObject(tile.MyBody);
-                    //     tile.MyBody.reactivateColliders();
                     if (tile.item != null) PhysicsManager.getInstance().addPhysicsObject(tile.item.MyBody);
-                    //     tile.item.MyBody.reactivateColliders();
                 }
         }
         internal static void createHitboxes(List<List<Tile>> room) {
@@ -69,40 +64,60 @@ namespace Shard.GameOfDoom
             }
 
         }
-        //where to add hitboxes
+        //where to add Tile hitboxes
         //corners
         private static void HitboxTopLeft(Tile tile) 
         {
+            tile.setPhysicsEnabled();
+            tile.MyBody.Kinematic = true;
             tile.MyBody.addRectCollider(0, 0, 64, 32); //top
             tile.MyBody.addRectCollider(0, 0, 32, 64); //left}
         }
         private static void HitboxTopRight(Tile tile) {
+            tile.setPhysicsEnabled();
+            tile.MyBody.Kinematic = true;
             tile.MyBody.addRectCollider(0, 0, 64, 32); //top
             tile.MyBody.addRectCollider(32, 0, 32, 64); //right
         }
         private static void HitboxBottomLeft(Tile tile) {
+            tile.setPhysicsEnabled();
+            tile.MyBody.Kinematic = true;
             tile.MyBody.addRectCollider(0, 32, 64, 32); //bottom
             tile.MyBody.addRectCollider(0, 0, 32, 64); //left
         }
         private static void HitboxBottomRight(Tile tile) {
+            tile.setPhysicsEnabled();
+            tile.MyBody.Kinematic = true;
             tile.MyBody.addRectCollider(0, 32, 64, 32); //bottom
             tile.MyBody.addRectCollider(32, 0, 32, 64); //right
         }
         //walls edges
-        private static void HitboxTopWall(Tile tile) { 
-        tile.MyBody.addRectCollider(0, 0, 64, 32); //top
+        private static void HitboxTopWall(Tile tile) {
+            tile.setPhysicsEnabled();
+            tile.MyBody.Kinematic = true;
+            tile.MyBody.addRectCollider(0, 0, 64, 32); //top
         }
-        private static void HitboxLeftWall(Tile tile) { 
-        tile.MyBody.addRectCollider(0, 0, 32, 64); //left
+        private static void HitboxLeftWall(Tile tile) {
+            tile.setPhysicsEnabled();
+            tile.MyBody.Kinematic = true;
+            tile.MyBody.addRectCollider(0, 0, 32, 64); //left
         }
-        private static void HitboxRightWall(Tile tile) { 
-        tile.MyBody.addRectCollider(32, 0, 32, 64); //right
+        private static void HitboxRightWall(Tile tile) {
+            tile.setPhysicsEnabled();
+            tile.MyBody.Kinematic = true;
+            tile.MyBody.addRectCollider(32, 0, 32, 64); //right
         }
         private static void HitboxBottomWall(Tile tile) {
+            tile.setPhysicsEnabled();
+            tile.MyBody.Kinematic = true;
             tile.MyBody.addRectCollider(0, 32, 64, 32); //bottom
         }
         //free walls
-        private static void HitboxFreeWall(Tile tile) { tile.MyBody.addRectCollider(8, 8, 48, 48); }
+        private static void HitboxFreeWall(Tile tile) {
+            tile.setPhysicsEnabled();
+            tile.MyBody.Kinematic = true; 
+            tile.MyBody.addRectCollider(8, 8, 48, 48); 
+        }
 
     }
 }
