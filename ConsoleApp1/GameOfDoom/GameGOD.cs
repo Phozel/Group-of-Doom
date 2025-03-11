@@ -7,6 +7,8 @@ using System.Drawing;
 using System.Linq;
 using static Shard.GameOfDoom.World;
 
+using Shard.Shard.GoDsWork.HUD;
+
 
 namespace Shard
 {
@@ -15,10 +17,16 @@ namespace Shard
         Enemy enemy;
         CharacterGoD player;
         World world;
+        List<Enemy> enemies = new List<Enemy>();
         private bool gameOver = false;
         private Random rand;
         double lastSpawnTime = 0;
         int spawnCount;
+        public HudManager _hudManager;
+        public HealthBar healthBar;
+        public ScoreCount scoreCount;
+
+        public CharacterGoD Player {  get; private set; }
 
         public override bool isRunning()
         {
@@ -31,8 +39,15 @@ namespace Shard
         }
         public override void update()
         {
+           // Console.WriteLine("_hudManager in update: " + (_hudManager != null));
+            if (_hudManager == null)
+            {
+                Console.WriteLine("Hud Manager becomes null during update");
+            }
+            float deltaTime = 0.016f;
             world.update();
-
+            _hudManager.Update(deltaTime);
+            _hudManager.Draw();
             if (Bootstrap.TimeElapsed - lastSpawnTime >= 5)
             {
                 lastSpawnTime = Bootstrap.TimeElapsed;
@@ -67,6 +82,9 @@ namespace Shard
                 return;
 
             }
+
+            
+            
         }
 
         public void draw()
@@ -82,6 +100,7 @@ namespace Shard
         public override void initialize()
         {
             Bootstrap.getInput().addListener(this);
+            _hudManager = new HudManager(); // tog bort skapandet av ny variabel här
 
             world = World.getInstance();
             world.addRefToGameGOD(this);
@@ -97,13 +116,22 @@ namespace Shard
 
             Bootstrap.getSound().playMusic("DoomMusic.wav", 64);
 
-            
+           
 
             (float, float) t = world.getAcceptibeSpawnPosition();
-            player = new CharacterGoD(t.Item1, t.Item2);
+            
+            player = new CharacterGoD(t.Item1, t.Item2, _hudManager);
+
+            
+
+           // HealthBar healthBar = new HealthBar((int)player.getMaxHealth());
+            scoreCount = new ScoreCount();
+            healthBar = new HealthBar(player);
+           
+            _hudManager.AddElement(healthBar);
+            
 
             Random rand = new Random();
-            List<Enemy> enemies = new List<Enemy>();
             for (int i = 0; i < 2;  i++)
             {
                 float randomX = rand.Next(0, World.Room.roomWidth);
@@ -126,6 +154,11 @@ namespace Shard
 
 
             Debug();
+            Console.WriteLine(_hudManager == null ? "HudManager is NULL in CharacterGoD" : "HudManager is initialized in CharacterGoD");
+            
+            
+            
+            //_hudManager.UpdateHealthBar((int)player.Health);
         }
 
         public GameObject GetPlayer()
@@ -142,6 +175,9 @@ namespace Shard
         internal enum Direction { Left, Right, Up, Down }
         internal void switchRoom(Direction leavingDirection)
         {
+            Random rand = new Random();
+            float randomX = rand.Next(0, World.Room.roomWidth);
+            float randomY = rand.Next(0, World.Room.roomHeight);
             (float, float) PlayerPos = (0, 0);
             switch (leavingDirection)
             {
@@ -152,7 +188,10 @@ namespace Shard
                 default: Console.WriteLine("Error in World: How did you get here, this is not a valid direction"); break;
             }
             Enemy enemy = new Enemy();
-            enemy.initialize();
+            enemy.Transform.Centre.X = player.Transform.Centre.X + randomX;
+            enemy.Transform.Centre.Y = player.Transform.Centre.Y + randomY;
+            enemies.Add (enemy);
+            //enemy.initialize();
             player.changePos(PlayerPos.Item1, PlayerPos.Item2);
             Debug(); //
         }

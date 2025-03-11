@@ -40,15 +40,9 @@ namespace Shard.GameOfDoom
             game = (GameGOD)Bootstrap.getRunningGame();
             player = game.GetPlayer();
             animation = new SpriteSheetAnimation(this, "ATTACK.png", 81, 71, 1, 8);
-            
-            
-
+          
 
             animation.changeSprite(0, 0);
-
-
-           
-            
 
 
             setPhysicsEnabled();
@@ -137,7 +131,7 @@ namespace Shard.GameOfDoom
 
                 if (player != null)
                 {
-                    player.changeHealth(player.Health - damage);
+                    player.SetHealth(player.Health - damage);
                     Console.WriteLine($"Player hit! Health is now: {player.Health}");
 
                 }

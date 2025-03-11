@@ -1,6 +1,7 @@
 ﻿using SDL2;
 using Shard.Shard.GoDsWork.Animation;
 using Shard.Shard.GoDsWork.ControllableGameObject;
+using Shard.Shard.GoDsWork.HUD;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -11,8 +12,10 @@ using System.Threading.Tasks;
 
 namespace Shard.GameOfDoom
 {
-    internal class CharacterGoD : ControllableGameObject
+    internal class CharacterGoD : ControllableGameObject, ICharacter
     {
+        public float Health => _health;
+        public float getMaxHealth() => _maxHealth;
         private string _name { get; set; }
         private float _maxHealth { get; set; }
         private float _health { get; set; }
@@ -30,11 +33,21 @@ namespace Shard.GameOfDoom
         private string _direction;
         private bool _isCollidingWithEnvironment = false;
         private int armorLevel = 0;
+
+        private HudManager _hudManager;
+
         private int bombs = 3;
 
-        public CharacterGoD(float fXstart, float fYstart) {
+
+        public CharacterGoD(float fXstart, float fYstart, HudManager _hudManager) {
             this.Transform.X = fXstart;
             this.Transform.Y = fYstart;
+            Console.WriteLine("HudManager passed to constructor: " + (_hudManager != null));
+
+            this._hudManager = _hudManager;
+
+            HealthBar healthBar = new HealthBar(this as ICharacter);
+            _hudManager.AddElement(healthBar);
         }
 
         public override void initialize()
@@ -61,10 +74,7 @@ namespace Shard.GameOfDoom
             MyBody.addRectCollider(16, 16, 32, 32);
             addTag("Player");
         }
-        public float Health
-        {
-            get { return _health; }
-        }
+       
 
         public void fireGun()
         {
@@ -260,7 +270,12 @@ namespace Shard.GameOfDoom
                     //_direction = "down";
                 }
             }
-            
+           // Console.WriteLine("_hudManager in update: " + (_hudManager != null));
+            if (_hudManager == null)
+            {
+                Console.WriteLine("_hudManager is null during update.");
+            }
+
             Bootstrap.getDisplay().addToDraw(this);
         }
 
@@ -350,6 +365,7 @@ namespace Shard.GameOfDoom
             }
         }
 
+
         public void changePos(float nx, float ny)
         {
             this._posX = nx;
@@ -358,9 +374,18 @@ namespace Shard.GameOfDoom
             this.Transform.Y = this._posY;
         }
 
-        public void changeHealth(float health)
+       
+
+        public void SetHealth(float health)
         {
-            this._health = health;
+            _health = Math.Clamp(health, 0, _maxHealth);
+
+            if (_hudManager != null )
+            {
+                _hudManager.UpdateHealthBar(Convert.ToInt32(health));
+                
+            }
+            
         }
 
     }

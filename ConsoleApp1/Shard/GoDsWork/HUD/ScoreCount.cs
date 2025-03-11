@@ -8,7 +8,12 @@ namespace Shard.Shard.GoDsWork.HUD
 {
     public class ScoreCount : HudElement
     {
-        int currentScore;
+        private int score;
+
+        public void AddScore(int amount)
+        {
+            score += amount;
+        }
 
         public override void Draw()
         {
@@ -17,7 +22,7 @@ namespace Shard.Shard.GoDsWork.HUD
             int x = (int)Position.X;
             int y = (int)Position.Y;
 
-            display.showText($"S c o r e: {currentScore}", x + 5, y - 10, 12, 255, 255, 255, "Arial");
+            display.showText($"S c o r e: {score}", x + 5, y - 10, 12, 255, 255, 255, "Arial");
 
             //Console.WriteLine($"Drawing Score Counter at {Position}");
         }
@@ -26,6 +31,8 @@ namespace Shard.Shard.GoDsWork.HUD
         {
 
         }
+
+
 
     }
 }

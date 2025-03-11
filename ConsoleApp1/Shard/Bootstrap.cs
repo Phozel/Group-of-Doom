@@ -30,7 +30,7 @@ namespace Shard
         private static InputSystem input;
         private static PhysicsManager phys;
         private static AssetManagerBase asset;
-        private static HudManager hudManager;
+        
 
         private static bool running = true;
         private static int targetFrameRate;
@@ -195,17 +195,7 @@ namespace Shard
                 Environment.Exit(0);
             }
 
-            hudManager = new HudManager();
-
-            //Add HUD elements here
-
-            HealthBar healthBar = new HealthBar(100);
-            healthBar.Position = new Vector2(10, 10);
-            hudManager.AddElement(healthBar);
-
-            ScoreCount scoreCount = new ScoreCount();
-            scoreCount.Position = new Vector2(550, 20);
-            hudManager.AddElement(scoreCount);
+          
 
           
         }
@@ -338,8 +328,7 @@ namespace Shard
                     }
 
                 }
-                hudManager.Update((float)deltaTime);
-                hudManager.Draw();
+               
                 
 
 
