@@ -20,6 +20,8 @@ namespace Shard.Shard.GoD_s_Work.Tiles_Libary
         private readonly static int offsetFromCornerX = 10, offsetFromCornerY = 50;
         internal static float width = 64;
         private string imagePath;
+        private double _collisionTime = 0;
+        private bool _collisionWithBomb = false;
         internal Item item { get; set; }
 
         internal Tile(int x, int y) : base(x, y) 
@@ -47,6 +49,11 @@ namespace Shard.Shard.GoD_s_Work.Tiles_Libary
 
         void CollisionHandler.onCollisionEnter(PhysicsBody x)
         {
+            this._collisionTime = Bootstrap.TimeElapsed;
+            if (x.Parent.checkTag("Bomb")){
+                this._collisionWithBomb = true;
+            }
+            
             if (this.checkTag(World.Tags.Destroyable.ToString())) //"destroy" self on collision with missile
             {
                 if (x.Parent.checkTag("Rocket")) 
@@ -57,7 +64,10 @@ namespace Shard.Shard.GoD_s_Work.Tiles_Libary
                     this.setImagePath(World.Room.images.GetValueOrDefault(ImagePosition.Ground));
                     this.addTag(Tags.Ground.ToString());
                 }
+                
             }
+
+
 
             if (this.checkTag(World.Tags.Door.ToString()) && x.Parent.checkTag("God")) 
             {
@@ -92,12 +102,25 @@ namespace Shard.Shard.GoD_s_Work.Tiles_Libary
 
         void CollisionHandler.onCollisionExit(PhysicsBody x)
         {
-       //     throw new NotImplementedException();
+            if (_collisionWithBomb)
+            {
+                if (this.checkTag(World.Tags.Destroyable.ToString())) //"destroy" self on collision with missile
+                {
+                        this.MyBody.clearColliders();
+                        //  this.MyBody = null;
+                        // this.clearTags();
+                        this.setImagePath(World.Room.images.GetValueOrDefault(ImagePosition.Ground));
+                        this.addTag(Tags.Ground.ToString());
+                }
+
+            }
+            //     throw new NotImplementedException();
         }
 
         void CollisionHandler.onCollisionStay(PhysicsBody x)
         {
-     //       throw new NotImplementedException();
+            
+            //       throw new NotImplementedException();
         }
     }
 

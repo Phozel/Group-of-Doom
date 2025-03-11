@@ -30,7 +30,7 @@ namespace Shard.GameOfDoom
         private string _direction;
         private bool _isCollidingWithEnvironment = false;
         private int armorLevel = 0;
-        private int bombs = 0;
+        private int bombs = 10;
 
         public CharacterGoD(float fXstart, float fYstart) {
             this.Transform.X = fXstart;
@@ -91,23 +91,23 @@ namespace Shard.GameOfDoom
             int bx = 0, by = 0;
             if (_direction == "left")
             {
-                bx = (int)this.Transform.X - 16;
+                bx = (int)this.Transform.X - 24;
                 by = (int)this.Transform.Y + 16;
             }
             if (_direction == "right")
             {
-                bx = (int)this.Transform.X + 48;
+                bx = (int)this.Transform.X + 56;
                 by = (int)this.Transform.Y + 16;
             }
             if (_direction == "up")
             {
                 bx = (int)this.Transform.X + 16;
-                by = (int)this.Transform.Y - 16;
+                by = (int)this.Transform.Y - 24;
             }
             if (_direction == "down")
             {
                 bx = (int)this.Transform.X + 16;
-                by = (int)this.Transform.Y + 48;
+                by = (int)this.Transform.Y + 56;
             }
 
             Bomb bomb = new Bomb(bx, by, false);

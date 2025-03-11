@@ -65,25 +65,21 @@ namespace Shard.GameOfDoom
             Bootstrap.getDisplay().addToDraw(this);
         }
 
-        public void onCollisionEnter(PhysicsBody x)
+        public virtual void onCollisionEnter(PhysicsBody x)
         {
             if (collectible & x.Parent.checkTag("God"))
             {
                 // add item to inventory
                 this.ToBeDestroyed = true;
             }
-            else
-            {
-
-            }
 
         }
 
-        public void onCollisionExit(PhysicsBody x)
+        public virtual void onCollisionExit(PhysicsBody x)
         {
         }
 
-        public void onCollisionStay(PhysicsBody x)
+        public virtual void onCollisionStay(PhysicsBody x)
         {
         }
 
