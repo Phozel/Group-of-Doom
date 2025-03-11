@@ -30,7 +30,7 @@ namespace Shard.GameOfDoom
         private string _direction;
         private bool _isCollidingWithEnvironment = false;
         private int armorLevel = 0;
-        private int bombs = 10;
+        private int bombs = 3;
 
         public CharacterGoD(float fXstart, float fYstart) {
             this.Transform.X = fXstart;
