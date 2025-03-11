@@ -26,6 +26,9 @@ namespace Shard.GameOfDoom
         private string _direction;
         private float animationTimer;
         private const float ANIMATION_SPEED = 0.1f;
+        private EnemyDeath death;
+        private float _approxPosXonDeath;
+        private float _approxPosYonDeath;
 
         private bool _collisionWithBomb = false;
         public int Xdir { get => xdir; set => xdir = value; }
@@ -121,6 +124,8 @@ namespace Shard.GameOfDoom
             if (x.Parent.checkTag("Bomb"))
             {
                 this._collisionWithBomb = true;
+                this._approxPosXonDeath = this.Transform.X;
+                this._approxPosYonDeath = this.Transform.Y;
             }
 
             if (x.Parent.checkTag("Player"))
@@ -147,7 +152,7 @@ namespace Shard.GameOfDoom
             else if (x.Parent.checkTag("Bullet") || (x.Parent.checkTag("Rocket")))
             {
                 Console.WriteLine("Enemy hit!");
-                EnemyDeath death = new EnemyDeath(this.Transform.X, this.Transform.Y);
+                death = new EnemyDeath(this.Transform.X, this.Transform.Y);
                 this.ToBeDestroyed = true;
 
             }
@@ -159,15 +164,18 @@ namespace Shard.GameOfDoom
 
         public void onCollisionExit(PhysicsBody x)
         {
+            
             if (_collisionWithBomb)
             {
+                
+                death = new EnemyDeath(this._approxPosXonDeath, this._approxPosYonDeath);
                 this.ToBeDestroyed = true;
             }
         }
 
         public void onCollisionStay(PhysicsBody x)
         {
-
+            
         }
     }
 }
