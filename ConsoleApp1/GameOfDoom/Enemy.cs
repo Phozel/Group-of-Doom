@@ -147,6 +147,7 @@ namespace Shard.GameOfDoom
             else if (x.Parent.checkTag("Bullet") || (x.Parent.checkTag("Rocket")))
             {
                 Console.WriteLine("Enemy hit!");
+                EnemyDeath death = new EnemyDeath(this.Transform.X, this.Transform.Y);
                 this.ToBeDestroyed = true;
 
             }
