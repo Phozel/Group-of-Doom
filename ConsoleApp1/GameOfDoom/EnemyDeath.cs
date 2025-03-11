@@ -13,6 +13,8 @@ namespace Shard.GameOfDoom
         int spriteCounter = 1;
         private float animationTimer;
         private const float ANIMATION_SPEED = 0.1f;
+        private bool _isDead = false;
+
         public EnemyDeath(float posx, float posy)
         {
             this.Transform.X = posx;
@@ -41,12 +43,17 @@ namespace Shard.GameOfDoom
                 }
                 else
                 {
-                    ToBeDestroyed = true;
+                    _isDead = true;
                 }
+                
             }
 
             Bootstrap.getDisplay().addToDraw(this);
         }
 
+        public bool getIsDead()
+        {
+            return _isDead;
+        }
     }
 }
