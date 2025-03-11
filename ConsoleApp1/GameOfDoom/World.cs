@@ -349,6 +349,7 @@ namespace Shard.GameOfDoom
                 List<Tile> groundTiles = getGroundTiles();
                 Tile keyTile = groundTiles[rand.Next(groundTiles.Count)];
                 keyTile.item = new Key((int)keyTile.Transform.X, (int)keyTile.Transform.Y);
+                roomLayout[keyTile.getY()][keyTile.getX()] = keyTile;
             }
             public override void update()
             {
