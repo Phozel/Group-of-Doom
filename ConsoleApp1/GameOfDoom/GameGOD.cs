@@ -95,7 +95,7 @@ namespace Shard
             //HealthPack helth = new HealthPack(64, 256);
             Bomb bomb = new Bomb(64, 256, true);
 
-            Bootstrap.getSound().playMusic("DoomMusic.wav", SDL.SDL_MIX_MAXVOLUME);
+            Bootstrap.getSound().playMusic("DoomMusic.wav", 64);
 
             
 
