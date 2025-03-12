@@ -10,18 +10,11 @@ namespace Shard.GameOfDoom
     class Bomb : Item
     {
         private double _placeTime = Bootstrap.TimeElapsed;
-        private bool _isPlaced = false;
         private bool _shouldExplode = false;
         public Bomb(int posx, int posy, bool collectible) : base("Bomb", collectible ? "Bomb.png" : "BombPlaced.png", collectible ? 64 : 32, collectible ? 64 : 32, 1, collectible ? 2 : 1, 0, 0, posx, posy, collectible)
         {
             _placeTime = Bootstrap.TimeElapsed;
             this.addTag("Bomb");
-        }
-
-        public void setIsPlaced(bool isPlaced)
-        {
-            this.removeTag("Collectible");
-            _isPlaced = isPlaced;
         }
 
         public bool getShouldExplode()
@@ -31,7 +24,7 @@ namespace Shard.GameOfDoom
 
         public override void update()
         {
-            if (Bootstrap.TimeElapsed - _placeTime >= 1 & _isPlaced)
+            if (Bootstrap.TimeElapsed - _placeTime >= 1 & !collectible)
             {
                 _placeTime = Bootstrap.TimeElapsed;
                 _shouldExplode = true;

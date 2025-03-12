@@ -121,7 +121,6 @@ namespace Shard.GameOfDoom
             }
 
             Bomb bomb = new Bomb(bx, by, false);
-            bomb.setIsPlaced(true);
             Console.WriteLine("Bomb placed at " + bx + " " + by + "\n");
         }
 
