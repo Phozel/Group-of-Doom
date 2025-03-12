@@ -24,7 +24,7 @@ namespace Shard.GameOfDoom
 
         public override void update()
         {
-            if (Bootstrap.TimeElapsed - _placeTime >= 1 & !collectible)
+            if (Bootstrap.TimeElapsed - _placeTime >= 1 && !collectible)
             {
                 _placeTime = Bootstrap.TimeElapsed;
                 _shouldExplode = true;
@@ -33,9 +33,6 @@ namespace Shard.GameOfDoom
             base.update();
         }
 
-        public override void onCollisionExit(PhysicsBody x)
-        {
-            
-        }
+        
     }
 }

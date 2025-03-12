@@ -43,19 +43,18 @@ namespace Shard.GameOfDoom
             initializeItem();
         }
 
-        public void initializeItem()
+        public virtual void initializeItem()
         {
             setPhysicsEnabled();
             animation = new SpriteSheetAnimation(this, spriteName, sizex, sizey, rows, cols);
             animation.changeSprite(startrow, startcol);
 
             addTag("Item");
+            addTag(itemTag);
             if (collectible == true){
                 addTag("Collectible");
             }
-            addTag(itemTag);
             MyBody.addRectCollider(0, 0, sizex, sizey);
-            //MyBody.addRectCollider(0, 0, sizex*cols, sizey*rows);
             MyBody.PassThrough = true;
 
         }
@@ -69,7 +68,6 @@ namespace Shard.GameOfDoom
         {
             if (collectible & x.Parent.checkTag("God"))
             {
-                // add item to inventory
                 this.ToBeDestroyed = true;
             }
 

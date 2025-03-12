@@ -115,7 +115,7 @@ namespace Shard.GameOfDoom
      
         public void onCollisionEnter(PhysicsBody x)
         {
-            if (x.Parent.checkTag("Bomb"))
+            if (x.Parent.checkTag("Bomb") && !x.Parent.checkTag("Collectible"))
             {
                 this._collisionWithBomb = true;
                 this._approxPosXonDeath = this.Transform.X;

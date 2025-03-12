@@ -236,7 +236,6 @@ namespace Shard.GameOfDoom
                         animation.changeSprite(armorLevel, 0);
                     }
                     this.Transform.translate(-1 * amount, 0);
-                    //_direction = "left";
                 }
 
                 if (_right)
@@ -246,7 +245,6 @@ namespace Shard.GameOfDoom
                         animation.changeSprite(armorLevel, 1);
                     }
                     this.Transform.translate(1 * amount, 0);
-                    //_direction = "right";
                 }
 
                 if (_up)
@@ -256,7 +254,6 @@ namespace Shard.GameOfDoom
                         animation.changeSprite(armorLevel, 2);
                     }
                     this.Transform.translate(0, -1 * amount);
-                    //_direction = "up";
                 }
 
                 if (_down)
@@ -266,7 +263,6 @@ namespace Shard.GameOfDoom
                         animation.changeSprite(armorLevel, 3);
                     }
                     this.Transform.translate(0, 1 * amount);
-                    //_direction = "down";
                 }
             }
            // Console.WriteLine("_hudManager in update: " + (_hudManager != null));
@@ -280,7 +276,7 @@ namespace Shard.GameOfDoom
 
         public override void onCollisionEnter(PhysicsBody x)
         {
-            if (x.Parent.checkTag("Wall") | (x.Parent.checkTag("Item") & !x.Parent.checkTag("Collectible")))
+            if (x.Parent.checkTag("Wall") || (x.Parent.checkTag("Item") && !x.Parent.checkTag("Collectible")))
             {
                 _isCollidingWithEnvironment = true;
                 
@@ -289,14 +285,14 @@ namespace Shard.GameOfDoom
             if (x.Parent.checkTag("Armor"))
             {
                 armorLevel += 1;
-                Console.Write("New armor level: " + armorLevel + "\n");
+                //Console.WriteLine("New armor level: " + armorLevel);
             }
 
-            if (x.Parent.checkTag("Bomb") & x.Parent.checkTag("Collectible"))
+            if (x.Parent.checkTag("Bomb") && x.Parent.checkTag("Collectible"))
             {
                 bombs += 1;
-                Console.Write("You picked up a bomb!" + "\n");
-                Console.Write("You have " + bombs + " bombs" + "\n");
+                //Console.WriteLine("You picked up a bomb!");
+                //Console.WriteLine("You have " + bombs + " bombs");
             }
 
             if (x.Parent.checkTag("Enemy"))
@@ -341,7 +337,7 @@ namespace Shard.GameOfDoom
                 this.Transform.translate(dX, dY);
             }
 
-            if (x.Parent.checkTag("Item") & !x.Parent.checkTag("Collectible"))
+            if (x.Parent.checkTag("Item") && !x.Parent.checkTag("Collectible"))
             {
                 float cX = x.Parent.Transform.Centre.X;
                 float cY = x.Parent.Transform.Centre.Y;
