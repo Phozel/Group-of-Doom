@@ -48,7 +48,7 @@ namespace Shard.Shard.GoD_s_Work.Tiles_Libary
 
         void CollisionHandler.onCollisionEnter(PhysicsBody x)
         {
-            if (x.Parent.checkTag("Bomb")){
+            if (x.Parent.checkTag("Bomb") && !x.Parent.checkTag("Collectible")){
                 this._collisionWithBomb = true;
             }
             
