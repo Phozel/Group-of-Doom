@@ -125,10 +125,11 @@ namespace Shard
             
 
            // HealthBar healthBar = new HealthBar((int)player.getMaxHealth());
-            scoreCount = new ScoreCount();
+            scoreCount = new ScoreCount(player);
             healthBar = new HealthBar(player);
            
             _hudManager.AddElement(healthBar);
+            _hudManager.AddElement(scoreCount);
             
 
             Random rand = new Random();

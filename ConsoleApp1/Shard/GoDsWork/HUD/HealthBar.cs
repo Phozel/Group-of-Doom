@@ -62,7 +62,7 @@ namespace Shard.Shard.GoDsWork.HUD
             display.drawRectangle(x, y, outlineWidth, outlineHeight, System.Drawing.Color.White);  // Outline
             display.drawFilledRectangle(x, y, filledWidth, barHeight, System.Drawing.Color.Red);
             
-            display.showText($"{currentHealth}/{_maxHealth} HP", x + 5, y - 10, 12, 255, 255, 255, "Arial"); // White text
+            display.showText($"{currentHealth}/{_maxHealth} HP", x - 5, y - 10, 12, 255, 255, 255, "Arial"); // White text
 
 
             //Console.WriteLine($"Drawing Health Bar at {Position} with {_currentHealth}/{_maxHealth} HP");

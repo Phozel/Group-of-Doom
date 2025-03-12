@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static Shard.GameOfDoom.World;
 using static Shard.GameOfDoom.CharacterGoD;
+using Shard.Shard.GoDsWork.HUD;
 
 
 namespace Shard.GameOfDoom
@@ -148,7 +149,7 @@ namespace Shard.GameOfDoom
                 Console.WriteLine("Enemy hit!");
                 death = new EnemyDeath(this.Transform.X, this.Transform.Y);
                 this.ToBeDestroyed = true;
-
+               
             }
             
             

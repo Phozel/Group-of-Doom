@@ -10,5 +10,7 @@ namespace Shard.GameOfDoom
     {
         float Health { get; }
         float getMaxHealth();
+
+        int Score { get; }
     }
 }

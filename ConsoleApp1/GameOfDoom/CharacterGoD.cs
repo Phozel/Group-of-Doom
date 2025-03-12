@@ -35,6 +35,8 @@ namespace Shard.GameOfDoom
         private int armorLevel = 0;
 
         private HudManager _hudManager;
+        private int _score;
+        public int Score => _score;
 
         private int bombs = 3;
 
@@ -47,7 +49,9 @@ namespace Shard.GameOfDoom
             this._hudManager = _hudManager;
 
             HealthBar healthBar = new HealthBar(this as ICharacter);
+            ScoreCount scoreCount = new ScoreCount(this as ICharacter);
             _hudManager.AddElement(healthBar);
+            _hudManager.AddElement(scoreCount);
         }
 
         public override void initialize()
@@ -385,6 +389,16 @@ namespace Shard.GameOfDoom
                 
             }
             
+        }
+
+        public void SetScore(int score)
+        {
+            _score = 0;
+
+            if (_hudManager != null )
+            {
+                _hudManager.UpdateScore(Convert.ToInt32(score));
+            }
         }
 
     }

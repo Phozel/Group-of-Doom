@@ -56,5 +56,17 @@ namespace Shard.Shard.GoDsWork.HUD
             }
         }
 
+        public void UpdateScore(int score)
+        {
+            foreach (var element in elements)
+            {
+                if (element is ScoreCount scoreCount)
+                {
+                    scoreCount.Draw();
+                }
+
+            }
+        }
+
     }
 }
