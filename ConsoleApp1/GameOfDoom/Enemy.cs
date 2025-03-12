@@ -45,8 +45,7 @@ namespace Shard.GameOfDoom
             animation.changeSprite(0, 0);
 
 
-            setPhysicsEnabled();
-            MyBody.addRectCollider(8, 3, 49, 65);
+            
 
             rand = new Random();
 
@@ -66,12 +65,13 @@ namespace Shard.GameOfDoom
             npcBehavior = new NPC(startPos, patrolPoints, player);
 
             this.addTag("Enemy");
-
+            setPhysicsEnabled();
             MyBody.PassThrough = true;
             Console.WriteLine($"Enemy tags: {this.getTags()}");
             damage = 5;
-            
 
+            
+            MyBody.addRectCollider(8, 3, 49, 65);
 
         }
         public void changeSprite()

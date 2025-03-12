@@ -279,7 +279,7 @@ namespace Shard
 
             if (getEnvironmentalVariable("physics_debug") == "1")
             {
-                physDebug = true;
+                //physDebug = true;
             }
 
             while (running)
