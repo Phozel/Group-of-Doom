@@ -21,7 +21,8 @@ namespace Shard.Shard.GoDsWork.NPCAI
         private enum State
         {
             Patrolling,
-            Chasing
+            Chasing,
+            Outside
         }
         public NPC(Vector2 startPosition, Vector2[] patrolWaypoints, GameObject playerReference) 
         {
@@ -43,13 +44,22 @@ namespace Shard.Shard.GoDsWork.NPCAI
                 currentState = State.Patrolling;
             }
 
+            else if (currentState == State.Patrolling && distanceToPlayer > detectionRange * 2.0f)
+            {
+                currentState = State.Outside;
+            }
+
             if (currentState == State.Chasing)
             {
                 ChasePlayer(deltaTime);
             }
-            else
+            else if (currentState == State.Patrolling)
             {
                 Patrol(deltaTime);
+            }
+            else
+            {
+                BumRushPlayer(deltaTime);
             }
         }
 
@@ -63,6 +73,11 @@ namespace Shard.Shard.GoDsWork.NPCAI
             Vector2 direction = (target - Position).Normalize();
             velocity = direction * speed;
             Position = Position + velocity * deltaTime;
+        }
+
+        public void BumRushPlayer(float deltaTime)
+        {
+            MoveTowards(new Vector2(player.Transform.X, player.Transform.Y), chaseSpeed * 2.0f, deltaTime);
         }
 
         private void Patrol(float deltaTime)
