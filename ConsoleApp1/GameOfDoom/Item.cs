@@ -38,7 +38,7 @@ namespace Shard.GameOfDoom
 
             //removes from automatically update = doesn't render when leaving the room it resides in
             //causes problem of not being able to pick up key
-            //    GameObjectManager.getInstance().removeGameObject(this); 
+                GameObjectManager.getInstance().removeGameObject(this); 
 
             initializeItem();
         }
@@ -61,13 +61,14 @@ namespace Shard.GameOfDoom
 
         public override void update()
         {
-            Bootstrap.getDisplay().addToDraw(this);
+            if (!ToBeDestroyed) Bootstrap.getDisplay().addToDraw(this);
         }
 
         public virtual void onCollisionEnter(PhysicsBody x)
         {
             if (collectible & x.Parent.checkTag("God"))
             {
+                this.MyBody.clearColliders();
                 this.ToBeDestroyed = true;
             }
 

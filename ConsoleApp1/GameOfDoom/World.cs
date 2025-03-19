@@ -358,6 +358,7 @@ namespace Shard.GameOfDoom
                     {
                         
                         tile.update();
+                        if (tile.item != null) tile.item.update();
                     }
             }
             internal enum ImagePosition
