@@ -162,7 +162,6 @@ namespace Shard.GameOfDoom
             
             if (_collisionWithBomb)
             {
-                
                 death = new EnemyDeath(this._approxPosXonDeath, this._approxPosYonDeath);
                 this.ToBeDestroyed = true;
             }
