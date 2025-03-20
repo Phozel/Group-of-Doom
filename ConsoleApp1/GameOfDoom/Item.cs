@@ -38,7 +38,7 @@ namespace Shard.GameOfDoom
 
             //removes from automatically update = doesn't render when leaving the room it resides in
             //causes problem of not being able to pick up key
-                GameObjectManager.getInstance().removeGameObject(this); 
+                //GameObjectManager.getInstance().removeGameObject(this);
 
             initializeItem();
         }
